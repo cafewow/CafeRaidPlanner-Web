@@ -1,0 +1,1019 @@
+[
+  {
+    "id": 21212,
+    "name": "Lady Vashj",
+    "tag": "Coilfang Matron",
+    "classification": 1,
+    "boss": true,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38145,
+        "name": "Forked Lightning",
+        "schools": 8
+      },
+      {
+        "id": 38280,
+        "name": "Static Charge",
+        "schools": 8
+      },
+      {
+        "id": 38295,
+        "name": "Shoot",
+        "schools": 1
+      },
+      {
+        "id": 38310,
+        "name": "Multi-Shot",
+        "schools": 1
+      },
+      {
+        "id": 38316,
+        "name": "Entangle",
+        "schools": 8
+      },
+      {
+        "id": 38509,
+        "name": "Shock Blast",
+        "schools": 8
+      }
+    ]
+  },
+  {
+    "id": 21213,
+    "name": "Morogrim Tidewalker",
+    "tag": null,
+    "classification": 1,
+    "boss": true,
+    "type": 5,
+    "abilities": [
+      {
+        "id": 37730,
+        "name": "Tidal Wave",
+        "schools": 16
+      },
+      {
+        "id": 37850,
+        "name": "Watery Grave",
+        "schools": 16
+      },
+      {
+        "id": 38028,
+        "name": "Watery Grave",
+        "schools": 16
+      }
+    ]
+  },
+  {
+    "id": 21214,
+    "name": "Fathom-Lord Karathress",
+    "tag": null,
+    "classification": 1,
+    "boss": true,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38441,
+        "name": "Cataclysmic Bolt",
+        "schools": 32
+      },
+      {
+        "id": 38445,
+        "name": "Sear Nova",
+        "schools": 4
+      }
+    ]
+  },
+  {
+    "id": 21215,
+    "name": "Leotheras the Blind",
+    "tag": null,
+    "classification": 1,
+    "boss": true,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 37640,
+        "name": "Whirlwind",
+        "schools": 1
+      },
+      {
+        "id": 37641,
+        "name": "Whirlwind",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21216,
+    "name": "Hydross the Unstable",
+    "tag": "Duke of Currents",
+    "classification": 1,
+    "boss": true,
+    "type": 4,
+    "abilities": [
+      {
+        "id": 36459,
+        "name": "Summon Water Elemental",
+        "schools": 1
+      },
+      {
+        "id": 37961,
+        "name": "Corruption",
+        "schools": 1
+      },
+      {
+        "id": 38215,
+        "name": "Mark of Hydross",
+        "schools": 16
+      },
+      {
+        "id": 38219,
+        "name": "Mark of Corruption",
+        "schools": 8
+      },
+      {
+        "id": 38220,
+        "name": "Mark of Corruption",
+        "schools": 8
+      },
+      {
+        "id": 38221,
+        "name": "Mark of Corruption",
+        "schools": 8
+      },
+      {
+        "id": 38222,
+        "name": "Mark of Corruption",
+        "schools": 8
+      },
+      {
+        "id": 38230,
+        "name": "Mark of Corruption",
+        "schools": 8
+      },
+      {
+        "id": 38246,
+        "name": "Vile Sludge",
+        "schools": 8
+      },
+      {
+        "id": 40583,
+        "name": "Mark of Corruption",
+        "schools": 8
+      }
+    ]
+  },
+  {
+    "id": 21217,
+    "name": "The Lurker Below",
+    "tag": null,
+    "classification": 1,
+    "boss": true,
+    "type": 1,
+    "abilities": [
+      {
+        "id": 37138,
+        "name": "Water Bolt",
+        "schools": 16
+      },
+      {
+        "id": 37478,
+        "name": "Geyser",
+        "schools": 16
+      }
+    ]
+  },
+  {
+    "id": 21218,
+    "name": "Vashj'ir Honor Guard",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 21220,
+    "name": "Coilfang Priestess",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38580,
+        "name": "Greater Heal",
+        "schools": 2
+      },
+      {
+        "id": 38582,
+        "name": "Holy Smite",
+        "schools": 2
+      },
+      {
+        "id": 38585,
+        "name": "Holy Fire",
+        "schools": 6
+      }
+    ]
+  },
+  {
+    "id": 21221,
+    "name": "Coilfang Beast-Tamer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38474,
+        "name": "Cleave",
+        "schools": 1
+      },
+      {
+        "id": 38484,
+        "name": "Bestial Wrath",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21224,
+    "name": "Tidewalker Depth-Seer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38659,
+        "name": "Tranquility",
+        "schools": 8
+      }
+    ]
+  },
+  {
+    "id": 21225,
+    "name": "Tidewalker Warrior",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38664,
+        "name": "Enrage",
+        "schools": 1
+      },
+      {
+        "id": 39069,
+        "name": "Uppercut",
+        "schools": 1
+      },
+      {
+        "id": 39070,
+        "name": "Bloodthirst",
+        "schools": 1
+      },
+      {
+        "id": 39071,
+        "name": "Bloodthirst",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21226,
+    "name": "Tidewalker Shaman",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 39065,
+        "name": "Lightning Bolt",
+        "schools": 8
+      },
+      {
+        "id": 39066,
+        "name": "Chain Lightning",
+        "schools": 8
+      },
+      {
+        "id": 39067,
+        "name": "Lightning Shield",
+        "schools": 8
+      }
+    ]
+  },
+  {
+    "id": 21227,
+    "name": "Tidewalker Harpooner",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38661,
+        "name": "Net",
+        "schools": 1
+      },
+      {
+        "id": 39061,
+        "name": "Impale",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21228,
+    "name": "Tidewalker Hydromancer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 39062,
+        "name": "Frost Shock",
+        "schools": 16
+      },
+      {
+        "id": 39063,
+        "name": "Frost Nova",
+        "schools": 16
+      },
+      {
+        "id": 39064,
+        "name": "Frostbolt",
+        "schools": 16
+      }
+    ]
+  },
+  {
+    "id": 21229,
+    "name": "Greyheart Tidecaller",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38624,
+        "name": "Water Elemental Totem",
+        "schools": 4
+      },
+      {
+        "id": 39027,
+        "name": "Poison Shield",
+        "schools": 8
+      },
+      {
+        "id": 39029,
+        "name": "Virulent Poison",
+        "schools": 8
+      }
+    ]
+  },
+  {
+    "id": 21230,
+    "name": "Greyheart Nether-Mage",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38633,
+        "name": "Arcane Volley",
+        "schools": 64
+      },
+      {
+        "id": 38634,
+        "name": "Arcane Lightning",
+        "schools": 64
+      },
+      {
+        "id": 38635,
+        "name": "Rain of Fire",
+        "schools": 4
+      },
+      {
+        "id": 38636,
+        "name": "Scorch",
+        "schools": 4
+      },
+      {
+        "id": 38641,
+        "name": "Fireball",
+        "schools": 4
+      },
+      {
+        "id": 38642,
+        "name": "Blink",
+        "schools": 8
+      },
+      {
+        "id": 38644,
+        "name": "Cone of Cold",
+        "schools": 16
+      },
+      {
+        "id": 38645,
+        "name": "Frostbolt",
+        "schools": 16
+      },
+      {
+        "id": 38646,
+        "name": "Blizzard",
+        "schools": 16
+      },
+      {
+        "id": 38647,
+        "name": "Arcane Destruction",
+        "schools": 64
+      },
+      {
+        "id": 38648,
+        "name": "Fire Destruction",
+        "schools": 4
+      },
+      {
+        "id": 38649,
+        "name": "Frost Destruction",
+        "schools": 16
+      }
+    ]
+  },
+  {
+    "id": 21231,
+    "name": "Greyheart Shield-Bearer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38630,
+        "name": "Shield Charge",
+        "schools": 1
+      },
+      {
+        "id": 38631,
+        "name": "Avenger's Shield",
+        "schools": 2
+      }
+    ]
+  },
+  {
+    "id": 21232,
+    "name": "Greyheart Skulker",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38625,
+        "name": "Kick",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21246,
+    "name": "Serpentshrine Sporebat",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 1,
+    "abilities": [
+      {
+        "id": 38461,
+        "name": "Charge",
+        "schools": 1
+      },
+      {
+        "id": 38924,
+        "name": "Spore Burst",
+        "schools": 8
+      }
+    ]
+  },
+  {
+    "id": 21251,
+    "name": "Underbog Colossus",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 5,
+    "abilities": [
+      {
+        "id": 38718,
+        "name": "Toxic Pool",
+        "schools": 8
+      }
+    ]
+  },
+  {
+    "id": 21253,
+    "name": "Tainted Water Elemental",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 4,
+    "abilities": [
+      {
+        "id": 25035,
+        "name": "Elemental Spawn-in",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21263,
+    "name": "Greyheart Technician",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38995,
+        "name": "Hamstring",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21298,
+    "name": "Coilfang Serpentguard",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38599,
+        "name": "Spell Reflection",
+        "schools": 1
+      },
+      {
+        "id": 38603,
+        "name": "Corrupt Devotion Aura",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21299,
+    "name": "Coilfang Fathom-Witch",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38626,
+        "name": "Domination",
+        "schools": 64
+      },
+      {
+        "id": 38627,
+        "name": "Shadow Nova",
+        "schools": 32
+      },
+      {
+        "id": 38628,
+        "name": "Shadow Bolt",
+        "schools": 32
+      }
+    ]
+  },
+  {
+    "id": 21301,
+    "name": "Coilfang Shatterer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38591,
+        "name": "Shatter Armor",
+        "schools": 8
+      }
+    ]
+  },
+  {
+    "id": 21339,
+    "name": "Coilfang Hate-Screamer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38491,
+        "name": "Silence",
+        "schools": 8
+      },
+      {
+        "id": 38496,
+        "name": "Sonic Scream",
+        "schools": 64
+      }
+    ]
+  },
+  {
+    "id": 21508,
+    "name": "Coilfang Frenzy",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 1,
+    "abilities": []
+  },
+  {
+    "id": 21806,
+    "name": "Greyheart Spellbinder",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 37531,
+        "name": "Mind Blast",
+        "schools": 32
+      },
+      {
+        "id": 39076,
+        "name": "Spell Shock",
+        "schools": 8
+      }
+    ]
+  },
+  {
+    "id": 21857,
+    "name": "Inner Demon",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 3,
+    "abilities": []
+  },
+  {
+    "id": 21863,
+    "name": "Serpentshrine Lurker",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 4,
+    "abilities": [
+      {
+        "id": 38650,
+        "name": "Rancid Mushroom",
+        "schools": 1
+      },
+      {
+        "id": 38655,
+        "name": "Poison Bolt Volley",
+        "schools": 8
+      }
+    ]
+  },
+  {
+    "id": 21865,
+    "name": "Coilfang Ambusher",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 21873,
+    "name": "Coilfang Guardian",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 21875,
+    "name": "Shadow of Leotheras",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 3,
+    "abilities": [
+      {
+        "id": 37675,
+        "name": "Chaos Blast",
+        "schools": 4
+      }
+    ]
+  },
+  {
+    "id": 21920,
+    "name": "Tidewalker Lurker",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 21958,
+    "name": "Enchanted Elemental",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 4,
+    "abilities": []
+  },
+  {
+    "id": 21964,
+    "name": "Fathom-Guard Caribdis",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38330,
+        "name": "Healing Wave",
+        "schools": 8
+      },
+      {
+        "id": 38335,
+        "name": "Water Bolt Volley",
+        "schools": 16
+      },
+      {
+        "id": 38337,
+        "name": "Summon Cyclone",
+        "schools": 1
+      },
+      {
+        "id": 38358,
+        "name": "Tidal Surge",
+        "schools": 16
+      },
+      {
+        "id": 38449,
+        "name": "Blessing of the Tides",
+        "schools": 16
+      },
+      {
+        "id": 38451,
+        "name": "Power of Caribdis",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21965,
+    "name": "Fathom-Guard Tidalvess",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38234,
+        "name": "Frost Shock",
+        "schools": 16
+      },
+      {
+        "id": 38236,
+        "name": "Spitfire Totem",
+        "schools": 4
+      },
+      {
+        "id": 38304,
+        "name": "Earthbind Totem",
+        "schools": 8
+      },
+      {
+        "id": 38449,
+        "name": "Blessing of the Tides",
+        "schools": 16
+      },
+      {
+        "id": 38452,
+        "name": "Power of Tidalvess",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21966,
+    "name": "Fathom-Guard Sharkkis",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 29436,
+        "name": "Leeching Throw",
+        "schools": 8
+      },
+      {
+        "id": 38366,
+        "name": "Multi-Toss",
+        "schools": 1
+      },
+      {
+        "id": 38431,
+        "name": "Summon Fathom Sporebat",
+        "schools": 1
+      },
+      {
+        "id": 38433,
+        "name": "Summon Fathom Lurker",
+        "schools": 1
+      },
+      {
+        "id": 38449,
+        "name": "Blessing of the Tides",
+        "schools": 16
+      },
+      {
+        "id": 38455,
+        "name": "Power of Sharkkis",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 22009,
+    "name": "Tainted Elemental",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 4,
+    "abilities": [
+      {
+        "id": 38253,
+        "name": "Poison Bolt",
+        "schools": 8
+      }
+    ]
+  },
+  {
+    "id": 22035,
+    "name": "Pure Spawn of Hydross",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 4,
+    "abilities": []
+  },
+  {
+    "id": 22036,
+    "name": "Tainted Spawn of Hydross",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 4,
+    "abilities": [
+      {
+        "id": 25035,
+        "name": "Elemental Spawn-in",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 22055,
+    "name": "Coilfang Elite",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 38260,
+        "name": "Cleave",
+        "schools": 1
+      },
+      {
+        "id": 38262,
+        "name": "Hamstring",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 22056,
+    "name": "Coilfang Strider",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 1,
+    "abilities": [
+      {
+        "id": 38258,
+        "name": "Panic",
+        "schools": 32
+      },
+      {
+        "id": 38259,
+        "name": "Mind Blast",
+        "schools": 32
+      }
+    ]
+  },
+  {
+    "id": 22119,
+    "name": "Fathom Lurker",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 4,
+    "abilities": []
+  },
+  {
+    "id": 22120,
+    "name": "Fathom Sporebat",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 1,
+    "abilities": []
+  },
+  {
+    "id": 22238,
+    "name": "Serpentshrine Tidecaller",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 4,
+    "abilities": [
+      {
+        "id": 38623,
+        "name": "Water Bolt Volley",
+        "schools": 16
+      },
+      {
+        "id": 39035,
+        "name": "Frost Nova",
+        "schools": 16
+      }
+    ]
+  },
+  {
+    "id": 22250,
+    "name": "Rancid Mushroom",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 10,
+    "abilities": [
+      {
+        "id": 38652,
+        "name": "Spore Cloud",
+        "schools": 8
+      },
+      {
+        "id": 38653,
+        "name": "Spore Cloud",
+        "schools": 8
+      }
+    ]
+  },
+  {
+    "id": 22347,
+    "name": "Colossus Lurker",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 4,
+    "abilities": []
+  },
+  {
+    "id": 22352,
+    "name": "Colossus Rager",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 4,
+    "abilities": []
+  },
+  {
+    "id": 22820,
+    "name": "Seer Olum",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  }
+]

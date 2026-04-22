@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CafeRaidPlanner</title>
+    <script>
+      // Wowhead tooltip widget config (consumed by power.js below).
+      // Note: power.js only reads these keys from whTooltips (verified against
+      // the minified source): colorLinks, hide, iconSize, iconizeLinks,
+      // renameLinks. The tooltip domain is set per-link via the data-wowhead
+      // attribute ("spell=12292&domain=tbc") because there's no global switch
+      // — see AbilityList and CooldownPicker.
+      const whTooltips = {
+        colorLinks: true,
+        iconizeLinks: true,
+        iconSize: "small",
+        renameLinks: true,
+      };
+    </script>
+    <script async src="https://wow.zamimg.com/widgets/power.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
