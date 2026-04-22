@@ -1,4 +1,7 @@
-import type { RaidDef } from "./types";
+import type { Pack, RaidDef } from "./types";
+// Canonical SSC pack layout. Sourced from the Edit-mode "Export JSON" button —
+// drop a newer export into ssc-packs.json to reseed the app for everyone.
+import sscPacks from "./ssc-packs.json";
 
 export const SSC: RaidDef = {
   id: "SSC",
@@ -6,13 +9,7 @@ export const SSC: RaidDef = {
   mapImage: `${import.meta.env.BASE_URL}maps/ssc.webp`,
   mapWidth: 1000,
   mapHeight: 667,
-  packs: [
-    { id: 1, name: "First patrol",        x: 200, y: 560, members: [{ npcId: 21965, count: 2 }] },
-    { id: 2, name: "Hydross trash 1",     x: 320, y: 480, members: [{ npcId: 21213, count: 3 }] },
-    { id: 3, name: "Hydross trash 2",     x: 380, y: 420, members: [{ npcId: 21213, count: 2 }, { npcId: 21214, count: 1 }] },
-    { id: 4, name: "Lurker approach",     x: 560, y: 360, members: [{ npcId: 21301, count: 4 }] },
-    { id: 5, name: "Bridge fish",         x: 640, y: 300, members: [{ npcId: 21301, count: 2 }, { npcId: 21302, count: 2 }] },
-  ],
+  packs: sscPacks as Pack[],
   // npcIds pulled from ssc-npcs.json (WoWhead zone=3607).
   bosses: [
     { id: "Hydross",   name: "Hydross the Unstable",    encounterId: 623, npcId: 21216, x: 380, y: 390, icon: `${import.meta.env.BASE_URL}icons/bosses/ssc_hydross.png` },
