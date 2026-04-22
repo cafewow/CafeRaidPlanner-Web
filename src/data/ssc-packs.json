@@ -5,9 +5,18 @@
     "x": 220,
     "y": 500,
     "members": [
-      { "npcId": 21339, "count": 2 },
-      { "npcId": 21246, "count": 2 },
-      { "npcId": 21221, "count": 1 }
+      {
+        "npcId": 21339,
+        "count": 2
+      },
+      {
+        "npcId": 21246,
+        "count": 2
+      },
+      {
+        "npcId": 21221,
+        "count": 1
+      }
     ]
   },
   {
@@ -16,9 +25,18 @@
     "x": 271,
     "y": 497,
     "members": [
-      { "npcId": 21221, "count": 1 },
-      { "npcId": 21246, "count": 2 },
-      { "npcId": 21339, "count": 2 }
+      {
+        "npcId": 21221,
+        "count": 1
+      },
+      {
+        "npcId": 21246,
+        "count": 2
+      },
+      {
+        "npcId": 21339,
+        "count": 2
+      }
     ]
   },
   {
@@ -26,14 +44,24 @@
     "name": "Pack 3",
     "x": 277,
     "y": 524,
-    "members": [{ "npcId": 21251, "count": 1 }]
+    "members": [
+      {
+        "npcId": 21251,
+        "count": 1
+      }
+    ]
   },
   {
     "id": 4,
     "name": "Pack 4",
     "x": 314,
     "y": 552,
-    "members": [{ "npcId": 21251, "count": 1 }]
+    "members": [
+      {
+        "npcId": 21251,
+        "count": 1
+      }
+    ]
   },
   {
     "id": 5,
@@ -41,9 +69,18 @@
     "x": 290,
     "y": 547,
     "members": [
-      { "npcId": 21339, "count": 2 },
-      { "npcId": 21221, "count": 1 },
-      { "npcId": 21246, "count": 2 }
+      {
+        "npcId": 21339,
+        "count": 2
+      },
+      {
+        "npcId": 21221,
+        "count": 1
+      },
+      {
+        "npcId": 21246,
+        "count": 2
+      }
     ]
   },
   {
@@ -52,10 +89,22 @@
     "x": 371,
     "y": 450,
     "members": [
-      { "npcId": 21263, "count": 4 },
-      { "npcId": 21220, "count": 2 },
-      { "npcId": 21301, "count": 2 },
-      { "npcId": 21218, "count": 1 }
+      {
+        "npcId": 21263,
+        "count": 4
+      },
+      {
+        "npcId": 21220,
+        "count": 2
+      },
+      {
+        "npcId": 21301,
+        "count": 2
+      },
+      {
+        "npcId": 21218,
+        "count": 1
+      }
     ]
   },
   {
@@ -64,10 +113,22 @@
     "x": 327,
     "y": 388,
     "members": [
-      { "npcId": 21263, "count": 4 },
-      { "npcId": 21301, "count": 2 },
-      { "npcId": 21218, "count": 1 },
-      { "npcId": 21220, "count": 2 }
+      {
+        "npcId": 21263,
+        "count": 4
+      },
+      {
+        "npcId": 21301,
+        "count": 2
+      },
+      {
+        "npcId": 21218,
+        "count": 1
+      },
+      {
+        "npcId": 21220,
+        "count": 2
+      }
     ]
   },
   {
@@ -76,10 +137,22 @@
     "x": 360,
     "y": 322,
     "members": [
-      { "npcId": 21263, "count": 4 },
-      { "npcId": 21301, "count": 2 },
-      { "npcId": 21218, "count": 1 },
-      { "npcId": 21220, "count": 2 }
+      {
+        "npcId": 21263,
+        "count": 4
+      },
+      {
+        "npcId": 21301,
+        "count": 2
+      },
+      {
+        "npcId": 21218,
+        "count": 1
+      },
+      {
+        "npcId": 21220,
+        "count": 2
+      }
     ]
   },
   {
@@ -88,10 +161,22 @@
     "x": 458,
     "y": 324,
     "members": [
-      { "npcId": 21263, "count": 4 },
-      { "npcId": 21301, "count": 2 },
-      { "npcId": 21218, "count": 1 },
-      { "npcId": 21220, "count": 2 }
+      {
+        "npcId": 21263,
+        "count": 4
+      },
+      {
+        "npcId": 21301,
+        "count": 2
+      },
+      {
+        "npcId": 21218,
+        "count": 1
+      },
+      {
+        "npcId": 21220,
+        "count": 2
+      }
     ]
   },
   {
@@ -100,10 +185,22 @@
     "x": 486,
     "y": 386,
     "members": [
-      { "npcId": 21263, "count": 4 },
-      { "npcId": 21301, "count": 2 },
-      { "npcId": 21218, "count": 1 },
-      { "npcId": 21220, "count": 2 }
+      {
+        "npcId": 21263,
+        "count": 4
+      },
+      {
+        "npcId": 21301,
+        "count": 2
+      },
+      {
+        "npcId": 21218,
+        "count": 1
+      },
+      {
+        "npcId": 21220,
+        "count": 2
+      }
     ]
   },
   {
@@ -112,10 +209,22 @@
     "x": 442,
     "y": 448,
     "members": [
-      { "npcId": 21263, "count": 4 },
-      { "npcId": 21301, "count": 2 },
-      { "npcId": 21218, "count": 1 },
-      { "npcId": 21220, "count": 2 }
+      {
+        "npcId": 21263,
+        "count": 4
+      },
+      {
+        "npcId": 21301,
+        "count": 2
+      },
+      {
+        "npcId": 21218,
+        "count": 1
+      },
+      {
+        "npcId": 21220,
+        "count": 2
+      }
     ]
   },
   {
@@ -124,10 +233,22 @@
     "x": 409,
     "y": 275,
     "members": [
-      { "npcId": 21232, "count": 1 },
-      { "npcId": 21298, "count": 2 },
-      { "npcId": 21230, "count": 2 },
-      { "npcId": 21229, "count": 1 }
+      {
+        "npcId": 21232,
+        "count": 1
+      },
+      {
+        "npcId": 21298,
+        "count": 2
+      },
+      {
+        "npcId": 21230,
+        "count": 2
+      },
+      {
+        "npcId": 21229,
+        "count": 1
+      }
     ]
   },
   {
@@ -135,14 +256,24 @@
     "name": "Pack 13",
     "x": 339,
     "y": 281,
-    "members": [{ "npcId": 21251, "count": 1 }]
+    "members": [
+      {
+        "npcId": 21251,
+        "count": 1
+      }
+    ]
   },
   {
     "id": 14,
     "name": "Pack 14",
     "x": 501,
     "y": 270,
-    "members": [{ "npcId": 21251, "count": 1 }]
+    "members": [
+      {
+        "npcId": 21251,
+        "count": 1
+      }
+    ]
   },
   {
     "id": 15,
@@ -150,10 +281,22 @@
     "x": 461,
     "y": 278,
     "members": [
-      { "npcId": 21232, "count": 1 },
-      { "npcId": 21298, "count": 2 },
-      { "npcId": 21230, "count": 2 },
-      { "npcId": 21229, "count": 1 }
+      {
+        "npcId": 21232,
+        "count": 1
+      },
+      {
+        "npcId": 21298,
+        "count": 2
+      },
+      {
+        "npcId": 21230,
+        "count": 2
+      },
+      {
+        "npcId": 21229,
+        "count": 1
+      }
     ]
   },
   {
@@ -162,10 +305,22 @@
     "x": 529,
     "y": 287,
     "members": [
-      { "npcId": 21232, "count": 1 },
-      { "npcId": 21298, "count": 2 },
-      { "npcId": 21230, "count": 2 },
-      { "npcId": 21229, "count": 1 }
+      {
+        "npcId": 21232,
+        "count": 1
+      },
+      {
+        "npcId": 21298,
+        "count": 2
+      },
+      {
+        "npcId": 21230,
+        "count": 2
+      },
+      {
+        "npcId": 21229,
+        "count": 1
+      }
     ]
   },
   {
@@ -174,10 +329,22 @@
     "x": 305,
     "y": 281,
     "members": [
-      { "npcId": 21232, "count": 1 },
-      { "npcId": 21298, "count": 2 },
-      { "npcId": 21230, "count": 2 },
-      { "npcId": 21229, "count": 1 }
+      {
+        "npcId": 21232,
+        "count": 1
+      },
+      {
+        "npcId": 21298,
+        "count": 2
+      },
+      {
+        "npcId": 21230,
+        "count": 2
+      },
+      {
+        "npcId": 21229,
+        "count": 1
+      }
     ]
   },
   {
@@ -186,8 +353,14 @@
     "x": 305,
     "y": 247,
     "members": [
-      { "npcId": 21299, "count": 2 },
-      { "npcId": 21298, "count": 2 }
+      {
+        "npcId": 21299,
+        "count": 2
+      },
+      {
+        "npcId": 21298,
+        "count": 2
+      }
     ]
   },
   {
@@ -196,8 +369,14 @@
     "x": 324,
     "y": 188,
     "members": [
-      { "npcId": 21229, "count": 2 },
-      { "npcId": 21230, "count": 1 }
+      {
+        "npcId": 21229,
+        "count": 2
+      },
+      {
+        "npcId": 21230,
+        "count": 1
+      }
     ]
   },
   {
@@ -206,9 +385,18 @@
     "x": 365,
     "y": 191,
     "members": [
-      { "npcId": 21232, "count": 2 },
-      { "npcId": 21229, "count": 1 },
-      { "npcId": 21230, "count": 1 }
+      {
+        "npcId": 21232,
+        "count": 2
+      },
+      {
+        "npcId": 21229,
+        "count": 1
+      },
+      {
+        "npcId": 21230,
+        "count": 1
+      }
     ]
   },
   {
@@ -217,11 +405,26 @@
     "x": 356,
     "y": 162,
     "members": [
-      { "npcId": 21863, "count": 1 },
-      { "npcId": 21232, "count": 1 },
-      { "npcId": 21229, "count": 2 },
-      { "npcId": 21230, "count": 1 },
-      { "npcId": 21231, "count": 1 }
+      {
+        "npcId": 21863,
+        "count": 1
+      },
+      {
+        "npcId": 21232,
+        "count": 1
+      },
+      {
+        "npcId": 21229,
+        "count": 2
+      },
+      {
+        "npcId": 21230,
+        "count": 1
+      },
+      {
+        "npcId": 21231,
+        "count": 1
+      }
     ]
   },
   {
@@ -230,11 +433,26 @@
     "x": 353,
     "y": 217,
     "members": [
-      { "npcId": 21863, "count": 1 },
-      { "npcId": 21232, "count": 1 },
-      { "npcId": 21229, "count": 2 },
-      { "npcId": 21230, "count": 1 },
-      { "npcId": 21231, "count": 1 }
+      {
+        "npcId": 21863,
+        "count": 1
+      },
+      {
+        "npcId": 21232,
+        "count": 1
+      },
+      {
+        "npcId": 21229,
+        "count": 2
+      },
+      {
+        "npcId": 21230,
+        "count": 1
+      },
+      {
+        "npcId": 21231,
+        "count": 1
+      }
     ]
   },
   {
@@ -243,10 +461,22 @@
     "x": 398,
     "y": 199,
     "members": [
-      { "npcId": 21232, "count": 2 },
-      { "npcId": 21229, "count": 2 },
-      { "npcId": 21230, "count": 1 },
-      { "npcId": 21231, "count": 1 }
+      {
+        "npcId": 21232,
+        "count": 2
+      },
+      {
+        "npcId": 21229,
+        "count": 2
+      },
+      {
+        "npcId": 21230,
+        "count": 1
+      },
+      {
+        "npcId": 21231,
+        "count": 1
+      }
     ]
   },
   {
@@ -255,9 +485,18 @@
     "x": 455,
     "y": 188,
     "members": [
-      { "npcId": 21231, "count": 3 },
-      { "npcId": 21230, "count": 1 },
-      { "npcId": 21229, "count": 1 }
+      {
+        "npcId": 21231,
+        "count": 3
+      },
+      {
+        "npcId": 21230,
+        "count": 1
+      },
+      {
+        "npcId": 21229,
+        "count": 1
+      }
     ]
   },
   {
@@ -266,8 +505,14 @@
     "x": 420,
     "y": 140,
     "members": [
-      { "npcId": 21229, "count": 2 },
-      { "npcId": 21231, "count": 1 }
+      {
+        "npcId": 21229,
+        "count": 2
+      },
+      {
+        "npcId": 21231,
+        "count": 1
+      }
     ]
   },
   {
@@ -276,8 +521,14 @@
     "x": 406,
     "y": 109,
     "members": [
-      { "npcId": 21229, "count": 2 },
-      { "npcId": 21231, "count": 1 }
+      {
+        "npcId": 21229,
+        "count": 2
+      },
+      {
+        "npcId": 21231,
+        "count": 1
+      }
     ]
   },
   {
@@ -285,35 +536,60 @@
     "name": "Pack 27",
     "x": 434,
     "y": 117,
-    "members": [{ "npcId": 21251, "count": 1 }]
+    "members": [
+      {
+        "npcId": 21251,
+        "count": 1
+      }
+    ]
   },
   {
     "id": 28,
     "name": "Pack 27",
     "x": 474,
     "y": 118,
-    "members": [{ "npcId": 21251, "count": 1 }]
+    "members": [
+      {
+        "npcId": 21251,
+        "count": 1
+      }
+    ]
   },
   {
     "id": 29,
     "name": "Pack 27",
     "x": 436,
     "y": 71,
-    "members": [{ "npcId": 21251, "count": 1 }]
+    "members": [
+      {
+        "npcId": 21251,
+        "count": 1
+      }
+    ]
   },
   {
     "id": 30,
     "name": "Pack 27",
     "x": 471,
     "y": 71,
-    "members": [{ "npcId": 21251, "count": 1 }]
+    "members": [
+      {
+        "npcId": 21251,
+        "count": 1
+      }
+    ]
   },
   {
     "id": 31,
     "name": "Pack 27",
     "x": 453,
     "y": 95,
-    "members": [{ "npcId": 21251, "count": 1 }]
+    "members": [
+      {
+        "npcId": 21251,
+        "count": 1
+      }
+    ]
   },
   {
     "id": 32,
@@ -321,9 +597,18 @@
     "x": 545,
     "y": 94,
     "members": [
-      { "npcId": 21301, "count": 2 },
-      { "npcId": 21299, "count": 2 },
-      { "npcId": 21298, "count": 1 }
+      {
+        "npcId": 21301,
+        "count": 2
+      },
+      {
+        "npcId": 21299,
+        "count": 2
+      },
+      {
+        "npcId": 21298,
+        "count": 1
+      }
     ]
   },
   {
@@ -332,9 +617,18 @@
     "x": 595,
     "y": 99,
     "members": [
-      { "npcId": 21301, "count": 2 },
-      { "npcId": 21299, "count": 2 },
-      { "npcId": 21298, "count": 1 }
+      {
+        "npcId": 21301,
+        "count": 2
+      },
+      {
+        "npcId": 21299,
+        "count": 2
+      },
+      {
+        "npcId": 21298,
+        "count": 1
+      }
     ]
   },
   {
@@ -343,9 +637,18 @@
     "x": 570,
     "y": 142,
     "members": [
-      { "npcId": 21225, "count": 2 },
-      { "npcId": 21226, "count": 2 },
-      { "npcId": 21228, "count": 1 }
+      {
+        "npcId": 21225,
+        "count": 2
+      },
+      {
+        "npcId": 21226,
+        "count": 2
+      },
+      {
+        "npcId": 21228,
+        "count": 1
+      }
     ]
   },
   {
@@ -354,10 +657,22 @@
     "x": 621,
     "y": 140,
     "members": [
-      { "npcId": 21227, "count": 1 },
-      { "npcId": 21224, "count": 2 },
-      { "npcId": 21228, "count": 1 },
-      { "npcId": 21225, "count": 1 }
+      {
+        "npcId": 21227,
+        "count": 1
+      },
+      {
+        "npcId": 21224,
+        "count": 2
+      },
+      {
+        "npcId": 21228,
+        "count": 1
+      },
+      {
+        "npcId": 21225,
+        "count": 1
+      }
     ]
   },
   {
@@ -366,10 +681,22 @@
     "x": 574,
     "y": 201,
     "members": [
-      { "npcId": 21224, "count": 2 },
-      { "npcId": 21227, "count": 1 },
-      { "npcId": 21225, "count": 1 },
-      { "npcId": 21228, "count": 1 }
+      {
+        "npcId": 21224,
+        "count": 2
+      },
+      {
+        "npcId": 21227,
+        "count": 1
+      },
+      {
+        "npcId": 21225,
+        "count": 1
+      },
+      {
+        "npcId": 21228,
+        "count": 1
+      }
     ]
   },
   {
@@ -378,8 +705,14 @@
     "x": 619,
     "y": 203,
     "members": [
-      { "npcId": 21224, "count": 3 },
-      { "npcId": 21228, "count": 2 }
+      {
+        "npcId": 21224,
+        "count": 3
+      },
+      {
+        "npcId": 21228,
+        "count": 2
+      }
     ]
   },
   {
@@ -388,11 +721,26 @@
     "x": 589,
     "y": 247,
     "members": [
-      { "npcId": 21225, "count": 2 },
-      { "npcId": 21228, "count": 1 },
-      { "npcId": 21226, "count": 1 },
-      { "npcId": 21227, "count": 1 },
-      { "npcId": 21224, "count": 1 }
+      {
+        "npcId": 21225,
+        "count": 2
+      },
+      {
+        "npcId": 21228,
+        "count": 1
+      },
+      {
+        "npcId": 21226,
+        "count": 1
+      },
+      {
+        "npcId": 21227,
+        "count": 1
+      },
+      {
+        "npcId": 21224,
+        "count": 1
+      }
     ]
   },
   {
@@ -401,32 +749,14 @@
     "x": 544,
     "y": 270,
     "members": [
-      { "npcId": 21229, "count": 2 },
-      { "npcId": 21230, "count": 1 }
+      {
+        "npcId": 21229,
+        "count": 2
+      },
+      {
+        "npcId": 21230,
+        "count": 1
+      }
     ]
-  },
-  {
-    "id": 41,
-    "name": "Pack 41",
-    "x": 168,
-    "y": 393,
-    "members": [{ "npcId": 11320, "count": 2 }]
-  },
-  {
-    "id": 42,
-    "name": "Pack 42",
-    "x": 200,
-    "y": 408,
-    "members": [
-      { "npcId": 11318, "count": 3 },
-      { "npcId": 11319, "count": 1 }
-    ]
-  },
-  {
-    "id": 43,
-    "name": "Pack 43",
-    "x": 167,
-    "y": 435,
-    "members": [{ "npcId": 11319, "count": 1 }]
   }
 ]
