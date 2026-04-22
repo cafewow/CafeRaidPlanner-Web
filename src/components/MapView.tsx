@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { RAIDS } from "../data/ssc";
 import { usePreset, selectCurrentPull } from "../store/preset";
-import { useRaid, selectPacksForRaid, selectBossesForRaid } from "../store/raid";
+import { useRaid, selectPacksForRaid } from "../store/raid";
 import { PackBlip } from "./PackBlip";
-import { BossIcon } from "./BossIcon";
 
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 4;
@@ -13,17 +12,14 @@ export function MapView() {
   const preset = usePreset((s) => s.preset);
   const currentPull = selectCurrentPull({ preset });
   const togglePackInPull = usePreset((s) => s.togglePackInCurrentPull);
-  const toggleBossInPull = usePreset((s) => s.toggleBossInCurrentPull);
   const addPull = usePreset((s) => s.addPull);
 
   const packs = useRaid(selectPacksForRaid(raidId));
-  const bosses = useRaid(selectBossesForRaid(raidId));
   const editMode = useRaid((s) => s.editMode);
   const selectedPackId = useRaid((s) => s.selectedPackId);
   const selectPack = useRaid((s) => s.selectPack);
   const addPack = useRaid((s) => s.addPack);
   const updatePack = useRaid((s) => s.updatePack);
-  const updateBoss = useRaid((s) => s.updateBoss);
 
   const raid = RAIDS[raidId];
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -36,11 +32,7 @@ export function MapView() {
   const blipDrag = useRef<{ active: boolean; packId: number; downX: number; downY: number; moved: boolean }>({
     active: false, packId: 0, downX: 0, downY: 0, moved: false,
   });
-  const bossDrag = useRef<{ active: boolean; bossId: string; downX: number; downY: number; moved: boolean }>({
-    active: false, bossId: "", downX: 0, downY: 0, moved: false,
-  });
 
-  // Fit-to-viewport on first render or raid change.
   useEffect(() => {
     const vp = viewportRef.current;
     if (!vp) return;
@@ -82,19 +74,18 @@ export function MapView() {
   const onViewportMouseDown = (e: React.MouseEvent) => {
     if (e.button !== 0) return;
     const target = e.target as HTMLElement;
-    if (target.closest("[data-blip]") || target.closest("[data-boss]")) return;
+    if (target.closest("[data-blip]")) return;
     panDrag.current = { active: true, startX: e.clientX, startY: e.clientY, panX: pan.x, panY: pan.y, moved: false };
   };
 
   const onViewportClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (target.closest("[data-blip]") || target.closest("[data-boss]")) return;
-    if (panDrag.current.moved) return;              // suppress click after pan
+    if (target.closest("[data-blip]")) return;
+    if (panDrag.current.moved) return;
     if (!editMode) {
       selectPack(null);
       return;
     }
-    // In edit mode: click empty map → create pack at cursor.
     const { x, y } = screenToMap(e.clientX, e.clientY);
     if (x < 0 || y < 0 || x > raid.mapWidth || y > raid.mapHeight) return;
     addPack(raidId, Math.round(x), Math.round(y));
@@ -109,29 +100,11 @@ export function MapView() {
 
   const onBlipClick = (packId: number, e: React.MouseEvent) => {
     if (editMode) {
-      if (blipDrag.current.moved) return;       // drag, not click
+      if (blipDrag.current.moved) return;
       selectPack(packId);
     } else {
-      // Ctrl/Cmd-click: start a fresh pull and add this pack to it.
       if (e.ctrlKey || e.metaKey) addPull();
       togglePackInPull(packId);
-    }
-  };
-
-  const onBossMouseDown = (e: React.MouseEvent, bossId: string) => {
-    if (e.button !== 0) return;
-    if (!editMode) return;
-    e.stopPropagation();
-    bossDrag.current = { active: true, bossId, downX: e.clientX, downY: e.clientY, moved: false };
-  };
-
-  const onBossClick = (bossId: string, e: React.MouseEvent) => {
-    if (editMode) {
-      if (bossDrag.current.moved) return;     // suppress click after drag
-      selectPack(null);                        // bosses don't have an inspector yet
-    } else {
-      if (e.ctrlKey || e.metaKey) addPull();
-      toggleBossInPull(bossId);
     }
   };
 
@@ -154,22 +127,10 @@ export function MapView() {
           updatePack(raidId, blipDrag.current.packId, { x: Math.round(x), y: Math.round(y) });
         }
       }
-      if (bossDrag.current.active) {
-        const dx = e.clientX - bossDrag.current.downX;
-        const dy = e.clientY - bossDrag.current.downY;
-        if (!bossDrag.current.moved && dx * dx + dy * dy > 9) {
-          bossDrag.current.moved = true;
-        }
-        if (bossDrag.current.moved) {
-          const { x, y } = screenToMap(e.clientX, e.clientY);
-          updateBoss(raidId, bossDrag.current.bossId, { x: Math.round(x), y: Math.round(y) });
-        }
-      }
     };
     const onUp = () => {
       panDrag.current.active = false;
       blipDrag.current.active = false;
-      bossDrag.current.active = false;
     };
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
@@ -177,15 +138,34 @@ export function MapView() {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
     };
-  }, [raidId, updatePack, updateBoss, pan.x, pan.y, zoom]);
+  }, [raidId, updatePack, pan.x, pan.y, zoom]);
 
-  // Which pull owns each pack (non-edit mode display).
   const packToPull = new globalThis.Map<number, { color: string; index: number; pullId: string }>();
-  const bossToPull = new globalThis.Map<string, { color: string; pullId: string }>();
   preset.pulls.forEach((pull, i) => {
     pull.packIds.forEach((pid) => packToPull.set(pid, { color: pull.color, index: i + 1, pullId: pull.id }));
-    if (pull.bossId) bossToPull.set(pull.bossId, { color: pull.color, pullId: pull.id });
   });
+
+  // Render icon-packs (bosses) before regular blips so trash overlaps boss
+  // portraits visually — clicks still hit whichever pixel is topmost.
+  const iconPacks = packs.filter((p) => p.icon);
+  const plainPacks = packs.filter((p) => !p.icon);
+
+  const renderBlip = (pack: (typeof packs)[number]) => {
+    const own = packToPull.get(pack.id);
+    const inCurrentPull = currentPull && own?.pullId === currentPull.id;
+    const selected = editMode && selectedPackId === pack.id;
+    return (
+      <PackBlip
+        key={pack.id}
+        pack={pack}
+        color={editMode ? (selected ? "#ffd54a" : "#9ca3af") : own?.color}
+        pullIndex={editMode || pack.icon ? undefined : own?.index}
+        selected={editMode ? selected : !!inCurrentPull}
+        onMouseDown={(e) => onBlipMouseDown(e, pack.id)}
+        onClick={(e) => onBlipClick(pack.id, e)}
+      />
+    );
+  };
 
   return (
     <div
@@ -213,38 +193,8 @@ export function MapView() {
           draggable={false}
           className="block absolute inset-0"
         />
-
-        {bosses.map((boss) => {
-          const own = bossToPull.get(boss.id);
-          return (
-            <BossIcon
-              key={boss.id}
-              boss={boss}
-              assigned={!!own}
-              assignedColor={own?.color}
-              editSelected={false}
-              onMouseDown={(e) => onBossMouseDown(e, boss.id)}
-              onClick={(e) => onBossClick(boss.id, e)}
-            />
-          );
-        })}
-
-        {packs.map((pack) => {
-          const own = packToPull.get(pack.id);
-          const inCurrentPull = currentPull && own?.pullId === currentPull.id;
-          const selected = editMode && selectedPackId === pack.id;
-          return (
-            <PackBlip
-              key={pack.id}
-              pack={pack}
-              color={editMode ? (selected ? "#ffd54a" : "#9ca3af") : own?.color}
-              pullIndex={editMode ? undefined : own?.index}
-              selected={editMode ? selected : !!inCurrentPull}
-              onMouseDown={(e) => onBlipMouseDown(e, pack.id)}
-              onClick={(e) => onBlipClick(pack.id, e)}
-            />
-          );
-        })}
+        {iconPacks.map(renderBlip)}
+        {plainPacks.map(renderBlip)}
       </div>
 
       <div className="absolute bottom-3 right-3 text-xs bg-black/70 px-2 py-1 rounded pointer-events-none">

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { usePreset, type Pull } from "../store/preset";
-import { useRaid, selectPacksForRaid, selectBossesForRaid } from "../store/raid";
+import { useRaid, selectPacksForRaid } from "../store/raid";
 import { AssignmentRow } from "./AssignmentRow";
 import { MobList, type MobCount } from "./MobList";
 
@@ -9,16 +9,16 @@ type Props = { pull: Pull };
 export function PullEditor({ pull }: Props) {
   const raidId = usePreset((s) => s.raidId);
   const packs = useRaid(selectPacksForRaid(raidId));
-  const bosses = useRaid(selectBossesForRaid(raidId));
   const renamePull = usePreset((s) => s.renamePull);
   const setPullNote = usePreset((s) => s.setPullNote);
-  const setPullBoss = usePreset((s) => s.setPullBoss);
   const deletePull = usePreset((s) => s.deletePull);
   const addAssignment = usePreset((s) => s.addAssignment);
 
   const pulls = usePreset((s) => s.preset.pulls);
 
-  // Aggregate mobs across all packs + the boss (if any) in this pull.
+  // Aggregate mobs across all packs in this pull. Boss packs are ordinary
+  // packs whose members list has the boss's npcId, so they slot in here
+  // naturally — no special case.
   const aggregatedMobs = useMemo<MobCount[]>(() => {
     const byNpc = new globalThis.Map<number, number>();
     for (const packId of pull.packIds) {
@@ -28,14 +28,10 @@ export function PullEditor({ pull }: Props) {
         byNpc.set(m.npcId, (byNpc.get(m.npcId) ?? 0) + m.count);
       }
     }
-    if (pull.bossId) {
-      const boss = bosses.find((b) => b.id === pull.bossId);
-      if (boss) byNpc.set(boss.npcId, (byNpc.get(boss.npcId) ?? 0) + 1);
-    }
     return Array.from(byNpc.entries())
       .map(([npcId, count]) => ({ npcId, count }))
       .sort((a, b) => b.count - a.count);
-  }, [pull.packIds, pull.bossId, packs, bosses]);
+  }, [pull.packIds, packs]);
 
   return (
     <div className="h-full overflow-auto p-3 flex flex-col gap-3">
@@ -54,20 +50,6 @@ export function PullEditor({ pull }: Props) {
         >
           Delete
         </button>
-      </div>
-
-      <div>
-        <label className="text-xs uppercase text-neutral-400">Boss</label>
-        <select
-          className="w-full mt-1 bg-neutral-800 rounded px-2 py-1 text-sm outline-none"
-          value={pull.bossId ?? ""}
-          onChange={(e) => setPullBoss(pull.id, e.target.value || null)}
-        >
-          <option value="">— (trash)</option>
-          {bosses.map((b) => (
-            <option key={b.id} value={b.id}>{b.name}</option>
-          ))}
-        </select>
       </div>
 
       <div>

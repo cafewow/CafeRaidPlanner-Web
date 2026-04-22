@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { CooldownKind } from "../data/cooldowns";
+import { BOSS_SLUG_TO_ID } from "../data/ssc";
 
 export type AssignmentKind = CooldownKind | "reminder" | "equip";
 
@@ -17,8 +18,9 @@ export type Assignment = {
 export type Pull = {
   id: string;
   name: string;
+  // Ids of every pack referenced by this pull. Boss packs are ordinary packs
+  // with reserved ids (see BOSS_SLUG_TO_ID); there's no separate bossId field.
   packIds: number[];
-  bossId: string | null;
   note: string;
   color: string;
   assignments: Assignment[];
@@ -50,7 +52,6 @@ const emptyPull = (name: string): Pull => ({
   id: rid(),
   name,
   packIds: [],
-  bossId: null,
   note: "",
   color: nextColor(),
   assignments: [],
@@ -79,8 +80,6 @@ type State = {
   selectPull: (pullId: string) => void;
   renamePull: (pullId: string, name: string) => void;
   setPullNote: (pullId: string, note: string) => void;
-  setPullBoss: (pullId: string, bossId: string | null) => void;
-  toggleBossInCurrentPull: (bossId: string) => void;
   togglePackInCurrentPull: (packId: number) => void;
   movePull: (pullId: string, dir: -1 | 1) => void;
 
@@ -134,24 +133,6 @@ export const usePreset = create<State>()(
         set((s) => ({
           preset: { ...s.preset, pulls: s.preset.pulls.map((p) => (p.id === pullId ? { ...p, note } : p)) },
         })),
-
-      setPullBoss: (pullId, bossId) =>
-        set((s) => ({
-          preset: { ...s.preset, pulls: s.preset.pulls.map((p) => (p.id === pullId ? { ...p, bossId } : p)) },
-        })),
-
-      toggleBossInCurrentPull: (bossId) =>
-        set((s) => {
-          const { currentPullId } = s.preset;
-          const pulls = s.preset.pulls.map((p) => {
-            if (p.id !== currentPullId) {
-              // Bosses are exclusive: strip from any other pull.
-              return p.bossId === bossId ? { ...p, bossId: null } : p;
-            }
-            return { ...p, bossId: p.bossId === bossId ? null : bossId };
-          });
-          return { preset: { ...s.preset, pulls } };
-        }),
 
       togglePackInCurrentPull: (packId) =>
         set((s) => {
@@ -233,13 +214,28 @@ export const usePreset = create<State>()(
     }),
     {
       name: "caferaidplanner.preset.v1",
-      version: 2,
+      version: 3,
       migrate: (persisted: unknown, fromVersion: number) => {
-        // v1 used { player, spellId, note } assignments. v2 uses { kind, id, note }.
-        // Drop old assignments entirely — not worth preserving across the rework.
-        if (fromVersion < 2 && persisted && typeof persisted === "object") {
-          const p = persisted as { preset?: { pulls?: Pull[] } };
+        if (!persisted || typeof persisted !== "object") return persisted as State;
+        const p = persisted as { preset?: { pulls?: Array<Pull & { bossId?: string | null }> } };
+        // v1 → v2: old { player, spellId, note } assignments replaced with
+        // { kind, id, note }. Drop them; not worth a piecewise migration.
+        if (fromVersion < 2) {
           p.preset?.pulls?.forEach((pull) => { pull.assignments = []; });
+        }
+        // v2 → v3: pull.bossId removed; bosses are packs now. Convert each
+        // pull's bossId into a pack reference by looking up the well-known
+        // slug→id map, then strip the field.
+        if (fromVersion < 3) {
+          p.preset?.pulls?.forEach((pull) => {
+            if (pull.bossId) {
+              const packId = BOSS_SLUG_TO_ID[pull.bossId];
+              if (packId && !pull.packIds.includes(packId)) {
+                pull.packIds.push(packId);
+              }
+            }
+            delete pull.bossId;
+          });
         }
         return persisted as State;
       },

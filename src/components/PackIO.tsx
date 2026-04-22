@@ -1,11 +1,12 @@
 import { useRef } from "react";
-import { useRaid, selectPacksForRaid, selectBossesForRaid } from "../store/raid";
+import { useRaid, selectPacksForRaid } from "../store/raid";
 import { usePreset } from "../store/preset";
-import type { Boss, Pack } from "../data/types";
+import type { Pack } from "../data/types";
 
-// Save/load helpers for the edit-mode header buttons. Pack JSON is a flat
-// Pack[]. Boss JSON is { [bossId]: {x, y} } since icon/metadata lives in
-// ssc.ts and shouldn't round-trip through user files.
+// Save/load the committed seed. Packs (user-authored ones) and boss positions
+// live in separate files in the repo, so the buttons are split here too:
+//   - Export / Import packs     →  ssc-packs.json      (user-authored packs)
+//   - Export / Import bosses    →  ssc-bosses.json     ({slug: {x,y}} map)
 
 function download(filename: string, text: string) {
   const blob = new Blob([text], { type: "application/json" });
@@ -22,20 +23,24 @@ function download(filename: string, text: string) {
 export function PackIO() {
   const raidId = usePreset((s) => s.raidId);
   const packs = useRaid(selectPacksForRaid(raidId));
-  const bosses = useRaid(selectBossesForRaid(raidId));
   const setAllPacks = useRaid((s) => s.setAllPacks);
-  const setAllBosses = useRaid((s) => s.setAllBosses);
+  const updatePack = useRaid((s) => s.updatePack);
   const packsFileRef = useRef<HTMLInputElement>(null);
   const bossesFileRef = useRef<HTMLInputElement>(null);
 
+  const userPacks = packs.filter((p) => !p.slug);
+  const bossPacks = packs.filter((p) => p.slug);
+
   const onExportPacks = () => {
-    download(`${raidId.toLowerCase()}-packs.json`, JSON.stringify(packs, null, 2));
+    // Only user-authored packs (those without a slug). Boss packs are ssc.ts
+    // built-ins and shouldn't round-trip into the user packs file.
+    const payload = userPacks.map(({ icon: _i, encounterId: _e, slug: _s, ...rest }) => rest);
+    download(`${raidId.toLowerCase()}-packs.json`, JSON.stringify(payload, null, 2));
   };
 
   const onExportBosses = () => {
-    // Export only positions keyed by id — metadata is in-code.
     const positions: Record<string, { x: number; y: number }> = {};
-    for (const b of bosses) positions[b.id] = { x: b.x, y: b.y };
+    for (const b of bossPacks) if (b.slug) positions[b.slug] = { x: b.x, y: b.y };
     download(`${raidId.toLowerCase()}-bosses.json`, JSON.stringify(positions, null, 2));
   };
 
@@ -50,10 +55,11 @@ export function PackIO() {
           throw new Error("Malformed pack entry");
         }
       }
-      if (!confirm(`Replace current ${packs.length} pack${packs.length === 1 ? "" : "s"} with ${parsed.length} from file?`)) {
+      if (!confirm(`Replace current ${userPacks.length} user pack${userPacks.length === 1 ? "" : "s"} with ${parsed.length} from file?`)) {
         e.target.value = ""; return;
       }
-      setAllPacks(raidId, parsed);
+      // Preserve boss packs; replace only the non-boss slice.
+      setAllPacks(raidId, [...(parsed as Pack[]), ...bossPacks]);
     } catch (err) {
       alert("Pack import failed: " + (err instanceof Error ? err.message : String(err)));
     } finally { e.target.value = ""; }
@@ -65,18 +71,19 @@ export function PackIO() {
     try {
       const parsed = JSON.parse(await file.text());
       if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-        throw new Error("Expected a { bossId: {x, y} } object");
+        throw new Error("Expected a { slug: {x, y} } object");
       }
-      // Merge incoming positions with existing boss metadata.
-      const merged: Boss[] = bosses.map((b) => {
-        const pos = (parsed as Record<string, { x: number; y: number }>)[b.id];
-        return pos ? { ...b, x: pos.x, y: pos.y } : b;
-      });
-      const matched = Object.keys(parsed).filter((k) => bosses.some((b) => b.id === k)).length;
-      if (!confirm(`Apply boss positions for ${matched} boss${matched === 1 ? "" : "es"} from file?`)) {
-        e.target.value = ""; return;
+      const byslug = parsed as Record<string, { x: number; y: number }>;
+      let matched = 0;
+      for (const b of bossPacks) {
+        if (!b.slug) continue;
+        const pos = byslug[b.slug];
+        if (pos && typeof pos.x === "number" && typeof pos.y === "number") {
+          updatePack(raidId, b.id, { x: pos.x, y: pos.y });
+          matched++;
+        }
       }
-      setAllBosses(raidId, merged);
+      alert(`Applied positions for ${matched} boss${matched === 1 ? "" : "es"}.`);
     } catch (err) {
       alert("Boss import failed: " + (err instanceof Error ? err.message : String(err)));
     } finally { e.target.value = ""; }
@@ -87,14 +94,14 @@ export function PackIO() {
       <button
         className="text-xs px-2 py-1 rounded bg-neutral-800 hover:bg-neutral-700"
         onClick={onExportPacks}
-        title={`Download ${packs.length} pack${packs.length === 1 ? "" : "s"} as JSON`}
+        title={`Download ${userPacks.length} user pack${userPacks.length === 1 ? "" : "s"} as JSON`}
       >
         Export packs
       </button>
       <button
         className="text-xs px-2 py-1 rounded bg-neutral-800 hover:bg-neutral-700"
         onClick={() => packsFileRef.current?.click()}
-        title="Replace packs from a JSON file"
+        title="Replace user packs from a JSON file"
       >
         Import packs
       </button>

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { usePreset } from "../store/preset";
-import { useRaid, selectPacksForRaid, selectBossesForRaid } from "../store/raid";
+import { useRaid, selectPacksForRaid } from "../store/raid";
 import { exportShare, importShare } from "../lib/share";
 
 type Props = { onClose: () => void };
@@ -10,20 +10,17 @@ export function ShareDialog({ onClose }: Props) {
   const raidId = usePreset((s) => s.raidId);
   const doImportPreset = usePreset((s) => s.importPreset);
   const packs = useRaid(selectPacksForRaid(raidId));
-  const bosses = useRaid(selectBossesForRaid(raidId));
   const setAllPacks = useRaid((s) => s.setAllPacks);
-  const setAllBosses = useRaid((s) => s.setAllBosses);
   const [mode, setMode] = useState<"export" | "import">("export");
   const [importText, setImportText] = useState("");
   const [importError, setImportError] = useState<string | null>(null);
 
-  const exportStr = useMemo(() => exportShare(preset, packs, bosses), [preset, packs, bosses]);
+  const exportStr = useMemo(() => exportShare(preset, packs), [preset, packs]);
 
   const onImport = () => {
     try {
       const env = importShare(importText);
       setAllPacks(env.preset.raidId, env.packs);
-      if (env.bosses) setAllBosses(env.preset.raidId, env.bosses);
       doImportPreset(env.preset);
       onClose();
     } catch (e) {

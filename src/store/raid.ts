@@ -1,17 +1,15 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { RAIDS } from "../data/ssc";
-import type { Boss, Pack } from "../data/types";
+import { RAIDS, BOSS_SLUG_TO_ID } from "../data/ssc";
+import type { Pack } from "../data/types";
 import { usePreset } from "./preset";
 
 type State = {
   editMode: boolean;
   selectedPackId: number | null;
 
-  // Packs per raid. Seeded from static RAIDS data; user edits override it.
+  // Single source of truth. Bosses are just packs with an icon/slug set.
   packs: Record<string, Pack[]>;
-  // Bosses per raid. Same pattern — seeded from ssc.ts, positions editable.
-  bosses: Record<string, Boss[]>;
 
   setEditMode: (v: boolean) => void;
   selectPack: (id: number | null) => void;
@@ -22,10 +20,6 @@ type State = {
   deletePack: (raidId: string, packId: number) => void;
   resetPacks: (raidId: string) => void;
   setAllPacks: (raidId: string, packs: Pack[]) => void;
-
-  updateBoss: (raidId: string, bossId: string, patch: Partial<Omit<Boss, "id">>) => void;
-  resetBosses: (raidId: string) => void;
-  setAllBosses: (raidId: string, bosses: Boss[]) => void;
 };
 
 const seedPacks = (raidId: string): Pack[] => {
@@ -34,19 +28,12 @@ const seedPacks = (raidId: string): Pack[] => {
   return JSON.parse(JSON.stringify(raid.packs));
 };
 
-const seedBosses = (raidId: string): Boss[] => {
-  const raid = RAIDS[raidId];
-  if (!raid) return [];
-  return JSON.parse(JSON.stringify(raid.bosses));
-};
-
 export const useRaid = create<State>()(
   persist(
     (set) => ({
       editMode: false,
       selectedPackId: null,
       packs: { SSC: seedPacks("SSC") },
-      bosses: { SSC: seedBosses("SSC") },
 
       setEditMode: (v) => set({ editMode: v, selectedPackId: null }),
       selectPack: (id) => set({ selectedPackId: id }),
@@ -55,7 +42,13 @@ export const useRaid = create<State>()(
         let newId = 0;
         set((s) => {
           const list = s.packs[raidId] ?? [];
-          newId = list.length === 0 ? 1 : Math.max(...list.map((p) => p.id)) + 1;
+          // User packs live in ids 1..999; bosses in 1001+. Make sure new packs
+          // don't step into the boss range, which could clobber a seed lookup.
+          const maxUser = list.reduce(
+            (m, p) => (p.id < 1000 && p.id > m ? p.id : m),
+            0,
+          );
+          newId = maxUser + 1;
           const newPack: Pack = {
             id: newId,
             name: `Pack ${newId}`,
@@ -87,14 +80,23 @@ export const useRaid = create<State>()(
           const list = s.packs[raidId] ?? [];
           const src = list.find((p) => p.id === packId);
           if (!src) return s;
-          newId = Math.max(...list.map((p) => p.id), 0) + 1;
-          // Append a (N) suffix so duplicates don't share a display name.
+          const maxUser = list.reduce(
+            (m, p) => (p.id < 1000 && p.id > m ? p.id : m),
+            0,
+          );
+          newId = maxUser + 1;
           const base = src.name.replace(/ \(\d+\)$/, "");
           let n = 2;
           while (list.some((p) => p.name === `${base} (${n})`)) n++;
           const copy: Pack = {
             ...src,
             id: newId,
+            // Drop slug/icon/encounterId on duplicates — duplicating a boss
+            // shouldn't produce a second "boss" entry, just a regular pack
+            // with the same mob list. User can rename and re-assign.
+            slug: undefined,
+            icon: undefined,
+            encounterId: undefined,
             name: `${base} (${n})`,
             x: src.x + 30,
             y: src.y + 30,
@@ -116,7 +118,6 @@ export const useRaid = create<State>()(
           },
           selectedPackId: s.selectedPackId === packId ? null : s.selectedPackId,
         }));
-        // Cascade: strip this pack from any pull that referenced it.
         usePreset.getState().removePackFromAllPulls(packId);
       },
 
@@ -131,44 +132,40 @@ export const useRaid = create<State>()(
           packs: { ...s.packs, [raidId]: packs },
           selectedPackId: null,
         })),
-
-      updateBoss: (raidId, bossId, patch) =>
-        set((s) => ({
-          bosses: {
-            ...s.bosses,
-            [raidId]: (s.bosses[raidId] ?? []).map((b) =>
-              b.id === bossId ? { ...b, ...patch } : b
-            ),
-          },
-        })),
-
-      resetBosses: (raidId) =>
-        set((s) => ({
-          bosses: { ...s.bosses, [raidId]: seedBosses(raidId) },
-        })),
-
-      setAllBosses: (raidId, bosses) =>
-        set((s) => ({
-          bosses: { ...s.bosses, [raidId]: bosses },
-        })),
     }),
     {
       name: "caferaidplanner.raid.v1",
-      version: 2,
-      // v1 → v2: Boss type gained npcId. Old persisted entries lack it,
-      // which shows up as "npc undefined" in pull contents. Merge seed
-      // definitions over what's stored, preserving x/y edits.
+      version: 3,
+      // v1 → v2: Boss gained npcId.
+      // v2 → v3: Bosses merged into packs. Drop the separate `bosses` array;
+      // for each stored boss we try to preserve its x/y by matching slug
+      // against the canonical boss pack from ssc.ts and taking its id.
       migrate: (persisted, fromVersion) => {
-        const p = persisted as { bosses?: Record<string, Boss[]> };
-        if (fromVersion < 2 && p?.bosses) {
+        const p = persisted as {
+          packs?: Record<string, Pack[]>;
+          bosses?: Record<string, Array<{ id: string; x: number; y: number }>>;
+        };
+        if (fromVersion < 3 && p?.bosses) {
           for (const raidId of Object.keys(p.bosses)) {
-            const seed = seedBosses(raidId);
-            const existing = p.bosses[raidId] ?? [];
-            p.bosses[raidId] = seed.map((s) => {
-              const e = existing.find((b) => b.id === s.id);
-              return e ? { ...s, x: e.x, y: e.y } : s;
-            });
+            const userBosses = p.bosses[raidId] ?? [];
+            const seedAll = seedPacks(raidId);          // already includes boss packs
+            // Build a slug→seed lookup for the target raid's boss packs.
+            const bossSeedBySlug = new Map<string, Pack>();
+            for (const sp of seedAll) {
+              if (sp.slug) bossSeedBySlug.set(sp.slug, sp);
+            }
+            const bossPacks: Pack[] = [];
+            for (const ub of userBosses) {
+              const seed = bossSeedBySlug.get(ub.id);
+              if (seed) bossPacks.push({ ...seed, x: ub.x, y: ub.y });
+            }
+            const userPacks = (p.packs?.[raidId] ?? []).filter(
+              (pk) => typeof pk.id === "number" && pk.id < 1000,
+            );
+            if (!p.packs) p.packs = {};
+            p.packs[raidId] = [...userPacks, ...bossPacks];
           }
+          delete p.bosses;
         }
         return persisted as State;
       },
@@ -177,4 +174,9 @@ export const useRaid = create<State>()(
 );
 
 export const selectPacksForRaid = (raidId: string) => (s: State) => s.packs[raidId] ?? [];
-export const selectBossesForRaid = (raidId: string) => (s: State) => s.bosses[raidId] ?? [];
+
+// Convenience: is this pack one of the boss entries (has a slug + icon)?
+export const isBossPack = (p: Pack) => !!p.slug && !!p.icon;
+
+// Re-export so call sites have a single source.
+export { BOSS_SLUG_TO_ID };

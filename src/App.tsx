@@ -11,7 +11,6 @@ export default function App() {
   const editMode = useRaid((s) => s.editMode);
   const setEditMode = useRaid((s) => s.setEditMode);
   const resetPacks = useRaid((s) => s.resetPacks);
-  const resetBosses = useRaid((s) => s.resetBosses);
   const packs = useRaid(selectPacksForRaid(raidId));
   const raid = RAIDS[raidId];
 
@@ -29,7 +28,7 @@ export default function App() {
           ))}
         </select>
         <span className="text-xs text-neutral-500">
-          {packs.length} pack{packs.length === 1 ? "" : "s"} · {raid.bosses.length} bosses
+          {packs.length} pack{packs.length === 1 ? "" : "s"}
         </span>
         <div className="flex-1" />
         <button
@@ -48,18 +47,9 @@ export default function App() {
               onClick={() => {
                 if (confirm(`Reset all pack data for ${raid.name} to defaults? This cannot be undone.`)) resetPacks(raidId);
               }}
-              title="Reset pack data to seed defaults"
+              title="Reset pack data to seed defaults (including boss positions)"
             >
               Reset packs
-            </button>
-            <button
-              className="text-xs px-2 py-1 rounded bg-neutral-800 hover:bg-red-800 text-red-300"
-              onClick={() => {
-                if (confirm(`Reset boss positions for ${raid.name} to defaults? This cannot be undone.`)) resetBosses(raidId);
-              }}
-              title="Reset boss positions to seed defaults"
-            >
-              Reset bosses
             </button>
           </>
         )}
