@@ -758,5 +758,96 @@
         "count": 1
       }
     ]
+  },
+  {
+    "id": 1001,
+    "slug": "Hydross",
+    "name": "Hydross the Unstable",
+    "x": 367,
+    "y": 564,
+    "members": [
+      {
+        "npcId": 21216,
+        "count": 1
+      }
+    ],
+    "icon": "/icons/bosses/ssc_hydross.png",
+    "encounterId": 623
+  },
+  {
+    "id": 1002,
+    "slug": "Lurker",
+    "name": "The Lurker Below",
+    "x": 401,
+    "y": 389,
+    "members": [
+      {
+        "npcId": 21217,
+        "count": 1
+      }
+    ],
+    "icon": "/icons/bosses/ssc_lurker.png",
+    "encounterId": 624
+  },
+  {
+    "id": 1003,
+    "slug": "Leotheras",
+    "name": "Leotheras the Blind",
+    "x": 415,
+    "y": 171,
+    "members": [
+      {
+        "npcId": 21215,
+        "count": 1
+      }
+    ],
+    "icon": "/icons/bosses/ssc_leotheras.png",
+    "encounterId": 625
+  },
+  {
+    "id": 1004,
+    "slug": "FLK",
+    "name": "Fathom-Lord Karathress",
+    "x": 505,
+    "y": 117,
+    "members": [
+      {
+        "npcId": 21214,
+        "count": 1
+      }
+    ],
+    "icon": "/icons/bosses/ssc_karathress.png",
+    "encounterId": 626
+  },
+  {
+    "id": 1005,
+    "slug": "Morogrim",
+    "name": "Morogrim Tidewalker",
+    "x": 596,
+    "y": 175,
+    "members": [
+      {
+        "npcId": 21213,
+        "count": 1
+      }
+    ],
+    "icon": "/icons/bosses/ssc_morogrim.png",
+    "encounterId": 627
+  },
+  {
+    "id": 1006,
+    "slug": "Vashj",
+    "name": "Lady Vashj",
+    "x": 721,
+    "y": 394,
+    "members": [
+      {
+        "npcId": 21212,
+        "count": 1
+      }
+    ],
+    "icon": "/icons/bosses/ssc_vashj.png",
+    "encounterId": 628
   }
 ]
+
