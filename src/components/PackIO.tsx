@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useRaid, selectPacksForRaid } from "../store/raid";
 import { usePreset } from "../store/preset";
-import { RAIDS } from "../data/ssc";
+import { remapBossPacksFromSeed } from "../lib/share";
 import type { Pack } from "../data/types";
 
 // One Export / one Import. The JSON is a flat Pack[] — boss packs (those with
@@ -38,22 +38,12 @@ export function PackIO() {
     try {
       const parsed = JSON.parse(await file.text());
       if (!Array.isArray(parsed)) throw new Error("Expected an array");
-      const raidSeed = RAIDS[raidId]?.packs ?? [];
-      const seedBySlug = new Map<string, Pack>();
-      for (const sp of raidSeed) if (sp.slug) seedBySlug.set(sp.slug, sp);
-
-      const cleaned: Pack[] = (parsed as Pack[]).map((p) => {
+      for (const p of parsed as Pack[]) {
         if (typeof p.id !== "number" || typeof p.x !== "number" || typeof p.y !== "number" || !Array.isArray(p.members)) {
           throw new Error(`Malformed pack entry (id=${p.id})`);
         }
-        // Boss pack: re-map icon/npcId metadata from the local seed by slug,
-        // keep imported x/y. Makes files portable between environments.
-        if (p.slug) {
-          const seed = seedBySlug.get(p.slug);
-          if (seed) return { ...seed, x: p.x, y: p.y };
-        }
-        return p;
-      });
+      }
+      const cleaned = remapBossPacksFromSeed(parsed as Pack[], raidId);
       if (!confirm(`Replace current ${packs.length} pack${packs.length === 1 ? "" : "s"} with ${cleaned.length} from file?`)) {
         e.target.value = ""; return;
       }

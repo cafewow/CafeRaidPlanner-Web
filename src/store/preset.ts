@@ -43,17 +43,19 @@ const PALETTE: string[] = Array.from({ length: 20 }, (_, i) => {
   return `hsl(${Math.round(hue)}, 72%, 58%)`;
 });
 
-let colorIdx = 0;
-const nextColor = () => PALETTE[colorIdx++ % PALETTE.length];
+// Pick the first palette entry not currently in use so added pulls never
+// collide with existing ones — deterministic and reload-safe (no module state).
+const pickColor = (taken: string[]): string =>
+  PALETTE.find((c) => !taken.includes(c)) ?? PALETTE[taken.length % PALETTE.length];
 
 const rid = () => Math.random().toString(36).slice(2, 10);
 
-const emptyPull = (name: string): Pull => ({
+const emptyPull = (name: string, taken: string[] = []): Pull => ({
   id: rid(),
   name,
   packIds: [],
   note: "",
-  color: nextColor(),
+  color: pickColor(taken),
   assignments: [],
 });
 
@@ -108,7 +110,8 @@ export const usePreset = create<State>()(
 
       addPull: () =>
         set((s) => {
-          const p = emptyPull(`Pull ${s.preset.pulls.length + 1}`);
+          const taken = s.preset.pulls.map((p) => p.color);
+          const p = emptyPull(`Pull ${s.preset.pulls.length + 1}`, taken);
           return { preset: { ...s.preset, pulls: [...s.preset.pulls, p], currentPullId: p.id } };
         }),
 

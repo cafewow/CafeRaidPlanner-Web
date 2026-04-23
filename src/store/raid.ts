@@ -173,10 +173,11 @@ export const useRaid = create<State>()(
   )
 );
 
-export const selectPacksForRaid = (raidId: string) => (s: State) => s.packs[raidId] ?? [];
-
-// Convenience: is this pack one of the boss entries (has a slug + icon)?
-export const isBossPack = (p: Pack) => !!p.slug && !!p.icon;
+// Module-level stable empty sentinel — avoids `?? []` producing a fresh array
+// every call, which would break Zustand's referential-equality short-circuit
+// and trigger spurious re-renders for raids that aren't in state.
+const EMPTY_PACKS: Pack[] = [];
+export const selectPacksForRaid = (raidId: string) => (s: State) => s.packs[raidId] ?? EMPTY_PACKS;
 
 // Re-export so call sites have a single source.
 export { BOSS_SLUG_TO_ID };

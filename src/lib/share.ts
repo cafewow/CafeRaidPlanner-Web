@@ -2,6 +2,22 @@ import pako from "pako";
 import type { Preset } from "../store/preset";
 import type { Pack } from "../data/types";
 import { NPC_BY_ID } from "../data/npcs";
+import { RAIDS, BOSS_SLUG_TO_ID } from "../data/ssc";
+
+// Re-maps every boss pack's env-dependent fields (icon path, encounterId, npcId)
+// from the running env's seed, keeping only the imported x/y. Makes pack files
+// portable across dev (base="/") and Pages (base="/CafeRaidPlanner-Web/"). Used
+// by both the JSON Pack[] import (PackIO) and the share-string import.
+export function remapBossPacksFromSeed(packs: Pack[], raidId: string): Pack[] {
+  const seed = RAIDS[raidId]?.packs ?? [];
+  const bySlug = new Map<string, Pack>();
+  for (const sp of seed) if (sp.slug) bySlug.set(sp.slug, sp);
+  return packs.map((p) => {
+    if (!p.slug) return p;
+    const s = bySlug.get(p.slug);
+    return s ? { ...s, x: p.x, y: p.y } : p;
+  });
+}
 
 // base64url helpers (URL-safe, no padding).
 const toB64url = (bytes: Uint8Array) => {
@@ -75,12 +91,20 @@ export function importShare(str: string): ShareEnvelope {
     parsed.v = 2;
   }
   // v2 had a separate bosses array + pull.bossId. v3 bakes bosses into packs.
-  // Map the old bossId into the pull's packIds using the reserved slug→id map
-  // (see ssc.ts BOSS_SLUG_TO_ID), then strip the bosses array.
+  // We must (a) map bossId → packIds using the reserved slug→id map, and
+  // (b) inject seed boss packs into parsed.packs so those pack ids resolve.
   if (parsed.v === 2) {
-    const BOSS_SLUG_TO_ID: Record<string, number> = {
-      Hydross: 1001, Lurker: 1002, Leotheras: 1003, FLK: 1004, Morogrim: 1005, Vashj: 1006,
-    };
+    const raidId = parsed.preset.raidId as string;
+    const oldBosses = (parsed.bosses?.[raidId] ?? []) as Array<{ id: string; x: number; y: number }>;
+    const seed = RAIDS[raidId]?.packs ?? [];
+    const seedBySlug = new Map<string, Pack>();
+    for (const sp of seed) if (sp.slug) seedBySlug.set(sp.slug, sp);
+    const bossPacks: Pack[] = [];
+    for (const ob of oldBosses) {
+      const s = seedBySlug.get(ob.id);
+      if (s) bossPacks.push({ ...s, x: ob.x, y: ob.y });
+    }
+    parsed.packs = [...(parsed.packs as Pack[]), ...bossPacks];
     for (const pull of parsed.preset.pulls as Array<{ packIds: number[]; bossId?: string | null }>) {
       if (pull.bossId) {
         const id = BOSS_SLUG_TO_ID[pull.bossId];
@@ -92,5 +116,9 @@ export function importShare(str: string): ShareEnvelope {
     parsed.v = VERSION;
   }
   if (parsed.v !== VERSION) throw new Error(`Unsupported version ${parsed.v}`);
+  // Re-map boss pack icons to the local env before handing off — otherwise a
+  // string exported from Pages imported on localhost (or vice versa) would
+  // carry the sender's BASE_URL in every boss icon path.
+  parsed.packs = remapBossPacksFromSeed(parsed.packs, parsed.preset.raidId);
   return parsed as ShareEnvelope;
 }

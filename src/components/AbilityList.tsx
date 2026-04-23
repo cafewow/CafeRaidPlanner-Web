@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import type { Ability } from "../data/npcs";
 import { schoolsToColors } from "../data/npcs";
 
@@ -11,8 +11,6 @@ declare global {
 type Props = { abilities: Ability[] };
 
 export function AbilityList({ abilities }: Props) {
-  const containerRef = useRef<HTMLUListElement>(null);
-
   // Wowhead's power.js iconizes/renames <a href="...wowhead.com/spell=ID"> links on
   // DOMContentLoaded. React-rendered links after that need a manual refresh.
   useEffect(() => {
@@ -24,7 +22,7 @@ export function AbilityList({ abilities }: Props) {
   }
 
   return (
-    <ul ref={containerRef} className="ml-6 flex flex-wrap gap-x-3 gap-y-1 items-center">
+    <ul className="ml-6 flex flex-wrap gap-x-3 gap-y-1 items-center">
       {abilities.map((a) => {
         const colors = schoolsToColors(a.schools);
         return (

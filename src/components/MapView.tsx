@@ -44,13 +44,22 @@ export function MapView() {
     });
   }, [raidId, raid.mapWidth, raid.mapHeight]);
 
+  // Keep refs of pan/zoom/raidId so the global mouse listeners (set up once)
+  // can read current values without re-attaching on every drag tick.
+  const panRef = useRef(pan);
+  const zoomRef = useRef(zoom);
+  const raidIdRef = useRef(raidId);
+  panRef.current = pan;
+  zoomRef.current = zoom;
+  raidIdRef.current = raidId;
+
   const screenToMap = (clientX: number, clientY: number) => {
     const vp = viewportRef.current;
     if (!vp) return { x: 0, y: 0 };
     const rect = vp.getBoundingClientRect();
     return {
-      x: (clientX - rect.left - pan.x) / zoom,
-      y: (clientY - rect.top - pan.y) / zoom,
+      x: (clientX - rect.left - panRef.current.x) / zoomRef.current,
+      y: (clientY - rect.top - panRef.current.y) / zoomRef.current,
     };
   };
 
@@ -124,7 +133,7 @@ export function MapView() {
         }
         if (blipDrag.current.moved) {
           const { x, y } = screenToMap(e.clientX, e.clientY);
-          updatePack(raidId, blipDrag.current.packId, { x: Math.round(x), y: Math.round(y) });
+          updatePack(raidIdRef.current, blipDrag.current.packId, { x: Math.round(x), y: Math.round(y) });
         }
       }
     };
@@ -138,7 +147,7 @@ export function MapView() {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
     };
-  }, [raidId, updatePack, pan.x, pan.y, zoom]);
+  }, [updatePack]);
 
   const packToPull = new globalThis.Map<number, { color: string; index: number; pullId: string }>();
   preset.pulls.forEach((pull, i) => {

@@ -34,18 +34,34 @@ const BOSSES_META: BossMeta[] = [
   { slug: "Vashj",     name: "Lady Vashj",             encounterId: 628, npcId: 21212, icon: `${BASE}icons/bosses/ssc_vashj.png` },
 ];
 
-const bossPos = sscBossPos as Record<string, { x: number; y: number }>;
+const fallbackBossPos = sscBossPos as Record<string, { x: number; y: number }>;
 
-const BOSS_PACKS: Pack[] = BOSSES_META.map((b) => ({
-  id: BOSS_SLUG_TO_ID[b.slug],
-  slug: b.slug,
-  name: b.name,
-  x: bossPos[b.slug]?.x ?? 0,
-  y: bossPos[b.slug]?.y ?? 0,
-  members: [{ npcId: b.npcId, count: 1 }],
-  icon: b.icon,
-  encounterId: b.encounterId,
-}));
+// ssc-packs.json is exported via Edit-mode "Export JSON" and now contains
+// boss entries (identified by slug) as well. Those entries are the source
+// of truth for boss x/y. We strip them from the user-packs list and rebuild
+// boss packs from BOSSES_META so icon/encounterId/npcId come from code
+// (icon paths depend on BASE_URL; can't live in the JSON). ssc-bosses.json
+// is kept only as a last-resort fallback for bosses missing from the export.
+const allSscPacks = sscPacks as Pack[];
+const userSscPacks = allSscPacks.filter((p) => !p.slug);
+const bossPosFromPacks = new Map<string, { x: number; y: number }>();
+for (const p of allSscPacks) {
+  if (p.slug) bossPosFromPacks.set(p.slug, { x: p.x, y: p.y });
+}
+
+const BOSS_PACKS: Pack[] = BOSSES_META.map((b) => {
+  const pos = bossPosFromPacks.get(b.slug) ?? fallbackBossPos[b.slug] ?? { x: 0, y: 0 };
+  return {
+    id: BOSS_SLUG_TO_ID[b.slug],
+    slug: b.slug,
+    name: b.name,
+    x: pos.x,
+    y: pos.y,
+    members: [{ npcId: b.npcId, count: 1 }],
+    icon: b.icon,
+    encounterId: b.encounterId,
+  };
+});
 
 export const SSC: RaidDef = {
   id: "SSC",
@@ -53,7 +69,7 @@ export const SSC: RaidDef = {
   mapImage: `${BASE}maps/ssc.webp`,
   mapWidth: 1000,
   mapHeight: 667,
-  packs: [...(sscPacks as Pack[]), ...BOSS_PACKS],
+  packs: [...userSscPacks, ...BOSS_PACKS],
 };
 
 export const RAIDS: Record<string, RaidDef> = { SSC };

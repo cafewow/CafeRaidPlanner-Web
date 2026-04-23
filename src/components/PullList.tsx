@@ -21,7 +21,7 @@ export function PullList() {
             <li
               key={pull.id}
               className={`flex items-center gap-2 px-3 py-1.5 cursor-pointer border-l-2 ${
-                selected ? "bg-neutral-800 border-l-white" : "border-l-transparent hover:bg-neutral-850"
+                selected ? "bg-neutral-800 border-l-white" : "border-l-transparent hover:bg-neutral-800/60"
               }`}
               style={{ borderLeftColor: selected ? pull.color : "transparent" }}
               onClick={() => selectPull(pull.id)}
