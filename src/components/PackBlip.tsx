@@ -21,6 +21,29 @@ export function PackBlip({ pack, color, pullIndex, selected, onClick, onMouseDow
           return `${m.count}x ${name}`;
         })
         .join("\n");
+  if (pack.icon) {
+    return (
+      <button
+        data-blip
+        onMouseDown={onMouseDown}
+        onClick={(e) => { e.stopPropagation(); onClick(e); }}
+        title={`${pack.name}\n${memberLines}`}
+        className="absolute rounded-full overflow-hidden border-2 shadow-md cursor-pointer hover:brightness-110"
+        style={{
+          left: pack.x,
+          top: pack.y,
+          width: 28,
+          height: 28,
+          transform: "translate(-50%, -50%)",
+          backgroundColor: bg,
+          borderColor: selected ? "#fff" : color ?? "rgba(0,0,0,0.7)",
+          boxShadow: selected ? "0 0 0 3px rgba(255,215,74,0.9)" : undefined,
+        }}
+      >
+        <img src={pack.icon} alt={pack.name} className="w-full h-full object-cover pointer-events-none" draggable={false} />
+      </button>
+    );
+  }
   return (
     <button
       data-blip
