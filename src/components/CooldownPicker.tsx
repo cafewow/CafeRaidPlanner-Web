@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { COOLDOWNS, lookupCooldown, parseCooldownRef, type Cooldown, type CooldownKind } from "../data/cooldowns";
 
-export type PickerScope = "cooldown" | "equip";
+export type PickerScope = "cooldown" | "equip" | "kick";
 
 type Props = {
   kind: CooldownKind;
@@ -41,6 +41,7 @@ export function CooldownPicker({ kind, id, onPick, scope = "cooldown", placehold
   // Filter COOLDOWNS to the scope the picker is running in.
   const scoped = useMemo(() => {
     if (scope === "equip") return COOLDOWNS.filter((c) => c.category === "Equip");
+    if (scope === "kick") return COOLDOWNS.filter((c) => c.category === "Interrupt");
     return COOLDOWNS.filter((c) => c.category !== "Equip");
   }, [scope]);
 

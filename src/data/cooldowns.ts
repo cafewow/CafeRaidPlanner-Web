@@ -62,6 +62,16 @@ export const COOLDOWNS: Cooldown[] = [
   { kind: "spell", id: 22812, name: "Barkskin", category: "Druid" },
   { kind: "spell", id: 17116, name: "Nature's Swiftness", category: "Druid" },
 
+  // -------- Interrupts (kicks) --------
+  { kind: "spell", id: 6552,  name: "Pummel",          category: "Interrupt" },  // Warrior, Berserker stance
+  { kind: "spell", id: 72,    name: "Shield Bash",     category: "Interrupt" },  // Warrior, with shield
+  { kind: "spell", id: 1766,  name: "Kick",            category: "Interrupt" },  // Rogue
+  { kind: "spell", id: 2139,  name: "Counterspell",    category: "Interrupt" },  // Mage
+  { kind: "spell", id: 19244, name: "Spell Lock",      category: "Interrupt" },  // Warlock (Felhunter)
+  { kind: "spell", id: 25454, name: "Earth Shock",     category: "Interrupt" },  // Shaman
+  { kind: "spell", id: 16979, name: "Feral Charge",    category: "Interrupt" },  // Druid (Bear)
+  { kind: "spell", id: 34490, name: "Silencing Shot",  category: "Interrupt" },  // Hunter
+
   // -------- Consumables --------
   { kind: "item", id: 22838, name: "Haste Potion", category: "Potion" },
   { kind: "item", id: 22839, name: "Destruction Potion", category: "Potion" },

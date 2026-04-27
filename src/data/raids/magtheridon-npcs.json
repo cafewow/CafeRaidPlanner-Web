@@ -1,0 +1,101 @@
+[
+  {
+    "id": 11859,
+    "name": "Doomguard",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 3,
+    "abilities": []
+  },
+  {
+    "id": 14337,
+    "name": "Field Repair Bot 74A",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 9,
+    "abilities": []
+  },
+  {
+    "id": 15352,
+    "name": "Greater Earth Elemental",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 4,
+    "abilities": []
+  },
+  {
+    "id": 15368,
+    "name": "Tonk Mine",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 9,
+    "abilities": []
+  },
+  {
+    "id": 17256,
+    "name": "Hellfire Channeler",
+    "tag": null,
+    "classification": 3,
+    "boss": true,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 17257,
+    "name": "Magtheridon",
+    "tag": null,
+    "classification": 3,
+    "boss": true,
+    "type": 3,
+    "abilities": []
+  },
+  {
+    "id": 17299,
+    "name": "Crashin' Thrashin' Robot",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 9,
+    "abilities": []
+  },
+  {
+    "id": 17454,
+    "name": "Burning Abyssal",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 3,
+    "abilities": []
+  },
+  {
+    "id": 18829,
+    "name": "Hellfire Warder",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 18846,
+    "name": "Furious Mr. Pinchy",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 25305,
+    "name": "Dancing Flames",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 10,
+    "abilities": []
+  }
+]

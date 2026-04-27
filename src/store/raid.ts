@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { RAIDS, BOSS_SLUG_TO_ID } from "../data/ssc";
+import { RAIDS, BOSS_SLUG_TO_ID } from "../data/raids";
 import type { Pack } from "../data/types";
 import { usePreset } from "./preset";
 

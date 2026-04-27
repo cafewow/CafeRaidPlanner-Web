@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
-import { usePreset } from "../store/preset";
+import { usePreset, selectCurrentPreset } from "../store/preset";
 import { useRaid, selectPacksForRaid } from "../store/raid";
 import { exportShare, importShare } from "../lib/share";
 
 type Props = { onClose: () => void };
 
 export function ShareDialog({ onClose }: Props) {
-  const preset = usePreset((s) => s.preset);
+  const preset = usePreset(selectCurrentPreset);
   const raidId = usePreset((s) => s.raidId);
   const doImportPreset = usePreset((s) => s.importPreset);
   const packs = useRaid(selectPacksForRaid(raidId));

@@ -2,7 +2,7 @@ import pako from "pako";
 import type { Preset } from "../store/preset";
 import type { Pack } from "../data/types";
 import { NPC_BY_ID } from "../data/npcs";
-import { RAIDS, BOSS_SLUG_TO_ID } from "../data/ssc";
+import { RAIDS, BOSS_SLUG_TO_ID } from "../data/raids";
 
 // Re-maps every boss pack's env-dependent fields (icon path, encounterId, npcId)
 // from the running env's seed, keeping only the imported x/y. Makes pack files

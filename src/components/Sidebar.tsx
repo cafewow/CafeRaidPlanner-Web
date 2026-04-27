@@ -7,7 +7,7 @@ import { PackInspector } from "./PackInspector";
 import { ShareDialog } from "./ShareDialog";
 
 export function Sidebar() {
-  const presetName = usePreset((s) => s.preset.name);
+  const presetName = usePreset((s) => s.presets[s.currentPresetId]?.name ?? "");
   const raidId = usePreset((s) => s.raidId);
   const setPresetName = usePreset((s) => s.setPresetName);
   const resetPreset = usePreset((s) => s.resetPreset);

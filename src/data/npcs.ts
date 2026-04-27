@@ -1,4 +1,8 @@
-import npcsJson from "./ssc-npcs.json";
+// Merged NPC database across all raids. Each raid contributes its own
+// <raid>-npcs.json file under ./raids/; we union them here so NpcSearch,
+// PackInspector, etc. can look up any mob by id regardless of raid.
+import sscNpcs from "./raids/ssc-npcs.json";
+import tkNpcs from "./raids/tk-npcs.json";
 
 export type Ability = {
   id: number;
@@ -16,9 +20,19 @@ export type Npc = {
   abilities?: Ability[];
 };
 
-// Stable casted type — ssc-npcs.json shape matches Npc[].
-export const NPCS: Npc[] = npcsJson as Npc[];
-export const NPC_BY_ID: globalThis.Map<number, Npc> = new globalThis.Map(NPCS.map((n) => [n.id, n]));
+const SOURCES: Npc[][] = [sscNpcs as Npc[], tkNpcs as Npc[]];
+
+// First-seen wins on duplicate ids (shared adds like "Furious Mr. Pinchy"
+// appear in multiple zones). Order of SOURCES above decides priority.
+const byId = new Map<number, Npc>();
+for (const src of SOURCES) {
+  for (const npc of src) {
+    if (!byId.has(npc.id)) byId.set(npc.id, npc);
+  }
+}
+
+export const NPCS: Npc[] = Array.from(byId.values());
+export const NPC_BY_ID: globalThis.Map<number, Npc> = byId;
 
 export const SCHOOL_COLOR: Record<number, string> = {
   1: "#d4a97a",   // physical

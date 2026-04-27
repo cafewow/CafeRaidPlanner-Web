@@ -1,0 +1,992 @@
+[
+  {
+    "id": 416,
+    "name": "Imp",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 3,
+    "abilities": [
+      {
+        "id": 3110,
+        "name": "Firebolt",
+        "schools": 4
+      }
+    ]
+  },
+  {
+    "id": 11859,
+    "name": "Doomguard",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 3,
+    "abilities": []
+  },
+  {
+    "id": 15352,
+    "name": "Greater Earth Elemental",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 4,
+    "abilities": []
+  },
+  {
+    "id": 15368,
+    "name": "Tonk Mine",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 9,
+    "abilities": []
+  },
+  {
+    "id": 15438,
+    "name": "Greater Fire Elemental",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 4,
+    "abilities": []
+  },
+  {
+    "id": 17299,
+    "name": "Crashin' Thrashin' Robot",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 9,
+    "abilities": [
+      {
+        "id": 6533,
+        "name": "Net",
+        "schools": 1
+      },
+      {
+        "id": 42372,
+        "name": "Electrical Charge",
+        "schools": 8
+      },
+      {
+        "id": 42382,
+        "name": "Machine Gun",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 18805,
+    "name": "High Astromancer Solarian",
+    "tag": null,
+    "classification": 3,
+    "boss": true,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 33009,
+        "name": "Blinding Light",
+        "schools": 64
+      },
+      {
+        "id": 39414,
+        "name": "Arcane Missiles",
+        "schools": 64
+      },
+      {
+        "id": 42783,
+        "name": "Wrath of the Astromancer",
+        "schools": 64
+      }
+    ]
+  },
+  {
+    "id": 18806,
+    "name": "Solarium Priest",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 25054,
+        "name": "Holy Smite",
+        "schools": 2
+      },
+      {
+        "id": 33387,
+        "name": "Great Heal",
+        "schools": 2
+      }
+    ]
+  },
+  {
+    "id": 18846,
+    "name": "Furious Mr. Pinchy",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 13444,
+        "name": "Sunder Armor",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 18925,
+    "name": "Solarium Agent",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 19514,
+    "name": "Al'ar",
+    "tag": "Phoenix God",
+    "classification": 3,
+    "boss": true,
+    "type": 4,
+    "abilities": [
+      {
+        "id": 34121,
+        "name": "Flame Buffet",
+        "schools": 4
+      }
+    ]
+  },
+  {
+    "id": 19516,
+    "name": "Void Reaver",
+    "tag": null,
+    "classification": 3,
+    "boss": true,
+    "type": 9,
+    "abilities": [
+      {
+        "id": 25778,
+        "name": "Knock Away",
+        "schools": 1
+      },
+      {
+        "id": 34162,
+        "name": "Pounding",
+        "schools": 64
+      },
+      {
+        "id": 34172,
+        "name": "Arcane Orb",
+        "schools": 64
+      }
+    ]
+  },
+  {
+    "id": 19551,
+    "name": "Ember of Al'ar",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 10,
+    "abilities": [
+      {
+        "id": 34133,
+        "name": "Ember Blast",
+        "schools": 4
+      }
+    ]
+  },
+  {
+    "id": 19622,
+    "name": "Kael'thas Sunstrider",
+    "tag": "Lord of the Blood Elves",
+    "classification": 3,
+    "boss": true,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 20477,
+        "name": "Summon Player",
+        "schools": 1
+      },
+      {
+        "id": 36723,
+        "name": "Phoenix",
+        "schools": 1
+      },
+      {
+        "id": 36797,
+        "name": "Mind Control",
+        "schools": 32
+      },
+      {
+        "id": 36805,
+        "name": "Fireball",
+        "schools": 4
+      },
+      {
+        "id": 36815,
+        "name": "Shock Barrier",
+        "schools": 1
+      },
+      {
+        "id": 36819,
+        "name": "Pyroblast",
+        "schools": 4
+      },
+      {
+        "id": 36834,
+        "name": "Arcane Disruption",
+        "schools": 64
+      }
+    ]
+  },
+  {
+    "id": 19921,
+    "name": "Viper",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 1,
+    "abilities": []
+  },
+  {
+    "id": 20031,
+    "name": "Bloodwarder Legionnaire",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 15284,
+        "name": "Cleave",
+        "schools": 1
+      },
+      {
+        "id": 15578,
+        "name": "Whirlwind",
+        "schools": 1
+      },
+      {
+        "id": 33500,
+        "name": "Whirlwind",
+        "schools": 1
+      },
+      {
+        "id": 35948,
+        "name": "Bloodthirst",
+        "schools": 1
+      },
+      {
+        "id": 35949,
+        "name": "Bloodthirst",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 20032,
+    "name": "Bloodwarder Vindicator",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 13005,
+        "name": "Hammer of Justice",
+        "schools": 2
+      },
+      {
+        "id": 37249,
+        "name": "Flash of Light",
+        "schools": 2
+      },
+      {
+        "id": 37251,
+        "name": "Hammer of Wrath",
+        "schools": 2
+      },
+      {
+        "id": 39078,
+        "name": "Cleanse",
+        "schools": 2
+      }
+    ]
+  },
+  {
+    "id": 20033,
+    "name": "Astromancer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 35915,
+        "name": "Molten Armor",
+        "schools": 4
+      },
+      {
+        "id": 35916,
+        "name": "Molten Armor",
+        "schools": 4
+      },
+      {
+        "id": 37109,
+        "name": "Fireball Volley",
+        "schools": 4
+      },
+      {
+        "id": 37110,
+        "name": "Fire Blast",
+        "schools": 4
+      }
+    ]
+  },
+  {
+    "id": 20034,
+    "name": "Star Scryer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 37124,
+        "name": "Starfall",
+        "schools": 64
+      }
+    ]
+  },
+  {
+    "id": 20035,
+    "name": "Bloodwarder Marshal",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 15589,
+        "name": "Whirlwind",
+        "schools": 1
+      },
+      {
+        "id": 34996,
+        "name": "Uppercut",
+        "schools": 1
+      },
+      {
+        "id": 35948,
+        "name": "Bloodthirst",
+        "schools": 1
+      },
+      {
+        "id": 35949,
+        "name": "Bloodthirst",
+        "schools": 1
+      },
+      {
+        "id": 36132,
+        "name": "Whirlwind",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 20036,
+    "name": "Bloodwarder Squire",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 39077,
+        "name": "Hammer of Justice",
+        "schools": 2
+      }
+    ]
+  },
+  {
+    "id": 20037,
+    "name": "Tempest Falconer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 37154,
+        "name": "Immolation Arrow",
+        "schools": 4
+      },
+      {
+        "id": 37155,
+        "name": "Immolation",
+        "schools": 4
+      },
+      {
+        "id": 37317,
+        "name": "Knockback",
+        "schools": 1
+      },
+      {
+        "id": 37318,
+        "name": "Fire Shield",
+        "schools": 4
+      },
+      {
+        "id": 39079,
+        "name": "Shoot",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 20038,
+    "name": "Phoenix-Hawk Hatchling",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 1,
+    "abilities": [
+      {
+        "id": 37160,
+        "name": "Silence",
+        "schools": 8
+      },
+      {
+        "id": 37319,
+        "name": "Wing Buffet",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 20039,
+    "name": "Phoenix-Hawk",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 1,
+    "abilities": [
+      {
+        "id": 37156,
+        "name": "Dive",
+        "schools": 1
+      },
+      {
+        "id": 37159,
+        "name": "Mana Burn",
+        "schools": 32
+      }
+    ]
+  },
+  {
+    "id": 20040,
+    "name": "Crystalcore Devastator",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 9,
+    "abilities": [
+      {
+        "id": 34937,
+        "name": "Powered Down",
+        "schools": 1
+      },
+      {
+        "id": 35035,
+        "name": "Countercharge",
+        "schools": 64
+      },
+      {
+        "id": 35039,
+        "name": "Countercharge",
+        "schools": 64
+      },
+      {
+        "id": 37102,
+        "name": "Knock Away",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 20041,
+    "name": "Crystalcore Sentinel",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 9,
+    "abilities": [
+      {
+        "id": 34937,
+        "name": "Powered Down",
+        "schools": 1
+      },
+      {
+        "id": 37104,
+        "name": "Overcharge",
+        "schools": 64
+      },
+      {
+        "id": 37106,
+        "name": "Charged Arcane Explosion",
+        "schools": 64
+      }
+    ]
+  },
+  {
+    "id": 20042,
+    "name": "Tempest-Smith",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 34946,
+        "name": "Golem Repair",
+        "schools": 1
+      },
+      {
+        "id": 37112,
+        "name": "Power Up",
+        "schools": 64
+      },
+      {
+        "id": 37118,
+        "name": "Shell Shock",
+        "schools": 4
+      },
+      {
+        "id": 37120,
+        "name": "Fragmentation Bomb",
+        "schools": 4
+      }
+    ]
+  },
+  {
+    "id": 20043,
+    "name": "Apprentice Star Scryer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 37129,
+        "name": "Arcane Volley",
+        "schools": 64
+      },
+      {
+        "id": 37132,
+        "name": "Arcane Shock",
+        "schools": 64
+      },
+      {
+        "id": 37133,
+        "name": "Arcane Buffet",
+        "schools": 64
+      },
+      {
+        "id": 38725,
+        "name": "Arcane Explosion",
+        "schools": 64
+      }
+    ]
+  },
+  {
+    "id": 20044,
+    "name": "Novice Astromancer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 37111,
+        "name": "Fireball",
+        "schools": 4
+      },
+      {
+        "id": 37279,
+        "name": "Rain of Fire",
+        "schools": 4
+      },
+      {
+        "id": 37282,
+        "name": "Fire Shield",
+        "schools": 4
+      },
+      {
+        "id": 38728,
+        "name": "Fire Nova",
+        "schools": 4
+      }
+    ]
+  },
+  {
+    "id": 20045,
+    "name": "Nether Scryer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 20046,
+    "name": "Astromancer Lord",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 37109,
+        "name": "Fireball Volley",
+        "schools": 4
+      },
+      {
+        "id": 37110,
+        "name": "Fire Blast",
+        "schools": 4
+      },
+      {
+        "id": 37289,
+        "name": "Dragon's Breath",
+        "schools": 4
+      },
+      {
+        "id": 38732,
+        "name": "Fire Shield",
+        "schools": 4
+      }
+    ]
+  },
+  {
+    "id": 20047,
+    "name": "Crimson Hand Battle Mage",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 37263,
+        "name": "Blizzard",
+        "schools": 16
+      }
+    ]
+  },
+  {
+    "id": 20048,
+    "name": "Crimson Hand Centurion",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 37268,
+        "name": "Arcane Flurry",
+        "schools": 64
+      }
+    ]
+  },
+  {
+    "id": 20049,
+    "name": "Crimson Hand Blood Knight",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 39077,
+        "name": "Hammer of Justice",
+        "schools": 2
+      }
+    ]
+  },
+  {
+    "id": 20050,
+    "name": "Crimson Hand Inquisitor",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 37274,
+        "name": "Power Infusion",
+        "schools": 2
+      },
+      {
+        "id": 37275,
+        "name": "Shadow Word: Pain",
+        "schools": 32
+      },
+      {
+        "id": 37276,
+        "name": "Mind Flay",
+        "schools": 32
+      }
+    ]
+  },
+  {
+    "id": 20052,
+    "name": "Crystalcore Mechanic",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 3,
+    "abilities": [
+      {
+        "id": 37123,
+        "name": "Saw Blade",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 20060,
+    "name": "Lord Sanguinar",
+    "tag": "The Blood Hammer",
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 44863,
+        "name": "Bellowing Roar",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 20062,
+    "name": "Grand Astromancer Capernian",
+    "tag": "Advisor to Kael'thas",
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 37018,
+        "name": "Conflagration",
+        "schools": 4
+      }
+    ]
+  },
+  {
+    "id": 20063,
+    "name": "Master Engineer Telonicus",
+    "tag": "Advisor to Kael'thas",
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 37027,
+        "name": "Remote Toy",
+        "schools": 64
+      }
+    ]
+  },
+  {
+    "id": 20064,
+    "name": "Thaladred the Darkener",
+    "tag": "Advisor to Kael'thas",
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": [
+      {
+        "id": 30225,
+        "name": "Silence",
+        "schools": 8
+      },
+      {
+        "id": 36965,
+        "name": "Rend",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21268,
+    "name": "Netherstrand Longbow",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 10,
+    "abilities": [
+      {
+        "id": 36979,
+        "name": "Multi-Shot",
+        "schools": 64
+      },
+      {
+        "id": 36980,
+        "name": "Shoot",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21269,
+    "name": "Devastation",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 10,
+    "abilities": [
+      {
+        "id": 36981,
+        "name": "Whirlwind",
+        "schools": 1
+      },
+      {
+        "id": 36982,
+        "name": "Whirlwind",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21270,
+    "name": "Cosmic Infuser",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 10,
+    "abilities": [
+      {
+        "id": 36983,
+        "name": "Heal",
+        "schools": 2
+      },
+      {
+        "id": 36985,
+        "name": "Holy Nova",
+        "schools": 2
+      }
+    ]
+  },
+  {
+    "id": 21271,
+    "name": "Infinity Blades",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 10,
+    "abilities": [
+      {
+        "id": 3391,
+        "name": "Thrash",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21272,
+    "name": "Warp Slicer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 10,
+    "abilities": [
+      {
+        "id": 36991,
+        "name": "Rend",
+        "schools": 1
+      }
+    ]
+  },
+  {
+    "id": 21273,
+    "name": "Phaseshift Bulwark",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 10,
+    "abilities": []
+  },
+  {
+    "id": 21274,
+    "name": "Staff of Disintegration",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 10,
+    "abilities": [
+      {
+        "id": 36989,
+        "name": "Frost Nova",
+        "schools": 16
+      },
+      {
+        "id": 36990,
+        "name": "Frostbolt",
+        "schools": 16
+      }
+    ]
+  },
+  {
+    "id": 21362,
+    "name": "Phoenix",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 4,
+    "abilities": [
+      {
+        "id": 20477,
+        "name": "Summon Player",
+        "schools": 1
+      },
+      {
+        "id": 34341,
+        "name": "Ember Blast",
+        "schools": 4
+      },
+      {
+        "id": 35369,
+        "name": "Rebirth",
+        "schools": 4
+      },
+      {
+        "id": 41587,
+        "name": "Rebirth",
+        "schools": 4
+      }
+    ]
+  },
+  {
+    "id": 21364,
+    "name": "Phoenix Egg",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 10,
+    "abilities": []
+  },
+  {
+    "id": 25305,
+    "name": "Dancing Flames",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 10,
+    "abilities": []
+  }
+]

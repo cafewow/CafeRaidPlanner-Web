@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { RAIDS } from "../data/ssc";
-import { usePreset, selectCurrentPull } from "../store/preset";
+import { RAIDS } from "../data/raids";
+import { usePreset, selectCurrentPull, selectCurrentPreset } from "../store/preset";
 import { useRaid, selectPacksForRaid } from "../store/raid";
 import { PackBlip } from "./PackBlip";
 
@@ -9,8 +9,8 @@ const MAX_ZOOM = 4;
 
 export function MapView() {
   const raidId = usePreset((s) => s.raidId);
-  const preset = usePreset((s) => s.preset);
-  const currentPull = selectCurrentPull({ preset });
+  const preset = usePreset(selectCurrentPreset);
+  const currentPull = usePreset(selectCurrentPull);
   const togglePackInPull = usePreset((s) => s.togglePackInCurrentPull);
   const addPull = usePreset((s) => s.addPull);
 

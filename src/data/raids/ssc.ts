@@ -1,18 +1,18 @@
-import type { Pack, RaidDef } from "./types";
+import type { Pack, RaidDef } from "../types";
 // Canonical SSC pack layout. User-edited via Edit-mode "Export packs" → drop
-// into ssc-packs.json. Boss packs are NOT in this file (their metadata stays
-// in code because icon paths depend on BASE_URL).
+// into ssc-packs.json. Boss entries (those with a slug) are identified and
+// separated from the user packs at load time so their positions live here too.
 import sscPacks from "./ssc-packs.json";
-// Boss positions only ({ slug: {x,y} }). Keeps position data editable via the
-// Edit-mode "Export bosses" button without duplicating name/npcId/icon metadata.
+// Boss positions fallback ({ slug: {x,y} }) — used when a boss slug isn't
+// present in ssc-packs.json (e.g. after a full reset before reseeding).
 import sscBossPos from "./ssc-bosses.json";
 
 const BASE = import.meta.env.BASE_URL;
 
-// Boss ids reserved at 1000+ so they can't collide with user-created packs
-// (which start at 1 and increment). The pattern keeps bosses as ordinary Packs
-// but gives them a stable well-known numeric id across sessions and migrations.
-export const BOSS_SLUG_TO_ID: Record<string, number> = {
+// Boss ids reserved at 1001–1099 so they can't collide with user-created packs
+// (which start at 1). Each raid owns its own 100-id range (SSC=1001–1099,
+// TK=1101–1199, …).
+export const SSC_BOSS_SLUG_TO_ID: Record<string, number> = {
   Hydross:   1001,
   Lurker:    1002,
   Leotheras: 1003,
@@ -21,9 +21,8 @@ export const BOSS_SLUG_TO_ID: Record<string, number> = {
   Vashj:     1006,
 };
 
-// Boss metadata (everything except position). Merged with ssc-bosses.json at
-// load time to produce the final Pack entries. npcIds from ssc-npcs.json
-// (WoWhead zone=3607).
+// Boss metadata (everything except position). Merged with ssc-bosses.json (or
+// inline position from ssc-packs.json) at load time to produce Pack entries.
 type BossMeta = { slug: string; name: string; encounterId: number; npcId: number; icon: string };
 const BOSSES_META: BossMeta[] = [
   { slug: "Hydross",   name: "Hydross the Unstable",   encounterId: 623, npcId: 21216, icon: `${BASE}icons/bosses/ssc_hydross.png` },
@@ -36,12 +35,6 @@ const BOSSES_META: BossMeta[] = [
 
 const fallbackBossPos = sscBossPos as Record<string, { x: number; y: number }>;
 
-// ssc-packs.json is exported via Edit-mode "Export JSON" and now contains
-// boss entries (identified by slug) as well. Those entries are the source
-// of truth for boss x/y. We strip them from the user-packs list and rebuild
-// boss packs from BOSSES_META so icon/encounterId/npcId come from code
-// (icon paths depend on BASE_URL; can't live in the JSON). ssc-bosses.json
-// is kept only as a last-resort fallback for bosses missing from the export.
 const allSscPacks = sscPacks as Pack[];
 const userSscPacks = allSscPacks.filter((p) => !p.slug);
 const bossPosFromPacks = new Map<string, { x: number; y: number }>();
@@ -52,7 +45,7 @@ for (const p of allSscPacks) {
 const BOSS_PACKS: Pack[] = BOSSES_META.map((b) => {
   const pos = bossPosFromPacks.get(b.slug) ?? fallbackBossPos[b.slug] ?? { x: 0, y: 0 };
   return {
-    id: BOSS_SLUG_TO_ID[b.slug],
+    id: SSC_BOSS_SLUG_TO_ID[b.slug],
     slug: b.slug,
     name: b.name,
     x: pos.x,
@@ -71,5 +64,3 @@ export const SSC: RaidDef = {
   mapHeight: 667,
   packs: [...userSscPacks, ...BOSS_PACKS],
 };
-
-export const RAIDS: Record<string, RaidDef> = { SSC };

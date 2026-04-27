@@ -14,7 +14,9 @@ export function PullEditor({ pull }: Props) {
   const deletePull = usePreset((s) => s.deletePull);
   const addAssignment = usePreset((s) => s.addAssignment);
 
-  const pulls = usePreset((s) => s.preset.pulls);
+  // Fall through to undefined rather than `?? []` — a fresh [] on every store
+  // emission would force a re-render even when nothing relevant changed.
+  const pulls = usePreset((s) => s.presets[s.currentPresetId]?.pulls);
 
   // Aggregate mobs across all packs in this pull. Boss packs are ordinary
   // packs whose members list has the boss's npcId, so they slot in here
@@ -43,7 +45,7 @@ export function PullEditor({ pull }: Props) {
         />
         <button
           className="text-xs px-2 py-1 rounded bg-neutral-800 hover:bg-red-800 text-red-300 disabled:opacity-40"
-          disabled={pulls.length <= 1}
+          disabled={(pulls?.length ?? 0) <= 1}
           onClick={() => {
             if (confirm(`Delete "${pull.name}"?`)) deletePull(pull.id);
           }}
@@ -75,6 +77,13 @@ export function PullEditor({ pull }: Props) {
             </button>
             <button
               className="text-xs px-2 py-0.5 rounded bg-neutral-800 hover:bg-neutral-700"
+              onClick={() => addAssignment(pull.id, "kick")}
+              title="Interrupt assignment (kicker → mob or marker)"
+            >
+              + Kick
+            </button>
+            <button
+              className="text-xs px-2 py-0.5 rounded bg-neutral-800 hover:bg-neutral-700"
               onClick={() => addAssignment(pull.id, "equip")}
               title="Equip an item (e.g. Rocket Boots, parachute cloak)"
             >
@@ -91,7 +100,13 @@ export function PullEditor({ pull }: Props) {
         </div>
         <ul className="mt-2 flex flex-col gap-2">
           {pull.assignments.map((a, idx) => (
-            <AssignmentRow key={idx} pullId={pull.id} idx={idx} assignment={a} />
+            <AssignmentRow
+              key={idx}
+              pullId={pull.id}
+              idx={idx}
+              assignment={a}
+              pullMobs={aggregatedMobs}
+            />
           ))}
           {pull.assignments.length === 0 && (
             <li className="text-xs text-neutral-500 italic">No assignments yet.</li>

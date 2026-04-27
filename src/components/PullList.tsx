@@ -1,7 +1,7 @@
-import { usePreset } from "../store/preset";
+import { usePreset, selectCurrentPreset } from "../store/preset";
 
 export function PullList() {
-  const preset = usePreset((s) => s.preset);
+  const preset = usePreset(selectCurrentPreset);
   const selectPull = usePreset((s) => s.selectPull);
   const addPull = usePreset((s) => s.addPull);
   const movePull = usePreset((s) => s.movePull);

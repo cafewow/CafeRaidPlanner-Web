@@ -1,0 +1,146 @@
+[
+  {
+    "id": 11859,
+    "name": "Doomguard",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 3,
+    "abilities": []
+  },
+  {
+    "id": 14337,
+    "name": "Field Repair Bot 74A",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 9,
+    "abilities": []
+  },
+  {
+    "id": 15368,
+    "name": "Tonk Mine",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 9,
+    "abilities": []
+  },
+  {
+    "id": 15438,
+    "name": "Greater Fire Elemental",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 4,
+    "abilities": []
+  },
+  {
+    "id": 17299,
+    "name": "Crashin' Thrashin' Robot",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 9,
+    "abilities": []
+  },
+  {
+    "id": 18831,
+    "name": "High King Maulgar",
+    "tag": "Lord of the Ogres",
+    "classification": 3,
+    "boss": true,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 18832,
+    "name": "Krosh Firehand",
+    "tag": null,
+    "classification": 3,
+    "boss": true,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 18834,
+    "name": "Olm the Summoner",
+    "tag": null,
+    "classification": 3,
+    "boss": true,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 18835,
+    "name": "Kiggler the Crazed",
+    "tag": null,
+    "classification": 3,
+    "boss": true,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 18836,
+    "name": "Blindeye the Seer",
+    "tag": null,
+    "classification": 3,
+    "boss": true,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 18846,
+    "name": "Furious Mr. Pinchy",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 18847,
+    "name": "Wild Fel Stalker",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 3,
+    "abilities": []
+  },
+  {
+    "id": 19044,
+    "name": "Gruul the Dragonkiller",
+    "tag": null,
+    "classification": 3,
+    "boss": true,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 19389,
+    "name": "Lair Brute",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 21350,
+    "name": "Gronn-Priest",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 25305,
+    "name": "Dancing Flames",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 10,
+    "abilities": []
+  }
+]
