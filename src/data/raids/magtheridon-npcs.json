@@ -42,7 +42,18 @@
     "classification": 3,
     "boss": true,
     "type": 7,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 30528,
+        "name": "Dark Mending",
+        "schools": 2
+      },
+      {
+        "id": 30531,
+        "name": "Soul Transfer",
+        "schools": 1
+      }
+    ]
   },
   {
     "id": 17257,
@@ -51,7 +62,18 @@
     "classification": 3,
     "boss": true,
     "type": 3,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 30205,
+        "name": "Shadow Cage",
+        "schools": 32
+      },
+      {
+        "id": 30619,
+        "name": "Cleave",
+        "schools": 1
+      }
+    ]
   },
   {
     "id": 17299,
@@ -60,7 +82,23 @@
     "classification": 0,
     "boss": false,
     "type": 9,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 6533,
+        "name": "Net",
+        "schools": 1
+      },
+      {
+        "id": 42372,
+        "name": "Electrical Charge",
+        "schools": 8
+      },
+      {
+        "id": 42382,
+        "name": "Machine Gun",
+        "schools": 1
+      }
+    ]
   },
   {
     "id": 17454,
@@ -78,7 +116,38 @@
     "classification": 1,
     "boss": false,
     "type": 7,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 34435,
+        "name": "Rain of Fire",
+        "schools": 4
+      },
+      {
+        "id": 34436,
+        "name": "Shadow Burst",
+        "schools": 32
+      },
+      {
+        "id": 34437,
+        "name": "Death Coil",
+        "schools": 32
+      },
+      {
+        "id": 34439,
+        "name": "Unstable Affliction",
+        "schools": 32
+      },
+      {
+        "id": 34441,
+        "name": "Shadow Word: Pain",
+        "schools": 32
+      },
+      {
+        "id": 39175,
+        "name": "Shadow Bolt Volley",
+        "schools": 32
+      }
+    ]
   },
   {
     "id": 18846,
@@ -87,7 +156,13 @@
     "classification": 0,
     "boss": false,
     "type": 7,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 13444,
+        "name": "Sunder Armor",
+        "schools": 1
+      }
+    ]
   },
   {
     "id": 25305,

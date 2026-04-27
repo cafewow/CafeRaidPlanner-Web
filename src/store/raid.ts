@@ -7,12 +7,17 @@ import { usePreset } from "./preset";
 type State = {
   editMode: boolean;
   selectedPackId: number | null;
+  // Pack id whose patrol path is being authored. While set, map clicks append
+  // a waypoint to that pack instead of creating a new pack. Independent from
+  // selectedPackId so the inspector stays open while authoring.
+  patrolEditingPackId: number | null;
 
   // Single source of truth. Bosses are just packs with an icon/slug set.
   packs: Record<string, Pack[]>;
 
   setEditMode: (v: boolean) => void;
   selectPack: (id: number | null) => void;
+  setPatrolEditingPackId: (id: number | null) => void;
 
   addPack: (raidId: string, x: number, y: number) => number;
   updatePack: (raidId: string, packId: number, patch: Partial<Omit<Pack, "id">>) => void;
@@ -20,6 +25,10 @@ type State = {
   deletePack: (raidId: string, packId: number) => void;
   resetPacks: (raidId: string) => void;
   setAllPacks: (raidId: string, packs: Pack[]) => void;
+
+  addPatrolPoint: (raidId: string, packId: number, x: number, y: number) => void;
+  removePatrolPoint: (raidId: string, packId: number, idx: number) => void;
+  clearPatrolPath: (raidId: string, packId: number) => void;
 };
 
 const seedPacks = (raidId: string): Pack[] => {
@@ -33,10 +42,13 @@ export const useRaid = create<State>()(
     (set) => ({
       editMode: false,
       selectedPackId: null,
+      patrolEditingPackId: null,
       packs: { SSC: seedPacks("SSC") },
 
-      setEditMode: (v) => set({ editMode: v, selectedPackId: null }),
-      selectPack: (id) => set({ selectedPackId: id }),
+      setEditMode: (v) =>
+        set({ editMode: v, selectedPackId: null, patrolEditingPackId: null }),
+      selectPack: (id) => set({ selectedPackId: id, patrolEditingPackId: null }),
+      setPatrolEditingPackId: (id) => set({ patrolEditingPackId: id }),
 
       addPack: (raidId, x, y) => {
         let newId = 0;
@@ -117,6 +129,8 @@ export const useRaid = create<State>()(
             [raidId]: (s.packs[raidId] ?? []).filter((p) => p.id !== packId),
           },
           selectedPackId: s.selectedPackId === packId ? null : s.selectedPackId,
+          patrolEditingPackId:
+            s.patrolEditingPackId === packId ? null : s.patrolEditingPackId,
         }));
         usePreset.getState().removePackFromAllPulls(packId);
       },
@@ -131,6 +145,40 @@ export const useRaid = create<State>()(
         set((s) => ({
           packs: { ...s.packs, [raidId]: packs },
           selectedPackId: null,
+        })),
+
+      addPatrolPoint: (raidId, packId, x, y) =>
+        set((s) => ({
+          packs: {
+            ...s.packs,
+            [raidId]: (s.packs[raidId] ?? []).map((p) =>
+              p.id === packId
+                ? { ...p, patrolPath: [...(p.patrolPath ?? []), { x: Math.round(x), y: Math.round(y) }] }
+                : p,
+            ),
+          },
+        })),
+
+      removePatrolPoint: (raidId, packId, idx) =>
+        set((s) => ({
+          packs: {
+            ...s.packs,
+            [raidId]: (s.packs[raidId] ?? []).map((p) =>
+              p.id === packId
+                ? { ...p, patrolPath: (p.patrolPath ?? []).filter((_, i) => i !== idx) }
+                : p,
+            ),
+          },
+        })),
+
+      clearPatrolPath: (raidId, packId) =>
+        set((s) => ({
+          packs: {
+            ...s.packs,
+            [raidId]: (s.packs[raidId] ?? []).map((p) =>
+              p.id === packId ? { ...p, patrolPath: [] } : p,
+            ),
+          },
         })),
     }),
     {

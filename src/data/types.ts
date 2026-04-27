@@ -16,6 +16,11 @@ export type Pack = {
   // Optional — stable short name ("Hydross"). Used as a slug for the repo
   // seed's ssc-bosses.json position map.
   slug?: string;
+  // Optional — extra waypoints for patrolling packs. The pack's own (x,y) is
+  // the anchor; the path is rendered as a polyline anchor → wp[0] → wp[1]…
+  // Empty/undefined = stationary. Hovering the pack reveals the line; while
+  // patrol-edit mode is active for the pack, clicks on the map append here.
+  patrolPath?: { x: number; y: number }[];
 };
 
 export type RaidDef = {

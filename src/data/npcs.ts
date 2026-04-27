@@ -3,6 +3,8 @@
 // PackInspector, etc. can look up any mob by id regardless of raid.
 import sscNpcs from "./raids/ssc-npcs.json";
 import tkNpcs from "./raids/tk-npcs.json";
+import gruulNpcs from "./raids/gruul-npcs.json";
+import magNpcs from "./raids/magtheridon-npcs.json";
 
 export type Ability = {
   id: number;
@@ -20,7 +22,12 @@ export type Npc = {
   abilities?: Ability[];
 };
 
-const SOURCES: Npc[][] = [sscNpcs as Npc[], tkNpcs as Npc[]];
+const SOURCES: Npc[][] = [
+  sscNpcs as Npc[],
+  tkNpcs as Npc[],
+  gruulNpcs as Npc[],
+  magNpcs as Npc[],
+];
 
 // First-seen wins on duplicate ids (shared adds like "Furious Mr. Pinchy"
 // appear in multiple zones). Order of SOURCES above decides priority.

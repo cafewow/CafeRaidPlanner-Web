@@ -8,9 +8,11 @@ type Props = {
   selected: boolean;
   onClick: (e: React.MouseEvent) => void;
   onMouseDown?: (e: React.MouseEvent) => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 };
 
-export function PackBlip({ pack, color, pullIndex, selected, onClick, onMouseDown }: Props) {
+export function PackBlip({ pack, color, pullIndex, selected, onClick, onMouseDown, onMouseEnter, onMouseLeave }: Props) {
   const bg = color ?? "#525252";
   const label = pack.members.length === 0 ? "?" : pack.members.reduce((a, m) => a + m.count, 0);
   const memberLines = pack.members.length === 0
@@ -26,6 +28,8 @@ export function PackBlip({ pack, color, pullIndex, selected, onClick, onMouseDow
       <button
         data-blip
         onMouseDown={onMouseDown}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         onClick={(e) => { e.stopPropagation(); onClick(e); }}
         title={`${pack.name}\n${memberLines}`}
         className="absolute rounded-full overflow-hidden border-2 shadow-md cursor-pointer hover:brightness-110"
@@ -48,6 +52,8 @@ export function PackBlip({ pack, color, pullIndex, selected, onClick, onMouseDow
     <button
       data-blip
       onMouseDown={onMouseDown}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       onClick={(e) => { e.stopPropagation(); onClick(e); }}
       title={`${pack.name}\n${memberLines}`}
       className="absolute rounded-full border-2 flex items-center justify-center text-[9px] font-bold text-black shadow-md cursor-pointer hover:brightness-110"

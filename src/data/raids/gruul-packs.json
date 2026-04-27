@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1201,
+    "slug": "Maulgar",
+    "name": "High King Maulgar",
+    "x": 551,
+    "y": 385,
+    "members": [
+      {
+        "npcId": 18831,
+        "count": 1
+      },
+      {
+        "npcId": 18832,
+        "count": 1
+      },
+      {
+        "npcId": 18834,
+        "count": 1
+      },
+      {
+        "npcId": 18835,
+        "count": 1
+      },
+      {
+        "npcId": 18836,
+        "count": 1
+      }
+    ],
+    "icon": "/icons/bosses/gruul_maulgar.png",
+    "encounterId": 649
+  },
+  {
+    "id": 1202,
+    "slug": "Gruul",
+    "name": "Gruul the Dragonkiller",
+    "x": 202,
+    "y": 190,
+    "members": [
+      {
+        "npcId": 19044,
+        "count": 1
+      }
+    ],
+    "icon": "/icons/bosses/gruul_gruul.png",
+    "encounterId": 650
+  }
+]

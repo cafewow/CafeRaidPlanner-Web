@@ -17,9 +17,14 @@ export function MapView() {
   const packs = useRaid(selectPacksForRaid(raidId));
   const editMode = useRaid((s) => s.editMode);
   const selectedPackId = useRaid((s) => s.selectedPackId);
+  const patrolEditingPackId = useRaid((s) => s.patrolEditingPackId);
   const selectPack = useRaid((s) => s.selectPack);
   const addPack = useRaid((s) => s.addPack);
   const updatePack = useRaid((s) => s.updatePack);
+  const addPatrolPoint = useRaid((s) => s.addPatrolPoint);
+  const removePatrolPoint = useRaid((s) => s.removePatrolPoint);
+
+  const [hoveredPackId, setHoveredPackId] = useState<number | null>(null);
 
   const raid = RAIDS[raidId];
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -89,7 +94,9 @@ export function MapView() {
 
   const onViewportClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (target.closest("[data-blip]")) return;
+    // Patrol-waypoint dots set their own data-marker; ignore them here so the
+    // map doesn't simultaneously add a point when one is removed.
+    if (target.closest("[data-blip], [data-waypoint]")) return;
     if (panDrag.current.moved) return;
     if (!editMode) {
       selectPack(null);
@@ -97,6 +104,10 @@ export function MapView() {
     }
     const { x, y } = screenToMap(e.clientX, e.clientY);
     if (x < 0 || y < 0 || x > raid.mapWidth || y > raid.mapHeight) return;
+    if (patrolEditingPackId != null) {
+      addPatrolPoint(raidId, patrolEditingPackId, x, y);
+      return;
+    }
     addPack(raidId, Math.round(x), Math.round(y));
   };
 
@@ -172,9 +183,18 @@ export function MapView() {
         selected={editMode ? selected : !!inCurrentPull}
         onMouseDown={(e) => onBlipMouseDown(e, pack.id)}
         onClick={(e) => onBlipClick(pack.id, e)}
+        onMouseEnter={() => setHoveredPackId(pack.id)}
+        onMouseLeave={() => setHoveredPackId((id) => (id === pack.id ? null : id))}
       />
     );
   };
+
+  // Compute which packs need a patrol overlay drawn this frame.
+  const patrolsToDraw = packs.filter((p) => {
+    const path = p.patrolPath;
+    if (!path || path.length === 0) return false;
+    return p.id === patrolEditingPackId || p.id === hoveredPackId;
+  });
 
   return (
     <div
@@ -202,8 +222,65 @@ export function MapView() {
           draggable={false}
           className="block absolute inset-0"
         />
+        {/* Patrol path overlay. Sits between the map and the blips so dots
+            land on top of the line but blips still occlude paths that cross. */}
+        {patrolsToDraw.length > 0 && (
+          <svg
+            className="absolute inset-0 pointer-events-none"
+            width={raid.mapWidth}
+            height={raid.mapHeight}
+            viewBox={`0 0 ${raid.mapWidth} ${raid.mapHeight}`}
+          >
+            {patrolsToDraw.map((p) => {
+              const points = [
+                `${p.x},${p.y}`,
+                ...(p.patrolPath ?? []).map((w) => `${w.x},${w.y}`),
+              ].join(" ");
+              const isEditing = p.id === patrolEditingPackId;
+              return (
+                <polyline
+                  key={p.id}
+                  points={points}
+                  fill="none"
+                  stroke={isEditing ? "#ffd54a" : "#7fd9ff"}
+                  strokeWidth={2}
+                  strokeDasharray="6 4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  opacity={isEditing ? 0.95 : 0.85}
+                />
+              );
+            })}
+          </svg>
+        )}
         {iconPacks.map(renderBlip)}
         {plainPacks.map(renderBlip)}
+        {/* Waypoint dots — only while editing patrol for that pack. Click
+            removes the waypoint. */}
+        {patrolEditingPackId != null &&
+          (() => {
+            const pack = packs.find((p) => p.id === patrolEditingPackId);
+            if (!pack || !pack.patrolPath) return null;
+            return pack.patrolPath.map((w, i) => (
+              <button
+                key={i}
+                data-waypoint
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removePatrolPoint(raidId, pack.id, i);
+                }}
+                title={`Waypoint ${i + 1} — click to remove`}
+                className="absolute rounded-full bg-amber-300 border border-amber-700 cursor-pointer hover:bg-red-300"
+                style={{
+                  left: w.x,
+                  top: w.y,
+                  width: 10,
+                  height: 10,
+                  transform: "translate(-50%, -50%)",
+                }}
+              />
+            ));
+          })()}
       </div>
 
       <div className="absolute bottom-3 right-3 text-xs bg-black/70 px-2 py-1 rounded pointer-events-none">
@@ -212,7 +289,9 @@ export function MapView() {
 
       {editMode && (
         <div className="absolute top-3 left-1/2 -translate-x-1/2 bg-amber-900/80 text-amber-100 text-xs px-3 py-1 rounded pointer-events-none">
-          Edit mode — click empty map to add a pack, drag to move, click to select
+          {patrolEditingPackId != null
+            ? "Patrol edit — click map to add waypoints, click a dot to remove. Done in inspector."
+            : "Edit mode — click empty map to add a pack, drag to move, click to select"}
         </div>
       )}
     </div>

@@ -7,8 +7,10 @@
 import type { RaidDef } from "../types";
 import { SSC, SSC_BOSS_SLUG_TO_ID } from "./ssc";
 import { TK,  TK_BOSS_SLUG_TO_ID  } from "./tk";
+import { GRUUL, GRUUL_BOSS_SLUG_TO_ID } from "./gruul";
+import { MAGTHERIDON, MAG_BOSS_SLUG_TO_ID } from "./magtheridon";
 
-export const RAIDS: Record<string, RaidDef> = { SSC, TK };
+export const RAIDS: Record<string, RaidDef> = { SSC, TK, Gruul: GRUUL, Magtheridon: MAGTHERIDON };
 
 // Global slug→id map across raids. Slugs are still unique per raid (they're
 // combined with raid metadata in the boss packs themselves), but consumers
@@ -16,4 +18,6 @@ export const RAIDS: Record<string, RaidDef> = { SSC, TK };
 export const BOSS_SLUG_TO_ID: Record<string, number> = {
   ...SSC_BOSS_SLUG_TO_ID,
   ...TK_BOSS_SLUG_TO_ID,
+  ...GRUUL_BOSS_SLUG_TO_ID,
+  ...MAG_BOSS_SLUG_TO_ID,
 };

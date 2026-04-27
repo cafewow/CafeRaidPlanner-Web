@@ -42,7 +42,23 @@
     "classification": 0,
     "boss": false,
     "type": 9,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 6533,
+        "name": "Net",
+        "schools": 1
+      },
+      {
+        "id": 42372,
+        "name": "Electrical Charge",
+        "schools": 8
+      },
+      {
+        "id": 42382,
+        "name": "Machine Gun",
+        "schools": 1
+      }
+    ]
   },
   {
     "id": 18831,
@@ -51,7 +67,33 @@
     "classification": 3,
     "boss": true,
     "type": 7,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 16508,
+        "name": "Intimidating Roar",
+        "schools": 1
+      },
+      {
+        "id": 33232,
+        "name": "Flurry",
+        "schools": 1
+      },
+      {
+        "id": 33238,
+        "name": "Whirlwind",
+        "schools": 1
+      },
+      {
+        "id": 33239,
+        "name": "Whirlwind",
+        "schools": 1
+      },
+      {
+        "id": 39144,
+        "name": "Arcing Smash",
+        "schools": 1
+      }
+    ]
   },
   {
     "id": 18832,
@@ -60,7 +102,23 @@
     "classification": 3,
     "boss": true,
     "type": 7,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 33051,
+        "name": "Greater Fireball",
+        "schools": 4
+      },
+      {
+        "id": 33054,
+        "name": "Spell Shield",
+        "schools": 64
+      },
+      {
+        "id": 33061,
+        "name": "Blast Wave",
+        "schools": 4
+      }
+    ]
   },
   {
     "id": 18834,
@@ -69,7 +127,23 @@
     "classification": 3,
     "boss": true,
     "type": 7,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 33129,
+        "name": "Dark Decay",
+        "schools": 32
+      },
+      {
+        "id": 33130,
+        "name": "Death Coil",
+        "schools": 32
+      },
+      {
+        "id": 33131,
+        "name": "Summon Wild Felhunter",
+        "schools": 32
+      }
+    ]
   },
   {
     "id": 18835,
@@ -78,7 +152,23 @@
     "classification": 3,
     "boss": true,
     "type": 7,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 33173,
+        "name": "Greater Polymorph",
+        "schools": 64
+      },
+      {
+        "id": 33175,
+        "name": "Arcane Shock",
+        "schools": 64
+      },
+      {
+        "id": 36152,
+        "name": "Lightning Bolt",
+        "schools": 8
+      }
+    ]
   },
   {
     "id": 18836,
@@ -87,7 +177,13 @@
     "classification": 3,
     "boss": true,
     "type": 7,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 33144,
+        "name": "Heal",
+        "schools": 2
+      }
+    ]
   },
   {
     "id": 18846,
@@ -96,7 +192,13 @@
     "classification": 0,
     "boss": false,
     "type": 7,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 13444,
+        "name": "Sunder Armor",
+        "schools": 1
+      }
+    ]
   },
   {
     "id": 18847,
@@ -105,7 +207,13 @@
     "classification": 1,
     "boss": false,
     "type": 3,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 33086,
+        "name": "Wild Bite",
+        "schools": 1
+      }
+    ]
   },
   {
     "id": 19044,
@@ -114,7 +222,28 @@
     "classification": 3,
     "boss": true,
     "type": 7,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 33525,
+        "name": "Ground Slam",
+        "schools": 8
+      },
+      {
+        "id": 33654,
+        "name": "Shatter",
+        "schools": 1
+      },
+      {
+        "id": 36240,
+        "name": "Cave In",
+        "schools": 1
+      },
+      {
+        "id": 36300,
+        "name": "Growth",
+        "schools": 1
+      }
+    ]
   },
   {
     "id": 19389,
@@ -123,7 +252,18 @@
     "classification": 1,
     "boss": false,
     "type": 7,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 24193,
+        "name": "Charge",
+        "schools": 1
+      },
+      {
+        "id": 39174,
+        "name": "Cleave",
+        "schools": 1
+      }
+    ]
   },
   {
     "id": 21350,
@@ -132,7 +272,23 @@
     "classification": 1,
     "boss": false,
     "type": 7,
-    "abilities": []
+    "abilities": [
+      {
+        "id": 22884,
+        "name": "Psychic Scream",
+        "schools": 32
+      },
+      {
+        "id": 36678,
+        "name": "Heal",
+        "schools": 2
+      },
+      {
+        "id": 36679,
+        "name": "Renew",
+        "schools": 2
+      }
+    ]
   },
   {
     "id": 25305,

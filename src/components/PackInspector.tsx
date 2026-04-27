@@ -14,7 +14,13 @@ export function PackInspector({ pack }: Props) {
   const deletePack = useRaid((s) => s.deletePack);
   const duplicatePack = useRaid((s) => s.duplicatePack);
   const selectPack = useRaid((s) => s.selectPack);
+  const patrolEditingPackId = useRaid((s) => s.patrolEditingPackId);
+  const setPatrolEditingPackId = useRaid((s) => s.setPatrolEditingPackId);
+  const clearPatrolPath = useRaid((s) => s.clearPatrolPath);
   const [adding, setAdding] = useState(false);
+
+  const isEditingPatrol = patrolEditingPackId === pack.id;
+  const waypointCount = pack.patrolPath?.length ?? 0;
 
   const setName = (name: string) => updatePack(raidId, pack.id, { name });
   const setPos = (x: number, y: number) =>
@@ -64,6 +70,41 @@ export function PackInspector({ pack }: Props) {
           onChange={(e) => setPos(pack.x, Number(e.target.value) || 0)}
         />
         <span className="text-xs text-neutral-500">(drag blip to move)</span>
+      </div>
+
+      <div>
+        <div className="flex items-center justify-between">
+          <label className="text-xs uppercase text-neutral-400">Patrol path</label>
+          <div className="flex items-center gap-1">
+            <span className="text-xs text-neutral-500">{waypointCount} waypoint{waypointCount === 1 ? "" : "s"}</span>
+            {waypointCount > 0 && (
+              <button
+                className="text-xs px-2 py-0.5 rounded bg-neutral-800 hover:bg-red-800 text-red-300"
+                onClick={() => {
+                  if (confirm("Clear all waypoints?")) clearPatrolPath(raidId, pack.id);
+                }}
+              >
+                Clear
+              </button>
+            )}
+            <button
+              className={`text-xs px-2 py-0.5 rounded ${
+                isEditingPatrol
+                  ? "bg-amber-700 text-amber-100 hover:bg-amber-600"
+                  : "bg-neutral-800 hover:bg-neutral-700"
+              }`}
+              onClick={() => setPatrolEditingPackId(isEditingPatrol ? null : pack.id)}
+              title="Click on the map to add waypoints; click a waypoint dot to remove it."
+            >
+              {isEditingPatrol ? "Done" : "Edit patrol"}
+            </button>
+          </div>
+        </div>
+        {isEditingPatrol && (
+          <div className="mt-1 text-xs text-amber-300">
+            Click the map to drop waypoints. Path runs from the pack blip through each.
+          </div>
+        )}
       </div>
 
       <div>
