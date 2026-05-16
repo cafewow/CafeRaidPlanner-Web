@@ -178,25 +178,6 @@
     ]
   },
   {
-    "id": 1301,
-    "slug": "Magtheridon",
-    "name": "Magtheridon",
-    "x": 689,
-    "y": 495,
-    "members": [
-      {
-        "npcId": 17257,
-        "count": 1
-      },
-      {
-        "npcId": 17256,
-        "count": 5
-      }
-    ],
-    "icon": "/icons/bosses/mag_magtheridon.png",
-    "encounterId": 651
-  },
-  {
     "id": 5,
     "name": "Pack 5",
     "x": 652,
@@ -255,5 +236,24 @@
         "count": 1
       }
     ]
+  },
+  {
+    "id": 1301,
+    "slug": "Magtheridon",
+    "name": "Magtheridon",
+    "x": 689,
+    "y": 495,
+    "members": [
+      {
+        "npcId": 17257,
+        "count": 1
+      },
+      {
+        "npcId": 17256,
+        "count": 5
+      }
+    ],
+    "icon": "/icons/bosses/mag_magtheridon.png",
+    "encounterId": 651
   }
 ]
