@@ -1,10 +1,23 @@
-import { usePreset, selectCurrentPreset } from "../store/preset";
+import { usePreset, selectCurrentPreset, type Pull } from "../store/preset";
+import { useRaid, selectPacksForRaid } from "../store/raid";
+import type { Pack } from "../data/types";
+
+// Display name override for boss pulls: if any of the pull's packs is a boss
+// (has a slug), show the boss name(s) instead of the user-set pull name.
+function pullDisplayName(pull: Pull, packs: Pack[]): string {
+  const bossNames = pull.packIds
+    .map((id) => packs.find((p) => p.id === id))
+    .filter((p): p is Pack => !!p && !!p.slug)
+    .map((p) => p.name);
+  return bossNames.length > 0 ? bossNames.join(" + ") : pull.name;
+}
 
 export function PullList() {
   const preset = usePreset(selectCurrentPreset);
   const selectPull = usePreset((s) => s.selectPull);
   const addPull = usePreset((s) => s.addPull);
   const movePull = usePreset((s) => s.movePull);
+  const packs = useRaid(selectPacksForRaid(preset.raidId));
 
   return (
     <div className="shrink-0 max-h-[40%] overflow-auto">
@@ -28,7 +41,7 @@ export function PullList() {
             >
               <span className="inline-block w-3 h-3 rounded-sm shrink-0" style={{ backgroundColor: pull.color }} />
               <span className="flex-1 text-sm truncate">
-                {i + 1}. {pull.name} <span className="text-neutral-500">({pull.packIds.length})</span>
+                {i + 1}. {pullDisplayName(pull, packs)} <span className="text-neutral-500">({pull.packIds.length})</span>
               </span>
               <button
                 className="text-xs text-neutral-400 hover:text-white px-1"

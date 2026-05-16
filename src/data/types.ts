@@ -21,7 +21,17 @@ export type Pack = {
   // Empty/undefined = stationary. Hovering the pack reveals the line; while
   // patrol-edit mode is active for the pack, clicks on the map append here.
   patrolPath?: { x: number; y: number }[];
+  // Optional — when true, this pack's composition varies per reset. The set of
+  // npcIds in `members` defines the allowed pool; the sum of `members[i].count`
+  // defines the fixed total. Per-mob counts are author hints only — at runtime
+  // a kill of any pool npcId decrements the same shared total.
+  variable?: boolean;
 };
+
+// Total mob count for a pack — same calculation for fixed and variable packs.
+export function packTotalCount(p: Pack): number {
+  return p.members.reduce((a, m) => a + m.count, 0);
+}
 
 export type RaidDef = {
   id: string;

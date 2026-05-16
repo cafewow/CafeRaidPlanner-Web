@@ -3,6 +3,8 @@ import { usePreset, type Pull } from "../store/preset";
 import { useRaid, selectPacksForRaid } from "../store/raid";
 import { AssignmentRow } from "./AssignmentRow";
 import { MobList, type MobCount } from "./MobList";
+import { packTotalCount } from "../data/types";
+import { NPC_BY_ID } from "../data/npcs";
 
 type Props = { pull: Pull };
 
@@ -25,7 +27,7 @@ export function PullEditor({ pull }: Props) {
     const byNpc = new globalThis.Map<number, number>();
     for (const packId of pull.packIds) {
       const pack = packs.find((p) => p.id === packId);
-      if (!pack) continue;
+      if (!pack || pack.variable) continue;
       for (const m of pack.members) {
         byNpc.set(m.npcId, (byNpc.get(m.npcId) ?? 0) + m.count);
       }
@@ -33,6 +35,14 @@ export function PullEditor({ pull }: Props) {
     return Array.from(byNpc.entries())
       .map(([npcId, count]) => ({ npcId, count }))
       .sort((a, b) => b.count - a.count);
+  }, [pull.packIds, packs]);
+
+  // Variable packs contribute only a total + pool to the pull — render
+  // separately so we don't pretend their per-mob counts are real.
+  const variablePacks = useMemo(() => {
+    return pull.packIds
+      .map((id) => packs.find((p) => p.id === id))
+      .filter((p): p is NonNullable<typeof p> => !!p && p.variable === true);
   }, [pull.packIds, packs]);
 
   return (
@@ -130,8 +140,21 @@ export function PullEditor({ pull }: Props) {
       <div>
         <label className="text-xs uppercase text-neutral-400">Pull contents</label>
         <div className="mt-1">
-          <MobList mobs={aggregatedMobs} emptyMessage="No packs assigned yet." />
+          <MobList
+            mobs={aggregatedMobs}
+            emptyMessage={variablePacks.length === 0 ? "No packs assigned yet." : undefined}
+          />
         </div>
+        {variablePacks.map((p) => (
+          <div key={p.id} className="mt-2 rounded border border-amber-700/40 bg-amber-900/10 px-2 py-1">
+            <div className="text-xs text-amber-300">
+              {p.name} — {packTotalCount(p)} from pool (variable)
+            </div>
+            <div className="text-xs text-neutral-400 mt-0.5">
+              {p.members.map((m) => NPC_BY_ID.get(m.npcId)?.name ?? `npc #${m.npcId}`).join(", ") || "(empty pool)"}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

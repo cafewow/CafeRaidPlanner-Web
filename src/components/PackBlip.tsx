@@ -1,4 +1,4 @@
-import type { Pack } from "../data/types";
+import { packTotalCount, type Pack } from "../data/types";
 import { NPC_BY_ID } from "../data/npcs";
 
 type Props = {
@@ -14,15 +14,20 @@ type Props = {
 
 export function PackBlip({ pack, color, pullIndex, selected, onClick, onMouseDown, onMouseEnter, onMouseLeave }: Props) {
   const bg = color ?? "#525252";
-  const label = pack.members.length === 0 ? "?" : pack.members.reduce((a, m) => a + m.count, 0);
+  const total = packTotalCount(pack);
+  const label = pack.members.length === 0 ? "?" : total;
   const memberLines = pack.members.length === 0
     ? "(no mobs assigned)"
-    : pack.members
-        .map((m) => {
-          const name = NPC_BY_ID.get(m.npcId)?.name ?? `npc #${m.npcId}`;
-          return `${m.count}x ${name}`;
-        })
-        .join("\n");
+    : pack.variable
+      ? `${total} from pool:\n` + pack.members
+          .map((m) => `  ${NPC_BY_ID.get(m.npcId)?.name ?? `npc #${m.npcId}`}`)
+          .join("\n")
+      : pack.members
+          .map((m) => {
+            const name = NPC_BY_ID.get(m.npcId)?.name ?? `npc #${m.npcId}`;
+            return `${m.count}x ${name}`;
+          })
+          .join("\n");
   if (pack.icon) {
     return (
       <button

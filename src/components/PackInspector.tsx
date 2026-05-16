@@ -4,7 +4,7 @@ import { usePreset } from "../store/preset";
 import { NpcSearch } from "./NpcSearch";
 import { AbilityList } from "./AbilityList";
 import { NPC_BY_ID } from "../data/npcs";
-import type { Pack } from "../data/types";
+import { packTotalCount, type Pack } from "../data/types";
 
 type Props = { pack: Pack };
 
@@ -27,6 +27,10 @@ export function PackInspector({ pack }: Props) {
     updatePack(raidId, pack.id, { x, y });
   const setMembers = (members: Pack["members"]) =>
     updatePack(raidId, pack.id, { members });
+  const setVariable = (variable: boolean) =>
+    updatePack(raidId, pack.id, { variable: variable || undefined });
+  const isVariable = pack.variable === true;
+  const total = packTotalCount(pack);
 
   return (
     <div className="h-full overflow-auto p-3 flex flex-col gap-3">
@@ -109,14 +113,32 @@ export function PackInspector({ pack }: Props) {
 
       <div>
         <div className="flex items-center justify-between">
-          <label className="text-xs uppercase text-neutral-400">Mobs</label>
-          <button
-            className="text-xs px-2 py-0.5 rounded bg-neutral-800 hover:bg-neutral-700"
-            onClick={() => setAdding((v) => !v)}
-          >
-            {adding ? "×" : "+ Add"}
-          </button>
+          <label className="text-xs uppercase text-neutral-400">
+            {isVariable ? `Pool (total ${total})` : "Mobs"}
+          </label>
+          <div className="flex items-center gap-2">
+            <label className="text-xs text-neutral-400 flex items-center gap-1 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={isVariable}
+                onChange={(e) => setVariable(e.target.checked)}
+              />
+              Variable
+            </label>
+            <button
+              className="text-xs px-2 py-0.5 rounded bg-neutral-800 hover:bg-neutral-700"
+              onClick={() => setAdding((v) => !v)}
+            >
+              {adding ? "×" : "+ Add"}
+            </button>
+          </div>
         </div>
+        {isVariable && (
+          <div className="mt-1 text-xs text-amber-300">
+            Composition varies per reset. Per-mob counts below are hints — at runtime
+            any kill from this pool decrements the shared total ({total}).
+          </div>
+        )}
         {adding && (
           <div className="mt-2">
             <NpcSearch
