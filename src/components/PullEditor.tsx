@@ -4,7 +4,6 @@ import { useRaid, selectPacksForRaid } from "../store/raid";
 import { AssignmentRow } from "./AssignmentRow";
 import { MobList, type MobCount } from "./MobList";
 import { packTotalCount } from "../data/types";
-import { NPC_BY_ID } from "../data/npcs";
 
 type Props = { pull: Pull };
 
@@ -150,8 +149,8 @@ export function PullEditor({ pull }: Props) {
             <div className="text-xs text-amber-300">
               {p.name} — {packTotalCount(p)} from pool (variable)
             </div>
-            <div className="text-xs text-neutral-400 mt-0.5">
-              {p.members.map((m) => NPC_BY_ID.get(m.npcId)?.name ?? `npc #${m.npcId}`).join(", ") || "(empty pool)"}
+            <div className="mt-1">
+              <MobList mobs={p.members} emptyMessage="(empty pool)" />
             </div>
           </div>
         ))}
