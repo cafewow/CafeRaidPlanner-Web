@@ -43,7 +43,9 @@ export const useRaid = create<State>()(
       editMode: false,
       selectedPackId: null,
       patrolEditingPackId: null,
-      packs: { SSC: seedPacks("SSC") },
+      packs: Object.fromEntries(
+        Object.keys(RAIDS).map((id) => [id, seedPacks(id)]),
+      ),
 
       setEditMode: (v) =>
         set({ editMode: v, selectedPackId: null, patrolEditingPackId: null }),
@@ -216,6 +218,22 @@ export const useRaid = create<State>()(
           delete p.bosses;
         }
         return persisted as State;
+      },
+      // Persist merge is shallow, so a user whose stored state predates a raid
+      // being added (or who has never opened that raid) ends up with
+      // `packs[raidId] === undefined` and a blank map until they hit Reset.
+      // Backfill any missing raid from its seed on rehydration.
+      onRehydrateStorage: () => (state) => {
+        if (!state) return;
+        const next = { ...state.packs };
+        let changed = false;
+        for (const id of Object.keys(RAIDS)) {
+          if (!next[id]) {
+            next[id] = seedPacks(id);
+            changed = true;
+          }
+        }
+        if (changed) state.packs = next;
       },
     }
   )
