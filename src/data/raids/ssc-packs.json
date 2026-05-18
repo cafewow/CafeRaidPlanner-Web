@@ -816,12 +816,16 @@
     "y": 203,
     "members": [
       {
-        "npcId": 21224,
-        "count": 3
+        "npcId": 21225,
+        "count": 2
+      },
+      {
+        "npcId": 21226,
+        "count": 2
       },
       {
         "npcId": 21228,
-        "count": 2
+        "count": 1
       }
     ],
     "patrolPath": [
@@ -895,7 +899,7 @@
         "count": 1
       }
     ],
-    "icon": "/icons/bosses/ssc_hydross.png",
+    "icon": "/CafeRaidPlanner-Web/icons/bosses/ssc_hydross.png",
     "encounterId": 623
   },
   {
@@ -910,7 +914,7 @@
         "count": 1
       }
     ],
-    "icon": "/icons/bosses/ssc_lurker.png",
+    "icon": "/CafeRaidPlanner-Web/icons/bosses/ssc_lurker.png",
     "encounterId": 624
   },
   {
@@ -925,7 +929,7 @@
         "count": 1
       }
     ],
-    "icon": "/icons/bosses/ssc_leotheras.png",
+    "icon": "/CafeRaidPlanner-Web/icons/bosses/ssc_leotheras.png",
     "encounterId": 625
   },
   {
@@ -940,7 +944,7 @@
         "count": 1
       }
     ],
-    "icon": "/icons/bosses/ssc_karathress.png",
+    "icon": "/CafeRaidPlanner-Web/icons/bosses/ssc_karathress.png",
     "encounterId": 626
   },
   {
@@ -955,7 +959,7 @@
         "count": 1
       }
     ],
-    "icon": "/icons/bosses/ssc_morogrim.png",
+    "icon": "/CafeRaidPlanner-Web/icons/bosses/ssc_morogrim.png",
     "encounterId": 627
   },
   {
@@ -970,7 +974,7 @@
         "count": 1
       }
     ],
-    "icon": "/icons/bosses/ssc_vashj.png",
+    "icon": "/CafeRaidPlanner-Web/icons/bosses/ssc_vashj.png",
     "encounterId": 628
   }
 ]
