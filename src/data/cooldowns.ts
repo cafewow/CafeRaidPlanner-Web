@@ -75,6 +75,7 @@ export const COOLDOWNS: Cooldown[] = [
   { kind: "spell", id: 11297, name: "Sap", category: "Kick/CC" }, // Rogue (rank 3)
   { kind: "spell", id: 33786, name: "Cyclone", category: "Kick/CC" }, // Druid
   { kind: "spell", id: 18647, name: "Banish", category: "Kick/CC" }, // Warlock (rank 2)
+  { kind: "spell", id: 5589, name: "Hammer of Justice", category: "Kick/CC" }, // Paladin (stun)
 
   // -------- Consumables --------
   { kind: "item", id: 22838, name: "Haste Potion", category: "Potion" },
