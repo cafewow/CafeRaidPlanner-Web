@@ -87,9 +87,9 @@ export function PullEditor({ pull }: Props) {
             <button
               className="text-xs px-2 py-0.5 rounded bg-neutral-800 hover:bg-neutral-700"
               onClick={() => addAssignment(pull.id, "kick")}
-              title="Interrupt assignment (kicker → mob or marker)"
+              title="Kick or CC assignment (interrupt / sheep / sap / etc → mob or marker)"
             >
-              + Kick
+              + Kick/CC
             </button>
             <button
               className="text-xs px-2 py-0.5 rounded bg-neutral-800 hover:bg-neutral-700"

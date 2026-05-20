@@ -62,15 +62,19 @@ export const COOLDOWNS: Cooldown[] = [
   { kind: "spell", id: 22812, name: "Barkskin", category: "Druid" },
   { kind: "spell", id: 17116, name: "Nature's Swiftness", category: "Druid" },
 
-  // -------- Interrupts (kicks) --------
-  { kind: "spell", id: 6552,  name: "Pummel",          category: "Interrupt" },  // Warrior, Berserker stance
-  { kind: "spell", id: 72,    name: "Shield Bash",     category: "Interrupt" },  // Warrior, with shield
-  { kind: "spell", id: 1766,  name: "Kick",            category: "Interrupt" },  // Rogue
-  { kind: "spell", id: 2139,  name: "Counterspell",    category: "Interrupt" },  // Mage
-  { kind: "spell", id: 19244, name: "Spell Lock",      category: "Interrupt" },  // Warlock (Felhunter)
-  { kind: "spell", id: 25454, name: "Earth Shock",     category: "Interrupt" },  // Shaman
-  { kind: "spell", id: 16979, name: "Feral Charge",    category: "Interrupt" },  // Druid (Bear)
-  { kind: "spell", id: 34490, name: "Silencing Shot",  category: "Interrupt" },  // Hunter
+  // -------- Kick / CC (interrupts + crowd control; assigned to a marker or NPC) --------
+  { kind: "spell", id: 6552,  name: "Pummel",          category: "Kick/CC" },  // Warrior, Berserker stance
+  { kind: "spell", id: 72,    name: "Shield Bash",     category: "Kick/CC" },  // Warrior, with shield
+  { kind: "spell", id: 1766,  name: "Kick",            category: "Kick/CC" },  // Rogue
+  { kind: "spell", id: 2139,  name: "Counterspell",    category: "Kick/CC" },  // Mage
+  { kind: "spell", id: 19244, name: "Spell Lock",      category: "Kick/CC" },  // Warlock (Felhunter)
+  { kind: "spell", id: 25454, name: "Earth Shock",     category: "Kick/CC" },  // Shaman
+  { kind: "spell", id: 16979, name: "Feral Charge",    category: "Kick/CC" },  // Druid (Bear)
+  { kind: "spell", id: 34490, name: "Silencing Shot",  category: "Kick/CC" },  // Hunter
+  { kind: "spell", id: 12826, name: "Polymorph",       category: "Kick/CC" },  // Mage (sheep, rank 4)
+  { kind: "spell", id: 11297, name: "Sap",             category: "Kick/CC" },  // Rogue (rank 3)
+  { kind: "spell", id: 33786, name: "Cyclone",         category: "Kick/CC" },  // Druid
+  { kind: "spell", id: 18647, name: "Banish",          category: "Kick/CC" },  // Warlock (rank 2)
 
   // -------- Consumables --------
   { kind: "item", id: 22838, name: "Haste Potion", category: "Potion" },
@@ -106,6 +110,12 @@ export const COOLDOWNS: Cooldown[] = [
     kind: "item",
     id: 23737,
     name: "Adamantite Grenade",
+    category: "Engineering",
+  },
+  {
+    kind: "item",
+    id: 18904,
+    name: "Masterwork Target Dummy",
     category: "Engineering",
   },
 

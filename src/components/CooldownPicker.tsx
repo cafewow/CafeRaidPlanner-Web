@@ -41,7 +41,7 @@ export function CooldownPicker({ kind, id, onPick, scope = "cooldown", placehold
   // Filter COOLDOWNS to the scope the picker is running in.
   const scoped = useMemo(() => {
     if (scope === "equip") return COOLDOWNS.filter((c) => c.category === "Equip");
-    if (scope === "kick") return COOLDOWNS.filter((c) => c.category === "Interrupt");
+    if (scope === "kick") return COOLDOWNS.filter((c) => c.category === "Kick/CC");
     return COOLDOWNS.filter((c) => c.category !== "Equip");
   }, [scope]);
 

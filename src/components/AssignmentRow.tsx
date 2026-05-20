@@ -45,10 +45,11 @@ export function AssignmentRow({ pullId, idx, assignment, pullMobs }: Props) {
         </>
       ) : isKick ? (
         <>
-          <span className="text-xs text-rose-400 shrink-0" title="Kick / interrupt">🦶</span>
-          {/* CooldownPicker in kick scope shows Interrupt-category spells.
-              Kind stays "kick" — the picker's onPick passes "spell"/"item",
-              we override back to "kick" so the row stays a kick row. */}
+          <span className="text-xs text-rose-400 shrink-0" title="Kick / CC">🦶</span>
+          {/* CooldownPicker in kick scope shows Kick/CC-category spells
+              (interrupts + crowd control). Kind stays "kick" — the picker's
+              onPick passes "spell"/"item", we override back to "kick" so the
+              row stays a kick row. */}
           <CooldownPicker
             scope="kick"
             kind="spell"
