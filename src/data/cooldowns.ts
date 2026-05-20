@@ -63,18 +63,18 @@ export const COOLDOWNS: Cooldown[] = [
   { kind: "spell", id: 17116, name: "Nature's Swiftness", category: "Druid" },
 
   // -------- Kick / CC (interrupts + crowd control; assigned to a marker or NPC) --------
-  { kind: "spell", id: 6552,  name: "Pummel",          category: "Kick/CC" },  // Warrior, Berserker stance
-  { kind: "spell", id: 72,    name: "Shield Bash",     category: "Kick/CC" },  // Warrior, with shield
-  { kind: "spell", id: 1766,  name: "Kick",            category: "Kick/CC" },  // Rogue
-  { kind: "spell", id: 2139,  name: "Counterspell",    category: "Kick/CC" },  // Mage
-  { kind: "spell", id: 19244, name: "Spell Lock",      category: "Kick/CC" },  // Warlock (Felhunter)
-  { kind: "spell", id: 25454, name: "Earth Shock",     category: "Kick/CC" },  // Shaman
-  { kind: "spell", id: 16979, name: "Feral Charge",    category: "Kick/CC" },  // Druid (Bear)
-  { kind: "spell", id: 34490, name: "Silencing Shot",  category: "Kick/CC" },  // Hunter
-  { kind: "spell", id: 12826, name: "Polymorph",       category: "Kick/CC" },  // Mage (sheep, rank 4)
-  { kind: "spell", id: 11297, name: "Sap",             category: "Kick/CC" },  // Rogue (rank 3)
-  { kind: "spell", id: 33786, name: "Cyclone",         category: "Kick/CC" },  // Druid
-  { kind: "spell", id: 18647, name: "Banish",          category: "Kick/CC" },  // Warlock (rank 2)
+  { kind: "spell", id: 6552, name: "Pummel", category: "Kick/CC" }, // Warrior, Berserker stance
+  { kind: "spell", id: 72, name: "Shield Bash", category: "Kick/CC" }, // Warrior, with shield
+  { kind: "spell", id: 1766, name: "Kick", category: "Kick/CC" }, // Rogue
+  { kind: "spell", id: 2139, name: "Counterspell", category: "Kick/CC" }, // Mage
+  { kind: "spell", id: 19244, name: "Spell Lock", category: "Kick/CC" }, // Warlock (Felhunter)
+  { kind: "spell", id: 25454, name: "Earth Shock", category: "Kick/CC" }, // Shaman
+  { kind: "spell", id: 16979, name: "Feral Charge", category: "Kick/CC" }, // Druid (Bear)
+  { kind: "spell", id: 34490, name: "Silencing Shot", category: "Kick/CC" }, // Hunter
+  { kind: "spell", id: 12826, name: "Polymorph", category: "Kick/CC" }, // Mage (sheep, rank 4)
+  { kind: "spell", id: 11297, name: "Sap", category: "Kick/CC" }, // Rogue (rank 3)
+  { kind: "spell", id: 33786, name: "Cyclone", category: "Kick/CC" }, // Druid
+  { kind: "spell", id: 18647, name: "Banish", category: "Kick/CC" }, // Warlock (rank 2)
 
   // -------- Consumables --------
   { kind: "item", id: 22838, name: "Haste Potion", category: "Potion" },
@@ -114,21 +114,41 @@ export const COOLDOWNS: Cooldown[] = [
   },
   {
     kind: "item",
-    id: 18904,
+    id: 18914,
     name: "Masterwork Target Dummy",
     category: "Engineering",
   },
 
   // -------- Equip (gear swaps — Rocket Boots, parachute, swap trinkets, etc) --------
-  { kind: "item", id: 23824, name: "Rocket Boots Xtreme",       category: "Equip" },
-  { kind: "item", id: 35581, name: "Rocket Boots Xtreme Lite",  category: "Equip" },
-  { kind: "item", id: 7189,  name: "Goblin Rocket Boots",       category: "Equip" },
-  { kind: "item", id: 10724, name: "Gnomish Rocket Boots",      category: "Equip" },
-  { kind: "item", id: 2820,  name: "Nifty Stopwatch",           category: "Equip" },
-  { kind: "item", id: 4984,  name: "Skull of Impending Doom",   category: "Equip" },
-  { kind: "item", id: 10577, name: "Goblin Mortar",             category: "Equip" },
-  { kind: "item", id: 10725, name: "Gnomish Battle Chicken",    category: "Equip" },
-  { kind: "item", id: 4397,  name: "Gnomish Cloaking Device",   category: "Equip" },
+  { kind: "item", id: 23824, name: "Rocket Boots Xtreme", category: "Equip" },
+  {
+    kind: "item",
+    id: 35581,
+    name: "Rocket Boots Xtreme Lite",
+    category: "Equip",
+  },
+  { kind: "item", id: 7189, name: "Goblin Rocket Boots", category: "Equip" },
+  { kind: "item", id: 10724, name: "Gnomish Rocket Boots", category: "Equip" },
+  { kind: "item", id: 2820, name: "Nifty Stopwatch", category: "Equip" },
+  {
+    kind: "item",
+    id: 4984,
+    name: "Skull of Impending Doom",
+    category: "Equip",
+  },
+  { kind: "item", id: 10577, name: "Goblin Mortar", category: "Equip" },
+  {
+    kind: "item",
+    id: 10725,
+    name: "Gnomish Battle Chicken",
+    category: "Equip",
+  },
+  {
+    kind: "item",
+    id: 4397,
+    name: "Gnomish Cloaking Device",
+    category: "Equip",
+  },
 
   // -------- Drums (LW) --------
   { kind: "item", id: 29529, name: "Drums of Battle", category: "Drums" },
@@ -159,7 +179,8 @@ export function parseCooldownRef(
   const s = input.trim();
   if (!s) return null;
   const pureNum = /^\d+$/.test(s) ? Number(s) : null;
-  if (pureNum !== null && pureNum > 0) return { kind: defaultKind, id: pureNum };
+  if (pureNum !== null && pureNum > 0)
+    return { kind: defaultKind, id: pureNum };
   const m = s.match(/wowhead\.com(?:\/[\w-]+)?\/(spell|item)=(\d+)/i);
   if (m) return { kind: m[1].toLowerCase() as CooldownKind, id: Number(m[2]) };
   return null;
