@@ -114,7 +114,7 @@ export const COOLDOWNS: Cooldown[] = [
   },
   {
     kind: "item",
-    id: 18914,
+    id: 16023,
     name: "Masterwork Target Dummy",
     category: "Engineering",
   },
