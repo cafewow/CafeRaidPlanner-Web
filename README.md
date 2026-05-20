@@ -1,7 +1,4 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/logo-dark.png">
-  <img alt="CafeRaidPlanner" src="docs/logo.png">
-</picture>
+![CafeRaidPlanner](docs/logo.png)
 
 # CafeRaidPlanner (web)
 
