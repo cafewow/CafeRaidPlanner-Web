@@ -878,12 +878,12 @@
     "y": 270,
     "members": [
       {
-        "npcId": 21229,
+        "npcId": 21299,
         "count": 2
       },
       {
-        "npcId": 21230,
-        "count": 1
+        "npcId": 21298,
+        "count": 2
       }
     ]
   },
@@ -978,3 +978,4 @@
     "encounterId": 628
   }
 ]
+
