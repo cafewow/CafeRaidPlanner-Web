@@ -2,7 +2,7 @@ import pako from "pako";
 import type { Preset } from "../store/preset";
 import type { Pack } from "../data/types";
 import { NPC_BY_ID } from "../data/npcs";
-import { RAIDS, BOSS_SLUG_TO_ID } from "../data/raids";
+import { RAIDS, BOSS_SLUG_TO_ID, SEED_VERSION } from "../data/raids";
 
 // Re-maps every boss pack's env-dependent fields (icon path, encounterId, npcId)
 // from the running env's seed, keeping only the imported x/y. Makes pack files
@@ -38,12 +38,24 @@ const VERSION = 3;
 
 export type ShareEnvelope = {
   v: number;
+  // SEED_VERSION the sender was running. Receiver compares to its own; on
+  // mismatch the import dialog warns that boss positions/members may not
+  // match and recommends reimporting from the latest source. Optional —
+  // missing on strings exported before this field was added.
+  seedVersion?: number;
   preset: Preset;
   packs: Pack[];
   // name lookup for npcIds referenced by packs — lets the addon show real
   // mob names in its kill-progress display. Optional; missing on legacy strings.
   npcNames?: Record<string, string>;
 };
+
+// Returned by importShare so the caller can warn the user before applying.
+// null = sender and receiver agree (or sender was too old to know).
+export function seedMismatch(env: ShareEnvelope): number | null {
+  if (typeof env.seedVersion !== "number") return null;
+  return env.seedVersion === SEED_VERSION ? null : env.seedVersion;
+}
 
 function collectNpcNames(packs: Pack[]): Record<string, string> {
   const out: Record<string, string> = {};
@@ -69,6 +81,7 @@ function collectNpcNames(packs: Pack[]): Record<string, string> {
 export function exportShare(preset: Preset, packs: Pack[]): string {
   const payload: ShareEnvelope = {
     v: VERSION,
+    seedVersion: SEED_VERSION,
     preset,
     packs,
     npcNames: collectNpcNames(packs),

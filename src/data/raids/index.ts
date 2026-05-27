@@ -12,6 +12,16 @@ import { MAGTHERIDON, MAG_BOSS_SLUG_TO_ID } from "./magtheridon";
 
 export const RAIDS: Record<string, RaidDef> = { SSC, TK, Gruul: GRUUL, Magtheridon: MAGTHERIDON };
 
+// Bump whenever any raid's pack data (positions, members, bosses) changes in
+// a way the user should pick up. Existing users see a banner offering to
+// "Reset pack data" — clears their local pack edits in exchange for the new
+// seed. Shared plans carry this value too; importing a plan from a different
+// version warns the receiver to reimport from the latest source.
+//
+// Do not bump for purely cosmetic data changes (e.g. spell list updates) that
+// don't touch RAIDS[].packs — those don't need the user to reset anything.
+export const SEED_VERSION = 1;
+
 // Global slug→id map across raids. Slugs are still unique per raid (they're
 // combined with raid metadata in the boss packs themselves), but consumers
 // like the share v2 migration just need a flat lookup by slug.

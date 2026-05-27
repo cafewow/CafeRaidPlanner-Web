@@ -24,6 +24,9 @@ export default function App() {
   const editMode = useRaid((s) => s.editMode);
   const setEditMode = useRaid((s) => s.setEditMode);
   const resetPacks = useRaid((s) => s.resetPacks);
+  const resetAllPacks = useRaid((s) => s.resetAllPacks);
+  const acknowledgeSeedVersion = useRaid((s) => s.acknowledgeSeedVersion);
+  const seedOutdated = useRaid((s) => s.seedOutdated);
   const packs = useRaid(selectPacksForRaid(raidId));
   const raid = RAIDS[raidId];
 
@@ -112,6 +115,33 @@ export default function App() {
         )}
         <span className="text-xs text-neutral-500">v0.1.0-dev</span>
       </header>
+      {seedOutdated && (
+        <div className="shrink-0 px-4 py-2 bg-amber-900/60 border-b border-amber-700 flex items-center gap-3 text-sm">
+          <span className="text-amber-100">
+            Pack data has been updated since your last visit. Reset to pick up
+            the new defaults (clears local pack edits), or dismiss to keep your
+            edits — they may not match the current data.
+          </span>
+          <div className="flex-1" />
+          <button
+            className="text-xs px-3 py-1 rounded bg-amber-700 hover:bg-amber-600 text-amber-50"
+            onClick={() => {
+              if (confirm("Reset all pack data to current defaults? This clears every local pack edit across all raids.")) {
+                resetAllPacks();
+              }
+            }}
+          >
+            Reset to defaults
+          </button>
+          <button
+            className="text-xs px-3 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-200"
+            onClick={acknowledgeSeedVersion}
+            title="Keep my edits; don't show this again"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
       <div className="flex-1 flex overflow-hidden">
         <div className="flex-1 relative">
           <MapView />

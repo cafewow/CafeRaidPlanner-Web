@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { usePreset, selectCurrentPreset } from "../store/preset";
 import { useRaid, selectPacksForRaid } from "../store/raid";
-import { exportShare, importShare } from "../lib/share";
+import { exportShare, importShare, seedMismatch } from "../lib/share";
 
 type Props = { onClose: () => void };
 
@@ -20,6 +20,16 @@ export function ShareDialog({ onClose }: Props) {
   const onImport = () => {
     try {
       const env = importShare(importText);
+      const senderVer = seedMismatch(env);
+      if (senderVer !== null) {
+        const ok = confirm(
+          "This plan was built against a different version of the raid data " +
+          `(sender seed v${senderVer}). Boss positions and members may not match ` +
+          "the current data. Ask the sender to reimport from the latest version " +
+          "if anything looks off.\n\nImport anyway?",
+        );
+        if (!ok) return;
+      }
       setAllPacks(env.preset.raidId, env.packs);
       doImportPreset(env.preset);
       onClose();

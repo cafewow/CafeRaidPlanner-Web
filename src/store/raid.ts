@@ -1,32 +1,28 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { RAIDS, BOSS_SLUG_TO_ID } from "../data/raids";
-import type { Pack, NpcCount } from "../data/types";
+import { RAIDS, BOSS_SLUG_TO_ID, SEED_VERSION } from "../data/raids";
+import type { Pack } from "../data/types";
 import { usePreset } from "./preset";
-
-// User edits to a raid's pack list, stored as a delta against the in-code seed
-// so that ship-side seed changes reach existing users without a cache clear.
-//  - added:    user-created packs (typically id < 1000)
-//  - patches:  per-field overrides to seed packs (keyed by seed pack id)
-//  - deleted:  seed pack ids the user removed
-type RaidOverrides = {
-  added: Pack[];
-  patches: Record<number, Partial<Pack>>;
-  deleted: number[];
-};
-
-const emptyOverrides = (): RaidOverrides => ({ added: [], patches: {}, deleted: [] });
 
 type State = {
   editMode: boolean;
   selectedPackId: number | null;
+  // Pack id whose patrol path is being authored. While set, map clicks append
+  // a waypoint to that pack instead of creating a new pack. Independent from
+  // selectedPackId so the inspector stays open while authoring.
   patrolEditingPackId: number | null;
 
-  // Derived view: seed + overrides per raid. Never mutated directly — rebuilt
-  // from `overrides` after every action so consumers can keep reading `packs`
-  // as before.
+  // Single source of truth. Bosses are just packs with an icon/slug set.
   packs: Record<string, Pack[]>;
-  overrides: Record<string, RaidOverrides>;
+
+  // SEED_VERSION at the time packs were last persisted. When code ships a new
+  // SEED_VERSION, the UI compares this to the current and offers a banner to
+  // reset pack data. The user keeps their edits until they explicitly opt in.
+  // Acknowledging without resetting bumps this to current and dismisses the
+  // banner — the user lives with potentially-out-of-date local edits.
+  seedVersion: number;
+  // Derived (not persisted) — true between rehydrate and the user's choice.
+  seedOutdated: boolean;
 
   setEditMode: (v: boolean) => void;
   selectPack: (id: number | null) => void;
@@ -37,7 +33,9 @@ type State = {
   duplicatePack: (raidId: string, packId: number) => number | null;
   deletePack: (raidId: string, packId: number) => void;
   resetPacks: (raidId: string) => void;
+  resetAllPacks: () => void;
   setAllPacks: (raidId: string, packs: Pack[]) => void;
+  acknowledgeSeedVersion: () => void;
 
   addPatrolPoint: (raidId: string, packId: number, x: number, y: number) => void;
   removePatrolPoint: (raidId: string, packId: number, idx: number) => void;
@@ -50,257 +48,200 @@ const seedPacks = (raidId: string): Pack[] => {
   return JSON.parse(JSON.stringify(raid.packs));
 };
 
-const seedById = (raidId: string): Map<number, Pack> => {
-  const m = new Map<number, Pack>();
-  for (const p of seedPacks(raidId)) m.set(p.id, p);
-  return m;
-};
-
-// Compose the visible pack list for a raid from its seed + overrides. Patch
-// keys override seed fields; `deleted` ids are dropped; `added` are appended.
-const composePacks = (raidId: string, ov: RaidOverrides): Pack[] => {
-  const seed = seedPacks(raidId);
-  const deleted = new Set(ov.deleted);
-  const out: Pack[] = [];
-  for (const sp of seed) {
-    if (deleted.has(sp.id)) continue;
-    const patch = ov.patches[sp.id];
-    out.push(patch ? { ...sp, ...patch } : sp);
-  }
-  out.push(...ov.added);
-  return out;
-};
-
-const composeAll = (
-  overrides: Record<string, RaidOverrides>,
-): Record<string, Pack[]> => {
-  const out: Record<string, Pack[]> = {};
-  for (const id of Object.keys(RAIDS)) {
-    out[id] = composePacks(id, overrides[id] ?? emptyOverrides());
-  }
-  return out;
-};
-
-// Deep-equal good enough for Pack field comparison — same JSON shape both sides.
-const eq = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
-
-// Build a minimal patch capturing only fields where `pack` differs from `seed`.
-const diffPack = (seed: Pack, pack: Pack): Partial<Pack> => {
-  const patch: Partial<Pack> = {};
-  const keys: (keyof Pack)[] = [
-    "name", "x", "y", "members", "icon", "encounterId", "slug", "patrolPath", "variable",
-  ];
-  for (const k of keys) {
-    if (!eq(seed[k], pack[k])) (patch as Record<string, unknown>)[k] = pack[k];
-  }
-  return patch;
-};
-
-// Convert a full pack list back into overrides against the current seed. Used
-// by setAllPacks (bulk import) and by the v3→v4 persisted-state migration.
-const overridesFromPacks = (raidId: string, packs: Pack[]): RaidOverrides => {
-  const seed = seedById(raidId);
-  const added: Pack[] = [];
-  const patches: Record<number, Partial<Pack>> = {};
-  const present = new Set<number>();
-  for (const p of packs) {
-    const sp = seed.get(p.id);
-    if (!sp) {
-      added.push(p);
-    } else {
-      present.add(p.id);
-      const patch = diffPack(sp, p);
-      if (Object.keys(patch).length > 0) patches[p.id] = patch;
-    }
-  }
-  const deleted = [...seed.keys()].filter((id) => !present.has(id));
-  return { added, patches, deleted };
-};
-
-// Apply a partial patch to a single pack inside `overrides`. If the pack is in
-// the seed, accumulate the change into `patches[id]` (collapsing back to no
-// entry when the result matches the seed). If user-added, mutate `added`.
-const applyPackPatch = (
-  raidId: string,
-  ov: RaidOverrides,
-  packId: number,
-  patch: Partial<Omit<Pack, "id">>,
-): RaidOverrides => {
-  const seed = seedById(raidId);
-  const sp = seed.get(packId);
-  if (sp) {
-    const merged = { ...sp, ...ov.patches[packId], ...patch };
-    const next = diffPack(sp, merged);
-    const patches = { ...ov.patches };
-    if (Object.keys(next).length === 0) delete patches[packId];
-    else patches[packId] = next;
-    return { ...ov, patches };
-  }
-  const added = ov.added.map((p) => (p.id === packId ? { ...p, ...patch } : p));
-  return { ...ov, added };
-};
-
-const initialOverrides = (): Record<string, RaidOverrides> =>
-  Object.fromEntries(Object.keys(RAIDS).map((id) => [id, emptyOverrides()]));
-
-// Wrap a mutation that returns the next overrides for one raid, and refresh
-// the derived `packs[raidId]` in the same set. Keeps actions short and
-// guarantees the two never drift.
-const withRaid = (
-  raidId: string,
-  fn: (ov: RaidOverrides) => RaidOverrides,
-) => (s: State): Partial<State> => {
-  const ov = s.overrides[raidId] ?? emptyOverrides();
-  const next = fn(ov);
-  return {
-    overrides: { ...s.overrides, [raidId]: next },
-    packs: { ...s.packs, [raidId]: composePacks(raidId, next) },
-  };
-};
+const allSeedPacks = (): Record<string, Pack[]> =>
+  Object.fromEntries(Object.keys(RAIDS).map((id) => [id, seedPacks(id)]));
 
 export const useRaid = create<State>()(
   persist(
-    (set) => {
-      const overrides = initialOverrides();
-      return {
-        editMode: false,
-        selectedPackId: null,
-        patrolEditingPackId: null,
-        overrides,
-        packs: composeAll(overrides),
+    (set) => ({
+      editMode: false,
+      selectedPackId: null,
+      patrolEditingPackId: null,
+      packs: allSeedPacks(),
+      seedVersion: SEED_VERSION,
+      seedOutdated: false,
 
-        setEditMode: (v) =>
-          set({ editMode: v, selectedPackId: null, patrolEditingPackId: null }),
-        selectPack: (id) => set({ selectedPackId: id, patrolEditingPackId: null }),
-        setPatrolEditingPackId: (id) => set({ patrolEditingPackId: id }),
+      setEditMode: (v) =>
+        set({ editMode: v, selectedPackId: null, patrolEditingPackId: null }),
+      selectPack: (id) => set({ selectedPackId: id, patrolEditingPackId: null }),
+      setPatrolEditingPackId: (id) => set({ patrolEditingPackId: id }),
 
-        addPack: (raidId, x, y) => {
-          let newId = 0;
-          set((s) => {
-            const list = s.packs[raidId] ?? [];
-            // Keep user packs in 1..999 to avoid colliding with the boss range.
-            const maxUser = list.reduce(
-              (m, p) => (p.id < 1000 && p.id > m ? p.id : m),
-              0,
-            );
-            newId = maxUser + 1;
-            const newPack: Pack = { id: newId, name: `Pack ${newId}`, x, y, members: [] };
-            const update = withRaid(raidId, (ov) => ({ ...ov, added: [...ov.added, newPack] }))(s);
-            return { ...update, selectedPackId: newId };
-          });
-          return newId;
-        },
+      addPack: (raidId, x, y) => {
+        let newId = 0;
+        set((s) => {
+          const list = s.packs[raidId] ?? [];
+          // User packs live in ids 1..999; bosses in 1001+. Make sure new
+          // packs don't step into the boss range, which could clobber a seed.
+          const maxUser = list.reduce(
+            (m, p) => (p.id < 1000 && p.id > m ? p.id : m),
+            0,
+          );
+          newId = maxUser + 1;
+          const newPack: Pack = {
+            id: newId,
+            name: `Pack ${newId}`,
+            x,
+            y,
+            members: [],
+          };
+          return {
+            packs: { ...s.packs, [raidId]: [...list, newPack] },
+            selectedPackId: newId,
+          };
+        });
+        return newId;
+      },
 
-        updatePack: (raidId, packId, patch) =>
-          set(withRaid(raidId, (ov) => applyPackPatch(raidId, ov, packId, patch))),
+      updatePack: (raidId, packId, patch) =>
+        set((s) => ({
+          packs: {
+            ...s.packs,
+            [raidId]: (s.packs[raidId] ?? []).map((p) =>
+              p.id === packId ? { ...p, ...patch } : p,
+            ),
+          },
+        })),
 
-        duplicatePack: (raidId, packId) => {
-          let newId: number | null = null;
-          set((s) => {
-            const list = s.packs[raidId] ?? [];
-            const src = list.find((p) => p.id === packId);
-            if (!src) return s;
-            const maxUser = list.reduce(
-              (m, p) => (p.id < 1000 && p.id > m ? p.id : m),
-              0,
-            );
-            newId = maxUser + 1;
-            const base = src.name.replace(/ \(\d+\)$/, "");
-            let n = 2;
-            while (list.some((p) => p.name === `${base} (${n})`)) n++;
-            const copy: Pack = {
-              ...src,
-              id: newId,
-              // Duplicating a boss should yield a plain pack, not another boss entry.
-              slug: undefined,
-              icon: undefined,
-              encounterId: undefined,
-              name: `${base} (${n})`,
-              x: src.x + 30,
-              y: src.y + 30,
-              members: src.members.map((m: NpcCount) => ({ ...m })),
-            };
-            const update = withRaid(raidId, (ov) => ({ ...ov, added: [...ov.added, copy] }))(s);
-            return { ...update, selectedPackId: newId };
-          });
-          return newId;
-        },
+      duplicatePack: (raidId, packId) => {
+        let newId: number | null = null;
+        set((s) => {
+          const list = s.packs[raidId] ?? [];
+          const src = list.find((p) => p.id === packId);
+          if (!src) return s;
+          const maxUser = list.reduce(
+            (m, p) => (p.id < 1000 && p.id > m ? p.id : m),
+            0,
+          );
+          newId = maxUser + 1;
+          const base = src.name.replace(/ \(\d+\)$/, "");
+          let n = 2;
+          while (list.some((p) => p.name === `${base} (${n})`)) n++;
+          const copy: Pack = {
+            ...src,
+            id: newId,
+            // Drop slug/icon/encounterId on duplicates — duplicating a boss
+            // shouldn't produce a second "boss" entry, just a regular pack
+            // with the same mob list. User can rename and re-assign.
+            slug: undefined,
+            icon: undefined,
+            encounterId: undefined,
+            name: `${base} (${n})`,
+            x: src.x + 30,
+            y: src.y + 30,
+            members: src.members.map((m) => ({ ...m })),
+          };
+          return {
+            packs: { ...s.packs, [raidId]: [...list, copy] },
+            selectedPackId: newId,
+          };
+        });
+        return newId;
+      },
 
-        deletePack: (raidId, packId) => {
-          set((s) => {
-            const update = withRaid(raidId, (ov) => {
-              const seed = seedById(raidId);
-              if (seed.has(packId)) {
-                const patches = { ...ov.patches };
-                delete patches[packId];
-                return {
-                  ...ov,
-                  patches,
-                  deleted: ov.deleted.includes(packId) ? ov.deleted : [...ov.deleted, packId],
-                };
-              }
-              return { ...ov, added: ov.added.filter((p) => p.id !== packId) };
-            })(s);
-            return {
-              ...update,
-              selectedPackId: s.selectedPackId === packId ? null : s.selectedPackId,
-              patrolEditingPackId:
-                s.patrolEditingPackId === packId ? null : s.patrolEditingPackId,
-            };
-          });
-          usePreset.getState().removePackFromAllPulls(packId);
-        },
+      deletePack: (raidId, packId) => {
+        set((s) => ({
+          packs: {
+            ...s.packs,
+            [raidId]: (s.packs[raidId] ?? []).filter((p) => p.id !== packId),
+          },
+          selectedPackId: s.selectedPackId === packId ? null : s.selectedPackId,
+          patrolEditingPackId:
+            s.patrolEditingPackId === packId ? null : s.patrolEditingPackId,
+        }));
+        usePreset.getState().removePackFromAllPulls(packId);
+      },
 
-        resetPacks: (raidId) =>
-          set((s) => ({ ...withRaid(raidId, () => emptyOverrides())(s), selectedPackId: null })),
+      resetPacks: (raidId) =>
+        set((s) => ({
+          packs: { ...s.packs, [raidId]: seedPacks(raidId) },
+          selectedPackId: null,
+        })),
 
-        setAllPacks: (raidId, packs) =>
-          set((s) => ({
-            ...withRaid(raidId, () => overridesFromPacks(raidId, packs))(s),
-            selectedPackId: null,
-          })),
+      // Full reset across every raid. Used by the seed-outdated banner.
+      // Also bumps seedVersion and dismisses the banner.
+      resetAllPacks: () =>
+        set({
+          packs: allSeedPacks(),
+          selectedPackId: null,
+          patrolEditingPackId: null,
+          seedVersion: SEED_VERSION,
+          seedOutdated: false,
+        }),
 
-        addPatrolPoint: (raidId, packId, x, y) =>
-          set((s) => {
-            const cur = (s.packs[raidId] ?? []).find((p) => p.id === packId);
-            if (!cur) return s;
-            const patrolPath = [...(cur.patrolPath ?? []), { x: Math.round(x), y: Math.round(y) }];
-            return withRaid(raidId, (ov) => applyPackPatch(raidId, ov, packId, { patrolPath }))(s);
-          }),
+      // User opted to keep their local edits despite an outdated seed.
+      // Bumps seedVersion so the banner doesn't re-appear next session.
+      acknowledgeSeedVersion: () =>
+        set({ seedVersion: SEED_VERSION, seedOutdated: false }),
 
-        removePatrolPoint: (raidId, packId, idx) =>
-          set((s) => {
-            const cur = (s.packs[raidId] ?? []).find((p) => p.id === packId);
-            if (!cur) return s;
-            const patrolPath = (cur.patrolPath ?? []).filter((_, i) => i !== idx);
-            return withRaid(raidId, (ov) => applyPackPatch(raidId, ov, packId, { patrolPath }))(s);
-          }),
+      setAllPacks: (raidId, packs) =>
+        set((s) => ({
+          packs: { ...s.packs, [raidId]: packs },
+          selectedPackId: null,
+        })),
 
-        clearPatrolPath: (raidId, packId) =>
-          set(withRaid(raidId, (ov) => applyPackPatch(raidId, ov, packId, { patrolPath: [] }))),
-      };
-    },
+      addPatrolPoint: (raidId, packId, x, y) =>
+        set((s) => ({
+          packs: {
+            ...s.packs,
+            [raidId]: (s.packs[raidId] ?? []).map((p) =>
+              p.id === packId
+                ? { ...p, patrolPath: [...(p.patrolPath ?? []), { x: Math.round(x), y: Math.round(y) }] }
+                : p,
+            ),
+          },
+        })),
+
+      removePatrolPoint: (raidId, packId, idx) =>
+        set((s) => ({
+          packs: {
+            ...s.packs,
+            [raidId]: (s.packs[raidId] ?? []).map((p) =>
+              p.id === packId
+                ? { ...p, patrolPath: (p.patrolPath ?? []).filter((_, i) => i !== idx) }
+                : p,
+            ),
+          },
+        })),
+
+      clearPatrolPath: (raidId, packId) =>
+        set((s) => ({
+          packs: {
+            ...s.packs,
+            [raidId]: (s.packs[raidId] ?? []).map((p) =>
+              p.id === packId ? { ...p, patrolPath: [] } : p,
+            ),
+          },
+        })),
+    }),
     {
       name: "caferaidplanner.raid.v1",
-      version: 4,
-      // Persist only the deltas + UI flags. `packs` is derived and recomputed
-      // from seed on rehydrate; persisting it would defeat the whole point.
+      version: 5,
       partialize: (s) => ({
-        overrides: s.overrides,
+        // seedOutdated is derived on rehydrate; never persist.
         editMode: s.editMode,
         selectedPackId: s.selectedPackId,
         patrolEditingPackId: s.patrolEditingPackId,
+        packs: s.packs,
+        seedVersion: s.seedVersion,
       }) as unknown as State,
+      // v1 → v2: Boss gained npcId.
+      // v2 → v3: Bosses merged into packs. Drop the separate `bosses` array;
+      // for each stored boss we try to preserve its x/y by matching slug
+      // against the canonical boss pack from ssc.ts and taking its id.
+      // v3 → v4: brief overrides-based experiment (reverted in v5).
+      // v4 → v5: revert to packs map; introduce seedVersion. v4's overrides
+      // get expanded back to a packs list using current seed + patches.
       migrate: (persisted, fromVersion) => {
         const p = persisted as {
           packs?: Record<string, Pack[]>;
-          overrides?: Record<string, RaidOverrides>;
           bosses?: Record<string, Array<{ id: string; x: number; y: number }>>;
+          overrides?: Record<string, {
+            added?: Pack[];
+            patches?: Record<number, Partial<Pack>>;
+            deleted?: number[];
+          }>;
+          seedVersion?: number;
         };
-        // v1 → v2: Boss gained npcId.
-        // v2 → v3: Bosses merged into packs. Drop the separate `bosses` array;
-        // for each stored boss try to preserve x/y by matching slug against the
-        // canonical boss pack from the seed and taking its id.
         if (fromVersion < 3 && p?.bosses) {
           for (const raidId of Object.keys(p.bosses)) {
             const userBosses = p.bosses[raidId] ?? [];
@@ -320,32 +261,50 @@ export const useRaid = create<State>()(
           }
           delete p.bosses;
         }
-        // v3 → v4: stop persisting the full `packs` map; diff it against the
-        // current seed to extract just the user's deltas. After this, code
-        // changes to seed packs propagate to existing users automatically.
-        if (fromVersion < 4) {
-          const overrides: Record<string, RaidOverrides> = {};
+        // v4 had `overrides` (added/patches/deleted) instead of packs. Expand
+        // it back: start from the current seed minus deleted, apply patches,
+        // append added. This carries user edits forward but uses the *current*
+        // seed as the base, so seed updates after v4 reach the user. The
+        // seedVersion banner gives them a chance to wipe edits if they want.
+        if (fromVersion < 5 && p.overrides) {
+          const restored: Record<string, Pack[]> = {};
           for (const raidId of Object.keys(RAIDS)) {
-            overrides[raidId] = overridesFromPacks(raidId, p.packs?.[raidId] ?? []);
+            const ov = p.overrides[raidId] ?? { added: [], patches: {}, deleted: [] };
+            const deleted = new Set(ov.deleted ?? []);
+            const seed = seedPacks(raidId);
+            const list: Pack[] = [];
+            for (const sp of seed) {
+              if (deleted.has(sp.id)) continue;
+              const patch = ov.patches?.[sp.id];
+              list.push(patch ? { ...sp, ...patch } : sp);
+            }
+            if (ov.added) list.push(...ov.added);
+            restored[raidId] = list;
           }
-          p.overrides = overrides;
-          delete p.packs;
+          p.packs = restored;
+          delete p.overrides;
         }
         return persisted as State;
       },
-      // partialize drops `packs`, so on rehydrate we rebuild it from overrides.
-      // Also backfill any raid the user has never opened.
       onRehydrateStorage: () => (state) => {
         if (!state) return;
-        const overrides: Record<string, RaidOverrides> = { ...(state.overrides ?? {}) };
+        // Backfill raids the user has never opened (added to RAIDS after
+        // their last session) and flag the banner if the stored seed version
+        // is behind the current code.
+        const next = { ...state.packs };
+        let changed = false;
         for (const id of Object.keys(RAIDS)) {
-          if (!overrides[id]) overrides[id] = emptyOverrides();
+          if (!next[id]) {
+            next[id] = seedPacks(id);
+            changed = true;
+          }
         }
-        state.overrides = overrides;
-        state.packs = composeAll(overrides);
+        if (changed) state.packs = next;
+        const stored = typeof state.seedVersion === "number" ? state.seedVersion : 0;
+        state.seedOutdated = stored < SEED_VERSION;
       },
-    }
-  )
+    },
+  ),
 );
 
 // Module-level stable empty sentinel — avoids `?? []` producing a fresh array
