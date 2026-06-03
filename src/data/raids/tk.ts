@@ -1,4 +1,4 @@
-import type { Pack, RaidDef } from "../types";
+import type { Pack, RaidDef, TrashRequirement } from "../types";
 import tkPacks from "./tk-packs.json";
 import tkBossPos from "./tk-bosses.json";
 
@@ -43,6 +43,20 @@ const BOSS_PACKS: Pack[] = BOSSES_META.map((b) => {
   };
 });
 
+// WCL counted-run trash requirements for The Eye.
+export const TK_REQUIREMENTS: TrashRequirement[] = [
+  { label: "Bloodwarder Legionnaire",  npcIds: [20031], count: 11 },
+  { label: "Bloodwarder Vindicator",   npcIds: [20032], count: 3 },
+  { label: "Bloodwarder Squire",       npcIds: [20036], count: 12 },
+  { label: "Tempest Falconer",         npcIds: [20037], count: 4 },
+  { label: "Phoenix-Hawk",             npcIds: [20039], count: 4 },
+  { label: "Crystalcore Devastator",   npcIds: [20040], count: 4 },
+  { label: "Crystalcore Sentinel",     npcIds: [20041], count: 10 },
+  { label: "Astromancer Lord",         npcIds: [20046], count: 1 },
+  { label: "Nether Scryer",            npcIds: [20045], count: 2 },
+  { label: "Crimson Hand Battle Mage", npcIds: [20047], count: 4 },
+];
+
 // Map dimensions are placeholders until tk.webp lands in public/maps/. Update
 // to the image's natural pixel size when committing the map file.
 export const TK: RaidDef = {
@@ -52,4 +66,5 @@ export const TK: RaidDef = {
   mapWidth: 1000,
   mapHeight: 667,
   packs: [...userTkPacks, ...BOSS_PACKS],
+  requirements: TK_REQUIREMENTS,
 };

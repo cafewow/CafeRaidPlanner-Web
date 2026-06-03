@@ -3,6 +3,7 @@ import { RAIDS } from "../data/raids";
 import { usePreset, selectCurrentPull, selectCurrentPreset } from "../store/preset";
 import { useRaid, selectPacksForRaid } from "../store/raid";
 import { PackBlip } from "./PackBlip";
+import { RequirementsPanel } from "./RequirementsPanel";
 
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 4;
@@ -282,6 +283,8 @@ export function MapView() {
             ));
           })()}
       </div>
+
+      <RequirementsPanel />
 
       <div className="absolute bottom-3 right-3 text-xs bg-black/70 px-2 py-1 rounded pointer-events-none">
         {Math.round(zoom * 100)}%

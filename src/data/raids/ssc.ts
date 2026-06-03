@@ -1,4 +1,4 @@
-import type { Pack, RaidDef } from "../types";
+import type { Pack, RaidDef, TrashRequirement } from "../types";
 // Canonical SSC pack layout. User-edited via Edit-mode "Export packs" → drop
 // into ssc-packs.json. Boss entries (those with a slug) are identified and
 // separated from the user packs at load time so their positions live here too.
@@ -56,6 +56,18 @@ const BOSS_PACKS: Pack[] = BOSSES_META.map((b) => {
   };
 });
 
+// WCL counted-run trash requirements for SSC. The Tidewalker adds are five
+// interchangeable variants (Depth-Seer / Harpooner / Hydromancer / Shaman /
+// Warrior) that share one quota.
+export const SSC_REQUIREMENTS: TrashRequirement[] = [
+  { label: "Underbog Colossus",     npcIds: [21251], count: 6 },
+  { label: "Coilfang Shatterer",    npcIds: [21301], count: 14 },
+  { label: "Greyheart Tidecaller",  npcIds: [21229], count: 16 },
+  { label: "Coilfang Fathom-Witch", npcIds: [21299], count: 6 },
+  { label: "Tidewalker adds",       npcIds: [21224, 21225, 21226, 21227, 21228], count: 20 },
+  { label: "Vashj'ir Honor Guard",  npcIds: [21218], count: 6 },
+];
+
 export const SSC: RaidDef = {
   id: "SSC",
   name: "Serpentshrine Cavern",
@@ -63,4 +75,5 @@ export const SSC: RaidDef = {
   mapWidth: 1000,
   mapHeight: 667,
   packs: [...userSscPacks, ...BOSS_PACKS],
+  requirements: SSC_REQUIREMENTS,
 };

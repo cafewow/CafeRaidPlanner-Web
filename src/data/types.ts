@@ -33,6 +33,16 @@ export function packTotalCount(p: Pack): number {
   return p.members.reduce((a, m) => a + m.count, 0);
 }
 
+// A trash-kill requirement for the run to count on WarcraftLogs speed-run
+// ladders. `count` of the mobs in `npcIds` (any combination) must be in the
+// planned route. Multiple ids = variants that all count toward the same total
+// (e.g. the five Tidewalker add types).
+export type TrashRequirement = {
+  label: string;
+  npcIds: number[];
+  count: number;
+};
+
 export type RaidDef = {
   id: string;
   name: string;
@@ -40,4 +50,7 @@ export type RaidDef = {
   mapWidth: number;    // natural pixel dimensions
   mapHeight: number;
   packs: Pack[];
+  // Optional — WCL trash requirements for a counted speed run. Surfaced in the
+  // RequirementsPanel so the planner can confirm the route hits every quota.
+  requirements?: TrashRequirement[];
 };
