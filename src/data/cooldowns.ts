@@ -93,6 +93,12 @@ export const COOLDOWNS: Cooldown[] = [
   { kind: "item", id: 31677, name: "Fel Mana Potion", category: "Potion" },
   { kind: "item", id: 5634, name: "Free Action Potion", category: "Potion" },
   { kind: "item", id: 20008, name: "Living Action Potion", category: "Potion" },
+  {
+    kind: "item",
+    id: 8827,
+    name: "Elixir of Water Walking",
+    category: "Potion",
+  },
 
   // -------- Engineering --------
   {
@@ -119,6 +125,7 @@ export const COOLDOWNS: Cooldown[] = [
     name: "Masterwork Target Dummy",
     category: "Engineering",
   },
+  { kind: "item", id: 4395, name: "Goblin Land Mine", category: "Engineering" },
 
   // -------- Equip (gear swaps — Rocket Boots, parachute, swap trinkets, etc) --------
   { kind: "item", id: 23824, name: "Rocket Boots Xtreme", category: "Equip" },
@@ -157,6 +164,9 @@ export const COOLDOWNS: Cooldown[] = [
   { kind: "item", id: 29528, name: "Drums of War", category: "Drums" },
   { kind: "item", id: 29530, name: "Drums of Speed", category: "Drums" },
   { kind: "item", id: 29532, name: "Drums of Panic", category: "Drums" },
+
+  // -------- Utility (situational use-items that aren't potions/engineering) --------
+  { kind: "item", id: 18297, name: "Thornling Seed", category: "Utility" },
 ];
 
 export const COOLDOWN_BY_KEY: globalThis.Map<string, Cooldown> =
