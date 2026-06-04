@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { usePreset, selectCurrentPreset } from "../store/preset";
 import { useRaid, selectPacksForRaid } from "../store/raid";
 import { exportShare, importShare, seedMismatch } from "../lib/share";
+import { trackEvent } from "../lib/analytics";
 
 type Props = { onClose: () => void };
 
@@ -74,7 +75,10 @@ export function ShareDialog({ onClose }: Props) {
             <div className="mt-2 flex items-center gap-2">
               <button
                 className="text-sm px-3 py-1 rounded bg-neutral-700 hover:bg-neutral-600"
-                onClick={() => navigator.clipboard.writeText(exportStr)}
+                onClick={() => {
+                  navigator.clipboard.writeText(exportStr);
+                  trackEvent("share-copy", "Copy share string");
+                }}
               >
                 Copy
               </button>

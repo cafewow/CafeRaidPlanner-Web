@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useRaid, selectPacksForRaid } from "../store/raid";
 import { usePreset } from "../store/preset";
 import { remapBossPacksFromSeed } from "../lib/share";
+import { trackEvent } from "../lib/analytics";
 import type { Pack } from "../data/types";
 
 // One Export / one Import. The JSON is a flat Pack[] — boss packs (those with
@@ -30,6 +31,7 @@ export function PackIO() {
 
   const onExport = () => {
     download(`${raidId.toLowerCase()}-packs.json`, JSON.stringify(packs, null, 2));
+    trackEvent("export-json", "Export packs JSON");
   };
 
   const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
