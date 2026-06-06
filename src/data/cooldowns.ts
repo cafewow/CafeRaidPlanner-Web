@@ -93,6 +93,7 @@ export const COOLDOWNS: Cooldown[] = [
   { kind: "item", id: 31677, name: "Fel Mana Potion", category: "Potion" },
   { kind: "item", id: 5634, name: "Free Action Potion", category: "Potion" },
   { kind: "item", id: 20008, name: "Living Action Potion", category: "Potion" },
+  { kind: "item", id: 22797, name: "Nightmare Seed", category: "Potion" },
   {
     kind: "item",
     id: 8827,
