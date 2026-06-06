@@ -50,12 +50,40 @@ export type Pull = {
   prep?: boolean;
 };
 
+// Freeform map annotations (arrows / shapes) for a route. Coords are in map
+// pixel space (like packs), so they pan/zoom with the map. Per-preset (global
+// across the route's pulls). Rides the share string as part of the preset; the
+// addon ignores the field entirely — these are planner-only.
+export type Drawing =
+  | { id: string; type: "arrow"; color: string; width: number; x1: number; y1: number; x2: number; y2: number }
+  | { id: string; type: "rect"; color: string; width: number; x: number; y: number; w: number; h: number }
+  | { id: string; type: "ellipse"; color: string; width: number; x: number; y: number; w: number; h: number }
+  | { id: string; type: "freehand"; color: string; width: number; points: { x: number; y: number }[] };
+
+export type DrawingType = Drawing["type"];
+
+// Translate a drawing by (dx, dy) in map space — used to drag-move a selection.
+export function translateDrawing(d: Drawing, dx: number, dy: number): Drawing {
+  switch (d.type) {
+    case "arrow":
+      return { ...d, x1: d.x1 + dx, y1: d.y1 + dy, x2: d.x2 + dx, y2: d.y2 + dy };
+    case "rect":
+    case "ellipse":
+      return { ...d, x: d.x + dx, y: d.y + dy };
+    case "freehand":
+      return { ...d, points: d.points.map((p) => ({ x: p.x + dx, y: p.y + dy })) };
+  }
+}
+
 export type Preset = {
   id: string;
   name: string;
   raidId: string;
   pulls: Pull[];
   currentPullId: string;
+  // Optional so presets authored before this feature load cleanly (treated as
+  // an empty list).
+  drawings?: Drawing[];
 };
 
 // Pull palette — 20 hues spread by the golden angle (~137.5°) so consecutive
@@ -112,6 +140,12 @@ type State = {
   addAssignment: (pullId: string, kind?: AssignmentKind) => void;
   updateAssignment: (pullId: string, idx: number, patch: Partial<Assignment>) => void;
   deleteAssignment: (pullId: string, idx: number) => void;
+
+  // Map drawings (route-level annotations).
+  addDrawing: (d: Drawing) => void;
+  moveDrawing: (id: string, dx: number, dy: number) => void;
+  deleteDrawing: (id: string) => void;
+  clearDrawings: () => void;
 
   resetPreset: () => void;
   importPreset: (p: Preset) => void;
@@ -318,6 +352,28 @@ export const usePreset = create<State>()(
             ),
           })),
         ),
+
+      addDrawing: (d) =>
+        set((s) => replaceCurrent(s, (p) => ({ ...p, drawings: [...(p.drawings ?? []), d] }))),
+
+      moveDrawing: (id, dx, dy) =>
+        set((s) =>
+          replaceCurrent(s, (p) => ({
+            ...p,
+            drawings: (p.drawings ?? []).map((d) => (d.id === id ? translateDrawing(d, dx, dy) : d)),
+          })),
+        ),
+
+      deleteDrawing: (id) =>
+        set((s) =>
+          replaceCurrent(s, (p) => ({
+            ...p,
+            drawings: (p.drawings ?? []).filter((d) => d.id !== id),
+          })),
+        ),
+
+      clearDrawings: () =>
+        set((s) => replaceCurrent(s, (p) => ({ ...p, drawings: [] }))),
 
       resetPreset: () =>
         set((s) => {

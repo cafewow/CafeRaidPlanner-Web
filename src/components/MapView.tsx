@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { RAIDS } from "../data/raids";
 import { usePreset, selectCurrentPull, selectCurrentPreset } from "../store/preset";
 import { useRaid, selectPacksForRaid } from "../store/raid";
 import { PackBlip } from "./PackBlip";
 import { RequirementsPanel } from "./RequirementsPanel";
+import { MapDrawLayer, type DrawTool } from "./MapDrawLayer";
+import { DrawToolbar, DRAW_COLORS, DRAW_WIDTH } from "./DrawToolbar";
 
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 4;
@@ -26,6 +28,17 @@ export function MapView() {
   const removePatrolPoint = useRaid((s) => s.removePatrolPoint);
 
   const [hoveredPackId, setHoveredPackId] = useState<number | null>(null);
+
+  // Drawing layer UI state (ephemeral — the drawings themselves live on the
+  // preset). A non-null tool takes over map mouse for drawing/selecting.
+  const [drawTool, setDrawTool] = useState<DrawTool>(null);
+  const [drawColor, setDrawColor] = useState(DRAW_COLORS[0]);
+  const [selectedDrawingId, setSelectedDrawingId] = useState<string | null>(null);
+  // Selection only makes sense in the select tool — clear it otherwise so a
+  // stale highlight doesn't linger.
+  useEffect(() => {
+    if (drawTool !== "select") setSelectedDrawingId(null);
+  }, [drawTool]);
 
   const raid = RAIDS[raidId];
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -59,7 +72,9 @@ export function MapView() {
   zoomRef.current = zoom;
   raidIdRef.current = raidId;
 
-  const screenToMap = (clientX: number, clientY: number) => {
+  // Stable (reads pan/zoom via refs) so the draw layer's listeners don't
+  // re-subscribe every render.
+  const screenToMap = useCallback((clientX: number, clientY: number) => {
     const vp = viewportRef.current;
     if (!vp) return { x: 0, y: 0 };
     const rect = vp.getBoundingClientRect();
@@ -67,7 +82,7 @@ export function MapView() {
       x: (clientX - rect.left - panRef.current.x) / zoomRef.current,
       y: (clientY - rect.top - panRef.current.y) / zoomRef.current,
     };
-  };
+  }, []);
 
   const onWheel = (e: React.WheelEvent) => {
     e.preventDefault();
@@ -99,6 +114,8 @@ export function MapView() {
     // map doesn't simultaneously add a point when one is removed.
     if (target.closest("[data-blip], [data-waypoint]")) return;
     if (panDrag.current.moved) return;
+    // A draw tool owns the map mouse — don't place/toggle packs underneath it.
+    if (drawTool) return;
     if (!editMode) {
       selectPack(null);
       return;
@@ -282,7 +299,21 @@ export function MapView() {
               />
             ));
           })()}
+        {/* Drawing annotations — on top of blips. Purely visual unless a draw
+            tool is active (then it captures the mouse). */}
+        <MapDrawLayer
+          mapWidth={raid.mapWidth}
+          mapHeight={raid.mapHeight}
+          tool={drawTool}
+          color={drawColor}
+          strokeWidth={DRAW_WIDTH}
+          selectedId={selectedDrawingId}
+          setSelectedId={setSelectedDrawingId}
+          screenToMap={screenToMap}
+        />
       </div>
+
+      <DrawToolbar tool={drawTool} setTool={setDrawTool} color={drawColor} setColor={setDrawColor} />
 
       <RequirementsPanel />
 
