@@ -1,6 +1,7 @@
 import { usePreset, type Assignment } from "../store/preset";
 import { CooldownPicker } from "./CooldownPicker";
 import { TargetPicker } from "./TargetPicker";
+import { RevealPicker } from "./RevealPicker";
 import type { MobCount } from "./MobList";
 
 type Props = {
@@ -8,9 +9,12 @@ type Props = {
   idx: number;
   assignment: Assignment;
   pullMobs: MobCount[];
+  // Reveal triggers are combat-relative, so they're meaningless on a prep step
+  // (out of combat). Hide the picker there.
+  isPrep?: boolean;
 };
 
-export function AssignmentRow({ pullId, idx, assignment, pullMobs }: Props) {
+export function AssignmentRow({ pullId, idx, assignment, pullMobs, isPrep }: Props) {
   const update = usePreset((s) => s.updateAssignment);
   const del = usePreset((s) => s.deleteAssignment);
 
@@ -84,6 +88,12 @@ export function AssignmentRow({ pullId, idx, assignment, pullMobs }: Props) {
           placeholder="note"
           value={assignment.note}
           onChange={(e) => update(pullId, idx, { note: e.target.value })}
+        />
+      )}
+      {!isReminder && !isPrep && (
+        <RevealPicker
+          value={assignment.reveal}
+          onChange={(reveal) => update(pullId, idx, { reveal })}
         />
       )}
       <button

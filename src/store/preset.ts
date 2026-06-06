@@ -6,6 +6,15 @@ import { BOSS_SLUG_TO_ID } from "../data/raids";
 
 export type AssignmentKind = CooldownKind | "reminder" | "equip" | "kick";
 
+// Assignment-reveal trigger: gates when an assignment surfaces in the addon's
+// HUD *within* a pull (distinct from what advances the pull cursor). Absent =
+// always visible (the original behavior). The addon evaluates these in
+// entriesForPull and latches on first match; new variants are added here and
+// given an evaluator there. Times are measured from encounter/combat start.
+export type RevealTrigger =
+  | { type: "time"; afterSec: number }
+  | { type: "bossPct"; below: number };
+
 export type Assignment = {
   kind: AssignmentKind;
   // id: spellId for "spell"/"kick"; itemId for "item"/"equip"; null for "reminder".
@@ -18,6 +27,10 @@ export type Assignment = {
   // both null while the user is still picking. Ignored on other kinds.
   targetNpcId?: number | null;
   targetMarker?: MarkerId | null;
+  // Optional reveal trigger — when set, the addon hides this assignment in the
+  // HUD until the condition fires. Absent = shown as soon as its kind is
+  // relevant for the combat state.
+  reveal?: RevealTrigger;
 };
 
 export type Pull = {
@@ -224,14 +237,21 @@ export const usePreset = create<State>()(
 
       // Marking a pull as prep drops its packs — a prep step has no mobs, and
       // leaving stale packIds would give it slots (so the addon wouldn't treat
-      // it as prep). Unticking just clears the flag; packs are re-added normally.
+      // it as prep). It also strips reveal triggers from the pull's assignments:
+      // reveals are combat-relative (time-since-pull / boss %) and can never fire
+      // on an out-of-combat prep step, so they'd just hide the assignment forever.
+      // Unticking clears the flag; packs/reveals are re-added normally.
       setPullPrep: (pullId, prep) =>
         set((s) =>
           replaceCurrent(s, (p) => ({
             ...p,
-            pulls: p.pulls.map((x) =>
-              x.id === pullId ? { ...x, prep, packIds: prep ? [] : x.packIds } : x,
-            ),
+            pulls: p.pulls.map((x) => {
+              if (x.id !== pullId) return x;
+              const assignments = prep
+                ? x.assignments.map((a) => (a.reveal ? { ...a, reveal: undefined } : a))
+                : x.assignments;
+              return { ...x, prep, packIds: prep ? [] : x.packIds, assignments };
+            }),
           })),
         ),
 

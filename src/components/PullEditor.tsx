@@ -125,6 +125,7 @@ export function PullEditor({ pull }: Props) {
               idx={idx}
               assignment={a}
               pullMobs={aggregatedMobs}
+              isPrep={!!pull.prep}
             />
           ))}
           {pull.assignments.length === 0 && (
