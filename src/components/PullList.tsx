@@ -2,14 +2,14 @@ import { usePreset, selectCurrentPreset, type Pull } from "../store/preset";
 import { useRaid, selectPacksForRaid } from "../store/raid";
 import type { Pack } from "../data/types";
 
-// Display name override for boss pulls: if any of the pull's packs is a boss
-// (has a slug), show the boss name(s) instead of the user-set pull name.
-function pullDisplayName(pull: Pull, packs: Pack[]): string {
-  const bossNames = pull.packIds
+// Boss name(s) for a pull (packs with a slug), or "" for a plain trash pull —
+// trash pulls are identified by their position number alone.
+function bossLabel(pull: Pull, packs: Pack[]): string {
+  return pull.packIds
     .map((id) => packs.find((p) => p.id === id))
     .filter((p): p is Pack => !!p && !!p.slug)
-    .map((p) => p.name);
-  return bossNames.length > 0 ? bossNames.join(" + ") : pull.name;
+    .map((p) => p.name)
+    .join(" + ");
 }
 
 export function PullList() {
@@ -30,6 +30,7 @@ export function PullList() {
       <ul>
         {preset.pulls.map((pull, i) => {
           const selected = preset.currentPullId === pull.id;
+          const label = bossLabel(pull, packs);
           return (
             <li
               key={pull.id}
@@ -41,7 +42,7 @@ export function PullList() {
             >
               <span className="inline-block w-3 h-3 rounded-sm shrink-0" style={{ backgroundColor: pull.color }} />
               <span className="flex-1 text-sm truncate">
-                {i + 1}. {pullDisplayName(pull, packs)}{" "}
+                {label ? `${i + 1}. ${label}` : `Pull ${i + 1}`}{" "}
                 {pull.prep ? (
                   <span className="text-[10px] uppercase tracking-wide text-amber-400/80">prep</span>
                 ) : (

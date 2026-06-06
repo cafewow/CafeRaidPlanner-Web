@@ -7,7 +7,10 @@ type Props = {
   kind: CooldownKind;
   id: number | null;
   onPick: (kind: CooldownKind, id: number) => void;
-  // "cooldown": hides Equip-category entries (default).
+  // "cooldown": all entries — including Equip-category items, which are on-use
+  //             (Rocket Boots, Skull of Impending Doom, etc.), so they're valid
+  //             "use" cooldowns as well as gear swaps. Picked here, their kind
+  //             is "item" (use); picked in equip scope, "equip" (swap on).
   // "equip":    shows only Equip-category entries; raw-ID fallback defaults to item.
   scope?: PickerScope;
   placeholder?: string;
@@ -42,7 +45,9 @@ export function CooldownPicker({ kind, id, onPick, scope = "cooldown", placehold
   const scoped = useMemo(() => {
     if (scope === "equip") return COOLDOWNS.filter((c) => c.category === "Equip");
     if (scope === "kick") return COOLDOWNS.filter((c) => c.category === "Kick/CC");
-    return COOLDOWNS.filter((c) => c.category !== "Equip");
+    // Cooldown scope shows everything: Equip-category items are on-use, so they
+    // double as usable cooldowns (picked here → kind "item" = use).
+    return COOLDOWNS;
   }, [scope]);
 
   const matches = useMemo(() => {

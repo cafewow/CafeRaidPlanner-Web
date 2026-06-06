@@ -35,7 +35,8 @@ export type Assignment = {
 
 export type Pull = {
   id: string;
-  name: string;
+  // Pulls have no user-facing name — they're enumerated by position, and boss
+  // pulls display their boss name(s) (derived from packs with a slug).
   // Ids of every pack referenced by this pull. Boss packs are ordinary packs
   // with reserved ids (see BOSS_SLUG_TO_ID); there's no separate bossId field.
   packIds: number[];
@@ -69,9 +70,8 @@ const pickColor = (taken: string[]): string =>
 
 const rid = () => Math.random().toString(36).slice(2, 10);
 
-const emptyPull = (name: string, taken: string[] = []): Pull => ({
+const emptyPull = (taken: string[] = []): Pull => ({
   id: rid(),
-  name,
   packIds: [],
   note: "",
   color: pickColor(taken),
@@ -79,7 +79,7 @@ const emptyPull = (name: string, taken: string[] = []): Pull => ({
 });
 
 const seedPreset = (raidId: string, name = "Default"): Preset => {
-  const firstPull = emptyPull("Pull 1");
+  const firstPull = emptyPull();
   return {
     id: rid(),
     name,
@@ -104,7 +104,6 @@ type State = {
   addPull: () => void;
   deletePull: (pullId: string) => void;
   selectPull: (pullId: string) => void;
-  renamePull: (pullId: string, name: string) => void;
   setPullNote: (pullId: string, note: string) => void;
   setPullPrep: (pullId: string, prep: boolean) => void;
   togglePackInCurrentPull: (packId: number) => void;
@@ -201,8 +200,13 @@ export const usePreset = create<State>()(
         set((s) =>
           replaceCurrent(s, (p) => {
             const taken = p.pulls.map((x) => x.color);
-            const np = emptyPull(`Pull ${p.pulls.length + 1}`, taken);
-            return { ...p, pulls: [...p.pulls, np], currentPullId: np.id };
+            const np = emptyPull(taken);
+            // Insert right after the selected pull so it lands where you're
+            // working; append if nothing's selected (or it's not found).
+            const at = p.pulls.findIndex((x) => x.id === p.currentPullId);
+            const pulls = p.pulls.slice();
+            pulls.splice(at < 0 ? pulls.length : at + 1, 0, np);
+            return { ...p, pulls, currentPullId: np.id };
           }),
         ),
 
@@ -218,14 +222,6 @@ export const usePreset = create<State>()(
 
       selectPull: (pullId) =>
         set((s) => replaceCurrent(s, (p) => ({ ...p, currentPullId: pullId }))),
-
-      renamePull: (pullId, name) =>
-        set((s) =>
-          replaceCurrent(s, (p) => ({
-            ...p,
-            pulls: p.pulls.map((x) => (x.id === pullId ? { ...x, name } : x)),
-          })),
-        ),
 
       setPullNote: (pullId, note) =>
         set((s) =>

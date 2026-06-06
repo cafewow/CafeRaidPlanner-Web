@@ -9,8 +9,9 @@ import { SSC, SSC_BOSS_SLUG_TO_ID } from "./ssc";
 import { TK,  TK_BOSS_SLUG_TO_ID  } from "./tk";
 import { GRUUL, GRUUL_BOSS_SLUG_TO_ID } from "./gruul";
 import { MAGTHERIDON, MAG_BOSS_SLUG_TO_ID } from "./magtheridon";
+import { RAGEFIRE, RAGEFIRE_BOSS_SLUG_TO_ID } from "./ragefire";
 
-export const RAIDS: Record<string, RaidDef> = { SSC, TK, Gruul: GRUUL, Magtheridon: MAGTHERIDON };
+export const RAIDS: Record<string, RaidDef> = { SSC, TK, Gruul: GRUUL, Magtheridon: MAGTHERIDON, Ragefire: RAGEFIRE };
 
 // Bump whenever any raid's pack data (positions, members, bosses) changes in
 // a way the user should pick up. Existing users see a banner offering to
@@ -30,4 +31,5 @@ export const BOSS_SLUG_TO_ID: Record<string, number> = {
   ...TK_BOSS_SLUG_TO_ID,
   ...GRUUL_BOSS_SLUG_TO_ID,
   ...MAG_BOSS_SLUG_TO_ID,
+  ...RAGEFIRE_BOSS_SLUG_TO_ID,
 };

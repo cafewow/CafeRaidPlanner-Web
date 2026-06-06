@@ -1,0 +1,119 @@
+[
+  {
+    "id": 8996,
+    "name": "Voidwalker Minion",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 3,
+    "abilities": []
+  },
+  {
+    "id": 11318,
+    "name": "Ragefire Trogg",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 11319,
+    "name": "Ragefire Shaman",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 11320,
+    "name": "Earthborer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 1,
+    "abilities": []
+  },
+  {
+    "id": 11321,
+    "name": "Molten Elemental",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 4,
+    "abilities": []
+  },
+  {
+    "id": 11322,
+    "name": "Searing Blade Cultist",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 11323,
+    "name": "Searing Blade Enforcer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 11324,
+    "name": "Searing Blade Warlock",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 11517,
+    "name": "Oggleflint",
+    "tag": "Ragefire Chieftain",
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 11518,
+    "name": "Jergosh the Invoker",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 11519,
+    "name": "Bazzalan",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 11520,
+    "name": "Taragaman the Hungerer",
+    "tag": null,
+    "classification": 1,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  },
+  {
+    "id": 11834,
+    "name": "Maur Grimtotem",
+    "tag": null,
+    "classification": 0,
+    "boss": false,
+    "type": 7,
+    "abilities": []
+  }
+]

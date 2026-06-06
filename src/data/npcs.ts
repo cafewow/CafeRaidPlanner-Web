@@ -5,6 +5,7 @@ import sscNpcs from "./raids/ssc-npcs.json";
 import tkNpcs from "./raids/tk-npcs.json";
 import gruulNpcs from "./raids/gruul-npcs.json";
 import magNpcs from "./raids/magtheridon-npcs.json";
+import ragefireNpcs from "./raids/ragefire-npcs.json";
 
 export type Ability = {
   id: number;
@@ -27,6 +28,7 @@ const SOURCES: Npc[][] = [
   tkNpcs as Npc[],
   gruulNpcs as Npc[],
   magNpcs as Npc[],
+  ragefireNpcs as Npc[],
 ];
 
 // First-seen wins on duplicate ids (shared adds like "Furious Mr. Pinchy"

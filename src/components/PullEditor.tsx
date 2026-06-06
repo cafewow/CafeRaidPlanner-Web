@@ -10,7 +10,6 @@ type Props = { pull: Pull };
 export function PullEditor({ pull }: Props) {
   const raidId = usePreset((s) => s.raidId);
   const packs = useRaid(selectPacksForRaid(raidId));
-  const renamePull = usePreset((s) => s.renamePull);
   const setPullNote = usePreset((s) => s.setPullNote);
   const setPullPrep = usePreset((s) => s.setPullPrep);
   const deletePull = usePreset((s) => s.deletePull);
@@ -45,19 +44,25 @@ export function PullEditor({ pull }: Props) {
       .filter((p): p is NonNullable<typeof p> => !!p && p.variable === true);
   }, [pull.packIds, packs]);
 
+  // Pulls aren't named — title is the boss name(s) for a boss pull, else the
+  // position number.
+  const pullIndex = pulls?.findIndex((p) => p.id === pull.id) ?? -1;
+  const bossLabel = pull.packIds
+    .map((id) => packs.find((p) => p.id === id))
+    .filter((p): p is NonNullable<typeof p> => !!p && !!p.slug)
+    .map((p) => p.name)
+    .join(" + ");
+  const title = bossLabel || `Pull ${pullIndex + 1}`;
+
   return (
     <div className="h-full overflow-auto p-3 flex flex-col gap-3">
       <div className="flex items-center gap-2">
-        <input
-          className="flex-1 bg-neutral-800 rounded px-2 py-1 text-sm outline-none focus:ring-1 focus:ring-neutral-500"
-          value={pull.name}
-          onChange={(e) => renamePull(pull.id, e.target.value)}
-        />
+        <h2 className="flex-1 text-sm font-medium truncate">{title}</h2>
         <button
           className="text-xs px-2 py-1 rounded bg-neutral-800 hover:bg-red-800 text-red-300 disabled:opacity-40"
           disabled={(pulls?.length ?? 0) <= 1}
           onClick={() => {
-            if (confirm(`Delete "${pull.name}"?`)) deletePull(pull.id);
+            if (confirm(`Delete ${title}?`)) deletePull(pull.id);
           }}
         >
           Delete
