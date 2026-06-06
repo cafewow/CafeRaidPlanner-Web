@@ -29,6 +29,11 @@ export type Pull = {
   note: string;
   color: string;
   assignments: Assignment[];
+  // A prep step: no mobs, surfaced by the addon's HUD between pulls (out of
+  // combat) for buffs / summons / gear swaps. The addon merges a consecutive
+  // run of these and advances past them when combat starts. When true the
+  // planner hides the pack picker — a prep step references no packs.
+  prep?: boolean;
 };
 
 export type Preset = {
@@ -88,6 +93,7 @@ type State = {
   selectPull: (pullId: string) => void;
   renamePull: (pullId: string, name: string) => void;
   setPullNote: (pullId: string, note: string) => void;
+  setPullPrep: (pullId: string, prep: boolean) => void;
   togglePackInCurrentPull: (packId: number) => void;
   movePull: (pullId: string, dir: -1 | 1) => void;
 
@@ -213,6 +219,19 @@ export const usePreset = create<State>()(
           replaceCurrent(s, (p) => ({
             ...p,
             pulls: p.pulls.map((x) => (x.id === pullId ? { ...x, note } : x)),
+          })),
+        ),
+
+      // Marking a pull as prep drops its packs — a prep step has no mobs, and
+      // leaving stale packIds would give it slots (so the addon wouldn't treat
+      // it as prep). Unticking just clears the flag; packs are re-added normally.
+      setPullPrep: (pullId, prep) =>
+        set((s) =>
+          replaceCurrent(s, (p) => ({
+            ...p,
+            pulls: p.pulls.map((x) =>
+              x.id === pullId ? { ...x, prep, packIds: prep ? [] : x.packIds } : x,
+            ),
           })),
         ),
 

@@ -41,7 +41,12 @@ export function PullList() {
             >
               <span className="inline-block w-3 h-3 rounded-sm shrink-0" style={{ backgroundColor: pull.color }} />
               <span className="flex-1 text-sm truncate">
-                {i + 1}. {pullDisplayName(pull, packs)} <span className="text-neutral-500">({pull.packIds.length})</span>
+                {i + 1}. {pullDisplayName(pull, packs)}{" "}
+                {pull.prep ? (
+                  <span className="text-[10px] uppercase tracking-wide text-amber-400/80">prep</span>
+                ) : (
+                  <span className="text-neutral-500">({pull.packIds.length})</span>
+                )}
               </span>
               <button
                 className="text-xs text-neutral-400 hover:text-white px-1"

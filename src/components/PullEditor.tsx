@@ -12,6 +12,7 @@ export function PullEditor({ pull }: Props) {
   const packs = useRaid(selectPacksForRaid(raidId));
   const renamePull = usePreset((s) => s.renamePull);
   const setPullNote = usePreset((s) => s.setPullNote);
+  const setPullPrep = usePreset((s) => s.setPullPrep);
   const deletePull = usePreset((s) => s.deletePull);
   const addAssignment = usePreset((s) => s.addAssignment);
 
@@ -62,6 +63,15 @@ export function PullEditor({ pull }: Props) {
           Delete
         </button>
       </div>
+
+      <label className="flex items-center gap-2 text-xs text-neutral-300 select-none">
+        <input
+          type="checkbox"
+          checked={!!pull.prep}
+          onChange={(e) => setPullPrep(pull.id, e.target.checked)}
+        />
+        Prep step (no mobs) — shown by the addon between pulls for buffs / summons / gear swaps
+      </label>
 
       <div>
         <label className="text-xs uppercase text-neutral-400">Note</label>
@@ -123,38 +133,42 @@ export function PullEditor({ pull }: Props) {
         </ul>
       </div>
 
-      <div>
-        <label className="text-xs uppercase text-neutral-400">Packs in this pull</label>
-        <div className="mt-1 text-sm text-neutral-300">
-          {pull.packIds.length === 0 ? (
-            <span className="text-neutral-500 italic">Click a blip on the map to add.</span>
-          ) : (
-            pull.packIds
-              .map((id) => packs.find((p) => p.id === id)?.name ?? `#${id}`)
-              .join(", ")
-          )}
-        </div>
-      </div>
-
-      <div>
-        <label className="text-xs uppercase text-neutral-400">Pull contents</label>
-        <div className="mt-1">
-          <MobList
-            mobs={aggregatedMobs}
-            emptyMessage={variablePacks.length === 0 ? "No packs assigned yet." : undefined}
-          />
-        </div>
-        {variablePacks.map((p) => (
-          <div key={p.id} className="mt-2 rounded border border-amber-700/40 bg-amber-900/10 px-2 py-1">
-            <div className="text-xs text-amber-300">
-              {p.name} — {packTotalCount(p)} from pool (variable)
-            </div>
-            <div className="mt-1">
-              <MobList mobs={p.members} emptyMessage="(empty pool)" />
+      {!pull.prep && (
+        <>
+          <div>
+            <label className="text-xs uppercase text-neutral-400">Packs in this pull</label>
+            <div className="mt-1 text-sm text-neutral-300">
+              {pull.packIds.length === 0 ? (
+                <span className="text-neutral-500 italic">Click a blip on the map to add.</span>
+              ) : (
+                pull.packIds
+                  .map((id) => packs.find((p) => p.id === id)?.name ?? `#${id}`)
+                  .join(", ")
+              )}
             </div>
           </div>
-        ))}
-      </div>
+
+          <div>
+            <label className="text-xs uppercase text-neutral-400">Pull contents</label>
+            <div className="mt-1">
+              <MobList
+                mobs={aggregatedMobs}
+                emptyMessage={variablePacks.length === 0 ? "No packs assigned yet." : undefined}
+              />
+            </div>
+            {variablePacks.map((p) => (
+              <div key={p.id} className="mt-2 rounded border border-amber-700/40 bg-amber-900/10 px-2 py-1">
+                <div className="text-xs text-amber-300">
+                  {p.name} — {packTotalCount(p)} from pool (variable)
+                </div>
+                <div className="mt-1">
+                  <MobList mobs={p.members} emptyMessage="(empty pool)" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
