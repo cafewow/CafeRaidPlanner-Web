@@ -168,6 +168,10 @@ export const COOLDOWNS: Cooldown[] = [
 
   // -------- Utility (situational use-items that aren't potions/engineering) --------
   { kind: "item", id: 18297, name: "Thornling Seed", category: "Utility" },
+  // On-use necks that buff the whole party for 30 min — popped pre-pull on
+  // speed runs (Braided = +AP, Twilight Owl = +spell crit).
+  { kind: "item", id: 24114, name: "Braided Eternium Chain", category: "Utility" },
+  { kind: "item", id: 24121, name: "Chain of the Twilight Owl", category: "Utility" },
 ];
 
 export const COOLDOWN_BY_KEY: globalThis.Map<string, Cooldown> =

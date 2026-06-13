@@ -1,4 +1,4 @@
-import { usePreset, type Assignment } from "../store/preset";
+import { usePreset, ROLES, type Assignment, type Role } from "../store/preset";
 import { CooldownPicker } from "./CooldownPicker";
 import { TargetPicker } from "./TargetPicker";
 import { RevealPicker } from "./RevealPicker";
@@ -82,6 +82,28 @@ export function AssignmentRow({ pullId, idx, assignment, pullMobs, isPrep }: Pro
         value={assignment.player ?? ""}
         onChange={(e) => update(pullId, idx, { player: e.target.value })}
       />
+      {/* Role target. Composes with the spell's class filter in the addon; a
+          named player above is more specific and overrides it. */}
+      <select
+        className="bg-neutral-800 rounded px-1 py-0.5 text-xs outline-none text-neutral-300 disabled:opacity-40"
+        title={
+          assignment.player
+            ? "Ignored while a player name is set"
+            : "Show only to this role (combines with the spell's class)"
+        }
+        disabled={!!assignment.player}
+        value={assignment.role ?? ""}
+        onChange={(e) =>
+          update(pullId, idx, { role: (e.target.value || undefined) as Role | undefined })
+        }
+      >
+        <option value="">any role</option>
+        {ROLES.map((r) => (
+          <option key={r.value} value={r.value}>
+            {r.label}
+          </option>
+        ))}
+      </select>
       {!isReminder && !isEquip && !isKick && (
         <input
           className="flex-1 min-w-0 bg-neutral-800 rounded px-2 py-0.5 text-xs outline-none"

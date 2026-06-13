@@ -6,6 +6,18 @@ import { BOSS_SLUG_TO_ID } from "../data/raids";
 
 export type AssignmentKind = CooldownKind | "reminder" | "equip" | "kick";
 
+// Role-based targeting. An assignment tagged with a role is shown by the addon
+// only to viewers whose detected/overridden role matches — and it composes with
+// the existing class/spell filter, so a paladin-only Divine Shield tagged "tank"
+// reaches paladin tanks only. The addon collapses melee/ranged into "damage".
+export type Role = "tank" | "healer" | "damage";
+
+export const ROLES: { value: Role; label: string }[] = [
+  { value: "tank", label: "Tanks" },
+  { value: "healer", label: "Healers" },
+  { value: "damage", label: "Damage" },
+];
+
 // Assignment-reveal trigger: gates when an assignment surfaces in the addon's
 // HUD *within* a pull (distinct from what advances the pull cursor). Absent =
 // always visible (the original behavior). The addon evaluates these in
@@ -22,6 +34,10 @@ export type Assignment = {
   // text is the reminder body for kind "reminder"; ignored otherwise.
   text?: string;
   player: string;     // optional free-text player name; "" = unassigned
+  // Optional role target. When set (and `player` is empty), the addon shows this
+  // only to viewers whose role matches, AND-ed with the class/spell filter. A
+  // named `player` is more specific and takes precedence — role is ignored then.
+  role?: Role;
   note: string;
   // Kick targets — exactly one of these is set on a "kick" assignment, or
   // both null while the user is still picking. Ignored on other kinds.
