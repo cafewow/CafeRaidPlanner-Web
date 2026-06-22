@@ -401,12 +401,28 @@ export const usePreset = create<State>()(
           return { presets: { ...s.presets, [cur.id]: fresh } };
         }),
 
+      // Import always lands as a NEW preset — never overwrites an existing one.
+      // The share string carries the source preset's id, so keying by it would
+      // clobber a same-origin plan you already have (and re-importing your own
+      // export would silently replace it). Mint a fresh id and disambiguate the
+      // name on collision so the imported plan sits alongside the originals.
       importPreset: (p) =>
-        set((s) => ({
-          presets: { ...s.presets, [p.id]: p },
-          raidId: p.raidId,
-          currentPresetId: p.id,
-        })),
+        set((s) => {
+          const id = rid();
+          const taken = new Set(Object.values(s.presets).map((x) => x.name));
+          let name = p.name;
+          if (taken.has(name)) {
+            let n = 2;
+            while (taken.has(`${p.name} (${n})`)) n++;
+            name = `${p.name} (${n})`;
+          }
+          const fresh: Preset = { ...p, id, name };
+          return {
+            presets: { ...s.presets, [id]: fresh },
+            raidId: fresh.raidId,
+            currentPresetId: id,
+          };
+        }),
 
       removePackFromAllPulls: (packId) =>
         set((s) =>
